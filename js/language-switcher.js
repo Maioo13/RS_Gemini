@@ -1,8 +1,13 @@
-// Sistema di cambio lingua per Run Society
+// Sistema di cambio lingua ottimizzato per Run Society
 class LanguageSwitcher {
   constructor() {
     this.translations = {};
-    this.currentLang = localStorage.getItem('preferred-language') || 'it';
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    this.currentLang = (urlLang === 'en' || urlLang === 'it') ? urlLang : (localStorage.getItem('preferred-language') || 'it');
+    if (urlLang) {
+      localStorage.setItem('preferred-language', this.currentLang);
+    }
     this.init();
   }
 
@@ -20,6 +25,7 @@ class LanguageSwitcher {
   async loadTranslations() {
     try {
       const response = await fetch('data/translations.json');
+      if (!response.ok) throw new Error('Network response was not ok');
       this.translations = await response.json();
     } catch (error) {
       console.error('Errore nel caricamento delle traduzioni:', error);
@@ -27,37 +33,35 @@ class LanguageSwitcher {
   }
 
   setupEventListeners() {
-    // Gestisce i click sui link del menu lingua desktop
-    const langMenuLinks = document.querySelectorAll('#langMenu a');
-    langMenuLinks.forEach(link => {
+    const handleLinkClick = (link) => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const href = link.getAttribute('href');
-        const lang = href.includes('lang=en') ? 'en' : 'it';
+        const dataLang = link.getAttribute('data-lang');
+        const href = link.getAttribute('href') || '';
+        const lang = dataLang || (href.includes('lang=en') ? 'en' : 'it');
         this.switchLanguage(lang);
       });
-    });
+    };
 
-    // Gestisce i click sui link del menu lingua mobile
-    const langMenuMobileLinks = document.querySelectorAll('#langMenuMobile a');
-    langMenuMobileLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const href = link.getAttribute('href');
-        const lang = href.includes('lang=en') ? 'en' : 'it';
-        this.switchLanguage(lang);
-      });
-    });
+    document.querySelectorAll('#langMenu a, #langMenuMobile a').forEach(handleLinkClick);
   }
 
   switchLanguage(lang) {
+    if (lang !== 'it' && lang !== 'en') lang = 'it';
     this.currentLang = lang;
     localStorage.setItem('preferred-language', lang);
+    document.documentElement.lang = lang;
     this.updateLanguageDisplay();
     this.translatePage();
-
-    // Chiude i menu dopo la selezione
     this.closeLanguageMenus();
+
+    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+    if (typeof window.updateCalendar === 'function') {
+      window.updateCalendar();
+    }
+    if (typeof window.renderEvents === 'function') {
+      window.renderEvents();
+    }
   }
 
   closeLanguageMenus() {
@@ -69,16 +73,15 @@ class LanguageSwitcher {
   }
 
   updateLanguageDisplay() {
-    // Aggiorna il testo del bottone lingua desktop
+    const uppercaseLang = this.currentLang.toUpperCase();
     const langButton = document.querySelector('#langMenuButton span');
     if (langButton) {
-      langButton.textContent = this.currentLang.toUpperCase();
+      langButton.textContent = uppercaseLang;
     }
 
-    // Aggiorna il testo del bottone lingua mobile
     const langButtonMobile = document.querySelector('#langMenuButtonMobile span');
     if (langButtonMobile) {
-      langButtonMobile.textContent = this.currentLang.toUpperCase();
+      langButtonMobile.textContent = uppercaseLang;
     }
   }
 
@@ -86,8 +89,8 @@ class LanguageSwitcher {
     if (!this.translations[this.currentLang]) return;
 
     const translations = this.translations[this.currentLang];
+    document.documentElement.lang = this.currentLang;
 
-    // Traduce tutti gli elementi con attributo data-translate
     document.querySelectorAll('[data-translate]').forEach(element => {
       const key = element.getAttribute('data-translate');
       if (translations[key]) {
@@ -99,7 +102,6 @@ class LanguageSwitcher {
       }
     });
 
-    // Aggiorna il title della pagina se presente
     if (translations.site_title && document.title.includes('Run Society')) {
       const currentTitle = document.title;
       const parts = currentTitle.split('|');
@@ -114,5 +116,5 @@ class LanguageSwitcher {
 
 // Inizializza il sistema quando la pagina è pronta
 document.addEventListener('DOMContentLoaded', () => {
-  new LanguageSwitcher();
+  window.languageSwitcher = new LanguageSwitcher();
 });

@@ -1,12 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     rel="stylesheet"
-    as="style"
-    onload="this.rel='stylesheet'"
     href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
   />
 
@@ -14,44 +14,43 @@
   <link rel="icon" type="image/png" href="icons/logo.png?v=2" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script src="js/language-switcher.js"></script>
+  <script src="js/language-switcher.js" defer></script>
   <script src="js/cookie-consent.js" defer></script>
 </head>
 
-<!-- Cookie Consent Banner -->
-<div id="cookie-banner"
-     class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-t-lg p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
-  <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[#1c110d]">
+<body style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-banner"
+       class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-t-lg p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
+    <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[#1c110d]">
+      <!-- Testo Informativo -->
+      <div class="text-center md:text-left">
+        <p class="font-bold" data-translate="cookie_title">Informativa sui Cookie</p>
+        <p class="text-sm text-[#9b604b]" data-translate="cookie_text">
+          Utilizziamo cookie essenziali per garantire il corretto funzionamento del sito. Non utilizziamo cookie di tracciamento o di profilazione.
+        </p>
+      </div>
 
-    <!-- Testo Informativo -->
-    <div class="text-center md:text-left">
-      <p class="font-bold" data-translate="cookie_title">Informativa sui Cookie</p>
-      <p class="text-sm text-[#9b604b]" data-translate="cookie_text">
-        Utilizziamo cookie essenziali per garantire il corretto funzionamento del sito. Non utilizziamo cookie di tracciamento o di profilazione.
-      </p>
-    </div>
-
-    <!-- Pulsanti di Azione -->
-    <div class="flex-shrink-0 flex items-center gap-3">
-      <button id="cookie-reject"
-              class="px-5 py-2 text-sm font-bold text-[#1c110d] bg-[#f3eae7] rounded-full hover:bg-gray-200 transition-colors"
-              data-translate="cookie_reject">
-        Rifiuta
-      </button>
-      <button id="cookie-accept"
-              class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity"
-              data-translate="cookie_accept">
-        Accetta
-      </button>
+      <!-- Pulsanti di Azione -->
+      <div class="flex-shrink-0 flex items-center gap-3">
+        <button id="cookie-reject"
+                class="px-5 py-2 text-sm font-bold text-[#1c110d] bg-[#f3eae7] rounded-full hover:bg-gray-200 transition-colors"
+                data-translate="cookie_reject">
+          Rifiuta
+        </button>
+        <button id="cookie-accept"
+                class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity"
+                data-translate="cookie_accept">
+          Accetta
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<body>
-<div class="relative flex size-full min-h-screen flex-col bg-[#fcf9f8] group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
-  <div class="layout-container flex h-full grow flex-col">
-    <!-- Header responsivo -->
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3eae7] px-4 md:px-10 py-3">
+  <div class="relative flex size-full min-h-screen flex-col bg-[#fcf9f8] group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+      <!-- Header responsivo -->
+      <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3eae7] px-4 md:px-10 py-3">
       <div class="flex items-center gap-2 md:gap-4 text-[#1c110d]">
         <div class="size-8 md:size-12">
           <a href="index.html">
@@ -65,12 +64,13 @@
 
       <!-- Menu desktop -->
       <div class="hidden lg:flex flex-1 justify-end gap-8">
-        <div class="flex items-center gap-9">
-          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="index.html" data-translate="nav_home">Home</a>
-          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="calendario.html" data-translate="nav_events">Eventi</a>
-          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="https://runsocietytrieste.myportfolio.com/" data-translate="nav_gallery">Galleria</a>
-          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
-          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="contatti.html" data-translate="nav_contact">Contatti</a>
+        <div class="flex items-center gap-7">
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="index.html" data-translate="nav_home">Home</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="calendario.html" data-translate="nav_events">Eventi</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="https://runsocietytrieste.myportfolio.com/" data-translate="nav_gallery">Galleria</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="laTuaVoce.html" data-translate="nav_voice">La Tua Voce</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="contatti.html" data-translate="nav_contact">Contatti</a>
         </div>
         <div class="flex gap-2 items-center">
           <div class="relative">
@@ -145,6 +145,7 @@
           <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="calendario.html" data-translate="nav_events">Eventi</a>
           <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="https://runsocietytrieste.myportfolio.com/" data-translate="nav_gallery">Galleria</a>
           <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="laTuaVoce.html" data-translate="nav_voice">La Tua Voce</a>
           <a class="text-[#1c110d] text-lg font-medium py-2" href="contatti.html" data-translate="nav_contact">Contatti</a>
         </nav>
       </div>
@@ -188,9 +189,10 @@
       <div class="flex max-w-[960px] flex-1 flex-col">
         <footer class="flex flex-col gap-4 md:gap-6 px-4 md:px-5 py-6 md:py-10 text-center @container">
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 @[480px]:justify-around">
-            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32" href="contatti.html" data-translate="contact_us">Contatti</a>
-            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32" href="privacy.html" data-translate="privacy_policy">Informativa Privacy</a>
-            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32" href="esoneri.html" data-translate="terms_service">Liberatoria</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="contatti.html" data-translate="contact_us">Contatti</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="laTuaVoce.html" data-translate="nav_voice">La Tua Voce</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="privacy.html" data-translate="privacy_policy">Informativa Privacy</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="esoneri.html" data-translate="terms_service">Liberatoria</a>
           </div>
           <div class="flex flex-wrap justify-center gap-4">
 
