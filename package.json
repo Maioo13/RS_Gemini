@@ -1,0 +1,14 @@
+{
+  "name": "run-society-trieste",
+  "version": "0.0.1",
+  "description": "Run Society Trieste static website",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'Static site ready'"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

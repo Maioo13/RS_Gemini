@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link
+    rel="stylesheet"
+    as="style"
+    onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+  />
+
+  <title>Events Calendar | Run Society</title>
+  <link rel="icon" type="image/png" href="icons/logo.png?v=2" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/language-switcher.js" defer></script>
+  <script src="js/cookie-consent.js" defer></script>
+  <script src="js/popup.js" defer></script>
+
+  <style>
+    .modal { display: none; }
+    .modal.is-open { display: flex; }
+
+    /* Stile bottone città attivo */
+    .city-btn.active-city {
+      background-color: #e63f11 !important;
+      color: white !important;
+    }
+  </style>
+
+</head>
+
+<body style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;' data-page-key="events">
+
+<!-- Banner Cookie -->
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-t-lg p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
+  <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[#1c110d]">
+    <div class="text-center md:text-left">
+      <p class="font-bold" data-translate="cookie_title">Informativa sui Cookie</p>
+      <p class="text-sm text-[#9b604b]" data-translate="cookie_text">Utilizziamo cookie essenziali per garantire il corretto funzionamento del sito. Non utilizziamo cookie di tracciamento o di profilazione.</p>
+    </div>
+    <div class="flex-shrink-0 flex items-center gap-3">
+      <button id="cookie-reject" class="px-5 py-2 text-sm font-bold text-[#1c110d] bg-[#f3eae7] rounded-full hover:bg-gray-200 transition-colors" data-translate="cookie_reject">Rifiuta</button>
+      <button id="cookie-accept" class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity" data-translate="cookie_accept">Accetta</button>
+    </div>
+  </div>
+</div>
+
+<div class="relative flex size-full min-h-screen flex-col bg-[#fcf9f8] group/design-root overflow-x-hidden">
+  <div class="layout-container flex h-full grow flex-col">
+
+    <!-- Header -->
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3eae7] px-4 md:px-10 py-3">
+      <div class="flex items-center gap-2 md:gap-4 text-[#1c110d]">
+        <div class="size-8 md:size-12">
+          <a href="index.html"><img src="icons/logo.svg" alt="Logo Run Society" class="w-8 h-8 md:w-12 md:h-12" /></a>
+        </div>
+        <a href="index.html"><h2 class="text-[#1c110d] text-sm md:text-lg font-bold leading-tight tracking-[-0.015em] hover:text-[#e63f11] transition-colors duration-200" data-translate="site_name">Run Society</h2></a>
+      </div>
+      <div class="hidden lg:flex flex-1 justify-end gap-8">
+        <div class="flex items-center gap-9">
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="index.html" data-translate="nav_home">Home</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="calendario.html" data-translate="nav_events">Eventi</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="https://runsocietytrieste.myportfolio.com/" target="_blank" rel="noopener noreferrer" data-translate="nav_gallery">Galleria</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="contatti.html" data-translate="nav_contact">Contatti</a>
+        </div>
+        <div class="flex gap-2 items-center">
+          <div class="relative">
+            <button id="langMenuButton" class="flex items-center gap-2 px-3 py-2 bg-[#f3eae7] text-[#1c110d] rounded-full text-sm font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM101.63,168h52.74C149,186.34,140,202.87,128,215.89,116,202.87,107,186.34,101.63,168ZM98,152a145.72,145.72,0,0,1,0-48h60a145.72,145.72,0,0,1,0,48ZM40,128a87.61,87.61,0,0,1,3.33-24H81.79a161.79,161.79,0,0,0,0,48H43.33A87.61,87.61,0,0,1,40,128ZM154.37,88H101.63C107,69.66,116,53.13,128,40.11,140,53.13,149,69.66,154.37,88Zm19.84,16h38.46a88.15,88.15,0,0,1,0,48H174.21a161.79,161.79,0,0,0,0-48Zm32.16-16H170.94a142.39,142.39,0,0,0-20.26-45A88.37,88.37,0,0,1,206.37,88ZM105.32,43A142.39,142.39,0,0,0,85.06,88H49.63A88.37,88.37,0,0,1,105.32,43ZM49.63,168H85.06a142.39,142.39,0,0,0,20.26,45A88.37,88.37,0,0,1,49.63,168Zm101.05,45a142.39,142.39,0,0,0,20.26-45h35.43A88.37,88.37,0,0,1,150.68,213Z"></path></svg>
+              <span>ITA</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            <div id="langMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
+              <a href="#" data-lang="it" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-t-lg"><img src="icons/Ita.svg" alt="ITA" class="w-5 h-5" /> ITA</a>
+              <a href="#" data-lang="en" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-b-lg"><img src="icons/Eng.svg" alt="ENG" class="w-5 h-5" /> ENG</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Header Mobile -->
+      <div class="flex lg:hidden items-center gap-2">
+        <div class="relative">
+          <button id="langMenuButtonMobile" class="flex items-center gap-1 px-2 py-1 bg-[#f3eae7] text-[#1c110d] rounded-full text-xs font-bold">
+            <span>ITA</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div id="langMenuMobile" class="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
+            <a href="#" data-lang="it" class="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-t-lg text-xs"><img src="icons/Ita.svg" alt="ITA" class="w-5 h-5" /> ITA</a>
+            <a href="#" data-lang="en" class="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-b-lg text-xs"><img src="icons/Eng.svg" alt="ENG" class="w-5 h-5" /> ENG</a>
+          </div>
+        </div>
+        <button id="mobileMenuButton" class="p-2 rounded-lg bg-[#f3eae7] text-[#1c110d]">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Menu mobile overlay -->
+    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden lg:hidden">
+      <div class="fixed right-0 top-0 h-full w-64 bg-[#fcf9f8] shadow-lg transform transition-transform duration-300">
+        <div class="flex justify-between items-center p-4 border-b border-[#f3eae7]">
+          <h3 class="text-[#1c110d] font-bold" data-translate="menu_title">Menu</h3>
+          <button id="closeMobileMenu" class="p-2 text-[#1c110d]"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+        </div>
+        <nav class="flex flex-col p-4 space-y-4">
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="index.html" data-translate="nav_home">Home</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="calendario.html" data-translate="nav_events">Eventi</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="https://runsocietytrieste.myportfolio.com/" target="_blank" rel="noopener noreferrer" data-translate="nav_gallery">Galleria</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2" href="contatti.html" data-translate="nav_contact">Contatti</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Contenuto principale -->
+    <main class="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
+      <div class="layout-content-container flex flex-col w-full max-w-[960px] flex-1">
+
+        <div class="flex justify-center p-4">
+          <h1 class="text-[#1c110d] tracking-light text-2xl md:text-[32px] font-bold" data-translate="events_title">Calendario Eventi</h1>
+        </div>
+
+        <!-- FILTRO CITTÀ -->
+        <div id="city-filter" class="flex flex-wrap justify-center gap-3 px-4 pb-4">
+          <button
+            data-city="all"
+            class="city-btn active-city px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 bg-[#e63f11] text-white shadow-sm"
+            data-translate="city_all"
+          >
+            Tutte le città
+          </button>
+          <button
+            data-city="trieste"
+            class="city-btn px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]"
+          >
+            📍 Trieste
+          </button>
+          <button
+            data-city="venezia"
+            class="city-btn px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]"
+          >
+            📍 Venezia
+          </button>
+        </div>
+
+        <!-- Contenitore Calendari -->
+        <div id="calendarContainer" class="flex flex-col md:flex-row flex-wrap justify-center gap-8 md:gap-12 lg:gap-16 p-4"></div>
+
+        <!-- Contenitore Lista Eventi -->
+        <div id="eventListContainer" class="px-4 mt-8">
+          <h2 class="text-[#1c110d] text-xl md:text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5" data-translate="upcoming_events">Prossimi Eventi</h2>
+          <div id="event-list-items"></div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="flex justify-center mt-auto bg-[#fcf9f8]">
+      <div class="flex max-w-[960px] flex-1 flex-col">
+        <div class="flex flex-col gap-4 md:gap-6 px-4 md:px-5 py-6 md:py-10 text-center @container">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 @[480px]:justify-around">
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32 hover:text-[#e63f11] transition-colors" href="contatti.html" data-translate="contact_us">Contatti</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32 hover:text-[#e63f11] transition-colors" href="privacy.html" data-translate="privacy_policy">Informativa Privacy</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32 hover:text-[#e63f11] transition-colors" href="esoneri.html" data-translate="terms_service">Liberatoria</a>
+          </div>
+          <div class="flex flex-wrap justify-center gap-6 pt-2">
+            <a href="https://chat.whatsapp.com/..." target="_blank" rel="noopener noreferrer" class="text-[#9b604b] hover:text-[#25D366] transition-colors duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M186.368 153.408c-3.168 -1.589 -18.752 -9.248 -21.653 -10.315 -2.912 -1.056 -5.024 -1.579 -7.147 1.6 -2.101 3.168 -8.181 10.304 -10.027 12.416 -1.845 2.123 -3.701 2.379 -6.869 0.8 -3.168 -1.6 -13.387 -4.939 -25.493 -15.733 -9.419 -8.405 -15.787 -18.784 -17.632 -21.963 -1.845 -3.168 -0.192 -4.885 1.387 -6.464 1.429 -1.419 3.179 -3.701 4.757 -5.547s2.112 -3.179 3.179 -5.301c1.056 -2.112 0.533 -3.957 -0.267 -5.547s-7.136 -17.195 -9.771 -23.541c-2.581 -6.176 -5.195 -5.333 -7.136 -5.44a138.667 138.667 0 0 0 -6.08 -0.107c-2.112 0 -5.547 0.789 -8.448 3.968 -2.901 3.168 -11.093 10.837 -11.093 26.443 0 15.595 11.36 30.667 12.939 32.789s22.357 34.133 54.155 47.861c7.563 3.264 13.461 5.216 18.069 6.667 7.595 2.421 14.507 2.08 19.957 1.259 6.091 -0.907 18.752 -7.669 21.397 -15.072s2.645 -13.749 1.845 -15.072c-0.789 -1.323 -2.901 -2.112 -6.08 -3.701m-57.824 78.965h-0.043a105.28 105.28 0 0 1 -53.664 -14.699l-3.851 -2.283 -39.904 10.475 10.645 -38.912 -2.507 -3.989a105.173 105.173 0 0 1 -16.107 -56.107c0.011 -58.133 47.317 -105.429 105.472 -105.429 28.16 0 54.635 10.987 74.539 30.912a104.747 104.747 0 0 1 30.859 74.603c-0.032 58.133 -47.328 105.429 -105.44 105.429m89.739 -195.168A126.08 126.08 0 0 0 128.533 0C58.613 0 1.707 56.907 1.675 126.848c0 22.357 5.835 44.181 16.939 63.413L0.608 256l67.253 -17.643a126.933 126.933 0 0 0 60.619 15.445h0.053c69.909 0 126.827 -56.907 126.859 -126.859a126.08 126.08 0 0 0 -37.12 -89.739"></path></svg>
+            </a>
+            <a href="https://www.instagram.com/..." target="_blank" rel="noopener noreferrer" class="group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
+                <defs>
+                  <linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#FCB045;" />
+                    <stop offset="50%" style="stop-color:#FD1D1D;" />
+                    <stop offset="100%" style="stop-color:#833AB4;" />
+                  </linearGradient>
+                </defs>
+                <path fill="url(#instagram-gradient)" d="M128 0C93.227 0 88.885 0.16 75.232 0.768 61.6 1.408 52.32 3.552 44.16 6.72c-8.416 3.264 -15.563 7.648 -22.677 14.763S9.973 35.733 6.72 44.16C3.552 52.32 1.397 61.6 0.768 75.232 0.128 88.885 0 93.227 0 128s0.16 39.115 0.768 52.768c0.64 13.621 2.784 22.912 5.952 31.072a62.933 62.933 0 0 0 14.763 22.677A62.933 62.933 0 0 0 44.16 249.28c8.171 3.157 17.451 5.323 31.072 5.952C88.885 255.872 93.227 256 128 256s39.115 -0.16 52.768 -0.768c13.621 -0.64 22.912 -2.795 31.072 -5.952a62.933 62.933 0 0 0 22.677 -14.763 62.933 62.933 0 0 0 14.763 -22.677c3.157 -8.16 5.323 -17.451 5.952 -31.072 0.64 -13.653 0.768 -17.995 0.768 -52.768s-0.16 -39.115 -0.768 -52.768c-0.64 -13.621 -2.795 -22.923 -5.952 -31.072a62.933 62.933 0 0 0 -14.763 -22.677A62.4 62.4 0 0 0 211.84 6.72c-8.16 -3.168 -17.451 -5.323 -31.072 -5.952C167.115 0.128 162.773 0 128 0m0 23.04c34.165 0 38.24 0.171 51.733 0.757 12.48 0.587 19.253 2.656 23.755 4.427 5.995 2.315 10.24 5.088 14.741 9.557 4.469 4.48 7.243 8.736 9.557 14.731 1.749 4.501 3.84 11.275 4.405 23.755 0.608 13.504 0.747 17.557 0.747 51.733s-0.16 38.24 -0.789 51.733c-0.651 12.48 -2.731 19.253 -4.491 23.755a40.533 40.533 0 0 1 -9.589 14.741 39.893 39.893 0 0 1 -14.72 9.557c-4.48 1.749 -11.36 3.84 -23.84 4.405 -13.589 0.608 -17.589 0.747 -51.829 0.747s-38.251 -0.16 -51.829 -0.789c-12.491 -0.651 -19.371 -2.731 -23.851 -4.491a39.467 39.467 0 0 1 -14.709 -9.589 38.827 38.827 0 0 1 -9.6 -14.72c-1.76 -4.48 -3.829 -11.36 -4.48 -23.84 -0.48 -13.44 -0.651 -17.589 -0.651 -51.669s0.171 -38.251 0.651 -51.851c0.651 -12.48 2.72 -19.349 4.48 -23.829 2.24 -6.08 5.109 -10.24 9.6 -14.731 4.469 -4.469 8.64 -7.349 14.709 -9.579 4.48 -1.771 11.211 -3.851 23.691 -4.491 13.6 -0.48 17.6 -0.64 51.829 -0.64zm0 39.232a65.728 65.728 0 1 0 0 131.456 65.728 65.728 0 1 0 0 -131.456M128 170.667c-23.573 0 -42.667 -19.093 -42.667 -42.667s19.093 -42.667 42.667 -42.667 42.667 19.093 42.667 42.667 -19.093 42.667 -42.667 42.667m83.691 -110.987a15.371 15.371 0 0 1 -30.72 0 15.36 15.36 0 0 1 30.72 0"></path>
+                <path class="group-hover:opacity-0 transition-opacity duration-300" fill="#9b604b" d="M128 0C93.227 0 88.885 0.16 75.232 0.768 61.6 1.408 52.32 3.552 44.16 6.72c-8.416 3.264 -15.563 7.648 -22.677 14.763S9.973 35.733 6.72 44.16C3.552 52.32 1.397 61.6 0.768 75.232 0.128 88.885 0 93.227 0 128s0.16 39.115 0.768 52.768c0.64 13.621 2.784 22.912 5.952 31.072a62.933 62.933 0 0 0 14.763 22.677A62.933 62.933 0 0 0 44.16 249.28c8.171 3.157 17.451 5.323 31.072 5.952C88.885 255.872 93.227 256 128 256s39.115 -0.16 52.768 -0.768c13.621 -0.64 22.912 -2.795 31.072 -5.952a62.933 62.933 0 0 0 22.677 -14.763 62.933 62.933 0 0 0 14.763 -22.677c3.157 -8.16 5.323 -17.451 5.952 -31.072 0.64 -13.653 0.768 -17.995 0.768 -52.768s-0.16 -39.115 -0.768 -52.768c-0.64 -13.621 -2.795 -22.923 -5.952 -31.072a62.933 62.933 0 0 0 -14.763 -22.677A62.4 62.4 0 0 0 211.84 6.72c-8.16 -3.168 -17.451 -5.323 -31.072 -5.952C167.115 0.128 162.773 0 128 0m0 23.04c34.165 0 38.24 0.171 51.733 0.757 12.48 0.587 19.253 2.656 23.755 4.427 5.995 2.315 10.24 5.088 14.741 9.557 4.469 4.48 7.243 8.736 9.557 14.731 1.749 4.501 3.84 11.275 4.405 23.755 0.608 13.504 0.747 17.557 0.747 51.733s-0.16 38.24 -0.789 51.733c-0.651 12.48 -2.731 19.253 -4.491 23.755a40.533 40.533 0 0 1 -9.589 14.741 39.893 39.893 0 0 1 -14.72 9.557c-4.48 1.749 -11.36 3.84 -23.84 4.405 -13.589 0.608 -17.589 0.747 -51.829 0.747s-38.251 -0.16 -51.829 -0.789c-12.491 -0.651 -19.371 -2.731 -23.851 -4.491a39.467 39.467 0 0 1 -14.709 -9.589 38.827 38.827 0 0 1 -9.6 -14.72c-1.76 -4.48 -3.829 -11.36 -4.48 -23.84 -0.48 -13.44 -0.651 -17.589 -0.651 -51.669s0.171 -38.251 0.651 -51.851c0.651 -12.48 2.72 -19.349 4.48 -23.829 2.24 -6.08 5.109 -10.24 9.6 -14.731 4.469 -4.469 8.64 -7.349 14.709 -9.579 4.48 -1.771 11.211 -3.851 23.691 -4.491 13.6 -0.48 17.6 -0.64 51.829 -0.64zm0 39.232a65.728 65.728 0 1 0 0 131.456 65.728 65.728 0 1 0 0 -131.456M128 170.667c-23.573 0 -42.667 -19.093 -42.667 -42.667s19.093 -42.667 42.667 -42.667 42.667 19.093 42.667 42.667 -19.093 42.667 -42.667 42.667m83.691 -110.987a15.371 15.371 0 0 1 -30.72 0 15.36 15.36 0 0 1 30.72 0"></path>
+              </svg>
+            </a>
+            <a href="https://www.strava.com/..." target="_blank" rel="noopener noreferrer" class="text-[#9b604b] hover:text-[#FC4C02] transition-colors duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="m164.128 191.403 -22.283 -43.904h-32.693L164.128 256l54.933 -108.501h-32.704m-74.752 -59.723 30.251 59.712h44.501L111.605 0l-74.667 147.499h44.469"></path></svg>
+            </a>
+          </div>
+          <p class="text-[#9b604b] text-xs md:text-base font-normal leading-normal" data-translate="rights_reserved">@2024 Run Society. Tutti i diritti riservati.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- Modal Mappa -->
+<div id="map-modal" class="modal fixed inset-0 bg-black bg-opacity-60 items-center justify-center p-4 z-50">
+  <div id="map-modal-content" class="bg-white rounded-lg shadow-xl w-full max-w-3xl h-full max-h-[80vh] flex flex-col">
+    <div class="flex justify-between items-center p-4 border-b">
+      <h3 id="map-modal-title" class="text-lg font-bold text-[#1c110d]">Mappa</h3>
+      <button id="map-modal-close" class="text-gray-500 hover:text-gray-800">&times;</button>
+    </div>
+    <div class="flex-grow p-1">
+      <iframe id="map-iframe" width="100%" height="100%" style="border:0;" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src=""></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+  // 1. OGGETTO DELLE LOCATION PREDEFINITE
+  const locations = {
+    piazza_unita: { name: "Piazza Unità d'Italia", url: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d203.82223922549485!2d13.768026274942061!3d45.649800297912286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDXCsDM4JzU5LjIiTiAxM8KwNDYnMDUuMiJF!5e1!3m2!1sit!2sit!4v1757896201649!5m2!1sit!2sit" },
+    barcola: { name: "Piazzale 11 Settembre, Barcola", url: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d203.47574982798557!2d13.75063090659199!3d45.68267085763031!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDXCsDQwJzU3LjUiTiAxM8KwNDUnMDIuNCJF!5e1!3m2!1sit!2sit!4v1757895818699!5m2!1sit!2sit" },
+    porto_vecchio: { name: "Ingresso Porto Vecchio", url: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d203.79590621786244!2d13.76989098521948!3d45.657036206567554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDXCsDM5JzI1LjMiTiAxM8KwNDYnMTIuMSJF!5e1!3m2!1sit!2sit!4v1757897475299!5m2!1sit!2sit" },
+    miramare: { name: "Castello di Miramare", url: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d203.40250685663273!2d13.712809496572111!3d45.702805844058176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDXCsDQyJzEwLjEiTiAxM8KwNDInNDYuNCJF!5e1!3m2!1sit!2sit!4v1757896354590!5m2!1sit!2sit" },
+    bowling_duino: { name: "Bowling Duino", url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241.57461436991355!2d13.611185797038747!3d45.775126257188596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477b0c017347f5dd%3A0xff3ad125f45debcf!2sBowling%20Duino!5e1!3m2!1sit!2sit!4v1757896476561!5m2!1sit!2sit" },
+    accademia_biliardo: { name: "Accademia del Biliardo", url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d203.5782215586281!2d13.781680463441345!3d45.65448908691372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477b6b130c09f671%3A0xffb0eb94eb5b5c8a!2sAccademia%20del%20Biliardo%20Trieste!5e1!3m2!1sit!2sit!4v1757896437090!5m2!1sit!2sit" },
+    scala_santa: {name: "Scala Santa", url: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d203.7595891102711!2d13.77153992340581!3d45.66701412858215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDXCsDQwJzAxLjMiTiAxM8KwNDYnMTcuOSJF!5e1!3m2!1sit!2sit!4v1757929359071!5m2!1sit!2sit"},
+    forte_marghera: {name: "Parcheggio Forte Marghera", url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d841.7423235845472!2d12.259778304538294!3d45.47844411157058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477eb4071c7c4fa5%3A0x1794718c594f4322!2sMestre%2C%2030100%20Venezia%20VE!5e1!3m2!1sit!2sit!4v1776176170912!5m2!1sit!2sit"}
+  };
+  window.locations = locations;
+
+  function scrollToEvent(eventId) {
+    const element = document.getElementById(eventId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.classList.add('bg-[#fdf0ec]', 'transition-all', 'duration-500', 'rounded-lg', 'scale-105');
+      setTimeout(() => {
+        element.classList.remove('bg-[#fdf0ec]', 'scale-105');
+      }, 2500);
+    }
+  }
+  window.scrollToEvent = scrollToEvent;
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // Gestione Menu
+    const langBtn = document.getElementById("langMenuButton");
+    const langMenu = document.getElementById("langMenu");
+    const langBtnMobile = document.getElementById("langMenuButtonMobile");
+    const langMenuMobile = document.getElementById("langMenuMobile");
+    const mobileMenuBtn = document.getElementById("mobileMenuButton");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const closeMobileMenuBtn = document.getElementById("closeMobileMenu");
+
+    if (langBtn && langMenu) { langBtn.addEventListener("click", (e) => { e.stopPropagation(); langMenu.classList.toggle("hidden"); }); }
+    if (langBtnMobile && langMenuMobile) { langBtnMobile.addEventListener("click", (e) => { e.stopPropagation(); langMenuMobile.classList.toggle("hidden"); }); }
+    if (mobileMenuBtn && mobileMenu) { mobileMenuBtn.addEventListener("click", (e) => { e.stopPropagation(); mobileMenu.classList.remove("hidden"); }); }
+    if (closeMobileMenuBtn && mobileMenu) { closeMobileMenuBtn.addEventListener("click", () => { mobileMenu.classList.add("hidden"); }); }
+
+    document.addEventListener("click", (e) => {
+      if (langMenu && !langMenu.classList.contains('hidden') && !langBtn.contains(e.target)) { langMenu.classList.add("hidden"); }
+      if (langMenuMobile && !langMenuMobile.classList.contains('hidden') && !langBtnMobile.contains(e.target)) { langMenuMobile.classList.add("hidden"); }
+      if (mobileMenu && e.target === mobileMenu) { mobileMenu.classList.add('hidden'); }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 1024 && mobileMenu && !mobileMenu.classList.contains('hidden')) { mobileMenu.classList.add("hidden"); }
+    });
+
+    // --- LOGICA CALENDARIO ED EVENTI ---
+    let events =[];
+    let activeCity = 'all'; // Città selezionata attualmente
+
+    async function loadEvents() {
+      try {
+        const response = await fetch(`data/events.json?v=${new Date().getTime()}`);
+        if (!response.ok) {
+          throw new Error(`Errore nel caricamento del file: ${response.statusText}`);
+        }
+        const data = await response.json();
+        events = data.events.map(event => {
+          const dateParts = event.date.split('/');
+          const day = parseInt(dateParts[0], 10);
+          const month = parseInt(dateParts[1], 10);
+          const year = parseInt(dateParts[2], 10);
+          return {
+            ...event,
+            day,
+            month: month - 1,
+            year,
+            id: `event-${String(day).padStart(2, '0')}${String(month).padStart(2, '0')}${year}`
+          };
+        });
+        initCityFilter();
+        initCalendar();
+      } catch (error) {
+        console.error('Errore Dettagliato:', error);
+        const container = document.getElementById("event-list-items");
+        if (container) container.innerHTML = `<p class="text-red-600 text-center py-4">Oops! Non è stato possibile caricare gli eventi.</p>`;
+        events =[];
+      }
+    }
+
+    // Inizializza i bottoni filtro città
+    function initCityFilter() {
+      const buttons = document.querySelectorAll('.city-btn');
+
+      // Ricava dinamicamente le città presenti negli eventi
+      const cities = [...new Set(events.map(e => e.city).filter(Boolean))];
+
+      // Mostra solo i bottoni delle città che hanno almeno un evento
+      buttons.forEach(btn => {
+        const city = btn.dataset.city;
+        if (city === 'all') return; // "Tutte" è sempre visibile
+        if (!cities.includes(city)) {
+          btn.style.display = 'none'; // Nasconde bottoni senza eventi
+        }
+      });
+
+      // Listener click sui bottoni
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Aggiorna stile bottoni
+          buttons.forEach(b => b.classList.remove('active-city', 'bg-[#e63f11]', 'text-white'));
+          buttons.forEach(b => b.classList.add('bg-[#f3eae7]', 'text-[#1c110d]')); // Reset a stato non attivo
+
+          btn.classList.add('active-city');
+          btn.classList.remove('bg-[#f3eae7]', 'text-[#1c110d]');
+          btn.classList.add('bg-[#e63f11]', 'text-white');
+
+          // Aggiorna città attiva e rigenera vista
+          activeCity = btn.dataset.city;
+          initCalendar();
+        });
+      });
+    }
+
+    // Restituisce gli eventi filtrati per la città attiva
+    function getFilteredEvents() {
+      if (activeCity === 'all') return events;
+      return events.filter(e => e.city === activeCity);
+    }
+
+    function generateCalendar(month, year) {
+      const filteredEvents = getFilteredEvents(); // <-- usa eventi filtrati
+      const date = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const firstDayIndex = (date.getDay() === 0) ? 6 : date.getDay() - 1;
+      const weekDays =["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
+
+      let html = `<div class="flex min-w-full sm:min-w-72 max-w-[360px] flex-1 flex-col gap-1">
+        <div class="flex items-center p-1 justify-center">
+          <p class="text-[#1c110d] text-lg font-bold leading-tight text-center capitalize">
+            ${date.toLocaleString("it-IT", { month: "long" })} ${year}
+          </p>
+        </div>
+        <div class="grid grid-cols-7 gap-1">
+          ${weekDays.map(d => `<p class="text-[#9b604b] text-sm font-bold flex h-10 items-center justify-center">${d}</p>`).join("")}`;
+
+      for (let i = 0; i < firstDayIndex; i++) { html += `<div></div>`; }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const today = new Date();
+        const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+        const eventOnThisDay = filteredEvents.find(e => e.day === d && e.month === month && e.year === year);
+
+        let dayClasses = "flex size-full items-center justify-center rounded-full transition-colors duration-200 h-10 w-full text-sm font-medium text-[#1c110d]";
+
+        if (isToday) dayClasses += " bg-[#e63f11] text-white";
+        else if (eventOnThisDay) dayClasses += " bg-[#f3eae7] ring-2 ring-inset ring-[#e63f11] hover:bg-[#e63f11] hover:text-white cursor-pointer";
+        else dayClasses += " text-gray-500";
+
+        if (eventOnThisDay) {
+          html += `<button onclick="scrollToEvent('${eventOnThisDay.id}')" class="${dayClasses}">${d}</button>`;
+        } else {
+          html += `<div class="${dayClasses}">${d}</div>`;
+        }
+      }
+      html += `</div></div>`;
+      return html;
+    }
+
+    function renderEventList() {
+      const container = document.getElementById("event-list-items");
+      if (!container) return;
+
+      const filteredEvents = getFilteredEvents(); // <-- usa eventi filtrati
+      const currentLang = localStorage.getItem('preferred-language') || 'it';
+      const now = new Date().setHours(0, 0, 0, 0);
+      const upcomingEvents = filteredEvents
+        .filter(e => new Date(e.year, e.month, e.day) >= now)
+        .sort((a, b) => new Date(a.year, a.month, a.day) - new Date(b.year, b.month, b.day));
+
+      let listHtml = upcomingEvents.map(event => {
+        const eventDate = new Date(event.year, event.month, event.day);
+        const dateLocale = currentLang === 'it' ? 'it-IT' : 'en-US';
+        const dateString = eventDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
+
+        const title = typeof event.title === 'object' ? (event.title[currentLang] || event.title.it) : event.title;
+        const description = typeof event.description === 'object' ? (event.description[currentLang] || event.description.it) : event.description;
+
+        let locationName, mapButtonHtml;
+        const mapIconSvg = `<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g><path d="M16 14.185c2.61 0 4.733 -2.123 4.733 -4.733 0 -2.61 -2.123 -4.733 -4.733 -4.733s-4.733 2.123 -4.733 4.733c0 2.61 2.123 4.733 4.733 4.733m0 -6.814c1.147 0 2.081 0.933 2.081 2.081 0 1.148 -0.934 2.082 -2.081 2.082s-2.081 -0.934 -2.081 -2.082c0 -1.147 0.933 -2.081 2.081 -2.081"/><path d="M29.566 12.172c0 -0.732 -0.594 -1.326 -1.326 -1.326h-2.989C26.212 4.813 21.54 0 16 0 10.501 0 5.779 4.772 6.749 10.846H3.76c-0.732 0 -1.326 0.594 -1.326 1.326v18.502c0 0.732 0.594 1.326 1.326 1.326h24.48c0.712 0 1.326 -0.577 1.326 -1.326 0 -0.824 0 -17.683 0 -18.502m-5.064 1.338 0.002 -0.004 0.003 -0.008h2.407v6.584h-5.461c1.06 -2.005 2.255 -4.437 3.05 -6.572M16 2.652c4.229 0 7.998 3.952 6.307 9.107 -1.219 3.715 -4.309 9.246 -6.307 12.61 -1.992 -3.355 -5.088 -8.896 -6.307 -12.61 -1.695 -5.168 2.088 -9.107 6.307 -9.107M9.96 29.348H5.086V13.498h2.407c0.39 1.073 1.187 2.949 2.467 5.454zm2.652 0v-5.523c1.269 2.214 2.251 3.787 2.264 3.807 0.519 0.83 1.73 0.829 2.248 0 0.013 -0.02 1.06 -1.698 2.39 -4.027l5.586 5.744zm14.302 -1.939 -4.547 -4.675h4.547z"/></g></svg>`;
+
+        if (typeof event.location === 'string' && locations[event.location]) {
+          const locationData = locations[event.location];
+          locationName = locationData.name;
+          mapButtonHtml = `<button onclick="openMapModal('${event.location}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors">${mapIconSvg}</button>`;
+        } else if (typeof event.location === 'object' && event.location.name && event.location.url) {
+          locationName = event.location.name;
+          mapButtonHtml = `<button onclick="openMapModal(null, '${event.location.url}', '${event.location.name}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors">${mapIconSvg}</button>`;
+        } else {
+          locationName = event.location || 'N/D';
+          mapButtonHtml = '<div class="w-[44px] h-[44px] flex-shrink-0"></div>';
+        }
+
+        return `
+          <div id="${event.id}" class="flex flex-row items-center gap-4 border-b border-[#f3eae7] py-4 px-2 -mx-2">
+            <div class="shrink-0 text-sm font-bold text-[#1c110d] text-right w-24 sm:w-40">${dateString}</div>
+            <div class="flex-1">
+              <p class="text-[#1c110d] text-base font-bold leading-normal">${title}</p>
+              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">${description}</p>
+              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">🕒 ${event.time}</p>
+              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">📍 ${locationName}</p>
+            </div>
+            <div class="flex-shrink-0">${mapButtonHtml}</div>
+          </div>
+        `;
+      }).join('');
+
+      if (upcomingEvents.length > 0) {
+        container.innerHTML = listHtml;
+      } else {
+        container.innerHTML = `<p class="text-[#9b604b] text-center py-4" data-translate="no_events_city">Nessun evento in programma per questa città. Torna a trovarci presto!</p>`;
+        if (window.languageSwitcher) window.languageSwitcher.translatePage();
+      }
+    }
+
+    function initCalendar() {
+      const calendarContainer = document.getElementById("calendarContainer");
+      if (!calendarContainer) return;
+      const today = new Date();
+      const thisMonth = today.getMonth();
+      const thisYear = today.getFullYear();
+      const nextMonth = (thisMonth + 1) % 12;
+      const nextYear = thisMonth === 11 ? thisYear + 1 : thisYear;
+      calendarContainer.innerHTML =
+        generateCalendar(thisMonth, thisYear) + generateCalendar(nextMonth, nextYear);
+      renderEventList();
+    }
+
+    window.updateCalendar = () => {
+      initCalendar();
+    };
+
+    // Avvia tutto!
+    loadEvents();
+  });
+
+  /*
+  // Gestione Banner 21k
+  document.addEventListener('DOMContentLoaded', () => {
+    const banner21k = document.getElementById("banner-21k");
+    const closeBannerBtn = document.getElementById("close-banner-21k");
+
+    if (banner21k && closeBannerBtn) {
+      closeBannerBtn.addEventListener("click", () => {
+        banner21k.style.display = "none";
+      });
+    }
+  });
+   */
+
+</script>
+
+</body>
+</html>

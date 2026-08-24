@@ -1,0 +1,410 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link
+    rel="stylesheet"
+    as="style"
+    onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+  />
+
+  <title>Contattaci | Run Society Trieste</title>
+  <link rel="icon" type="image/png" href="icons/logo.png?v=2" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/language-switcher.js"></script>
+  <script src="js/cookie-consent.js" defer></script>
+</head>
+
+<!-- Cookie Consent Banner -->
+<div id="cookie-banner"
+     class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-t-lg p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
+  <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[#1c110d]">
+
+    <!-- Testo Informativo -->
+    <div class="text-center md:text-left">
+      <p class="font-bold" data-translate="cookie_title">Informativa sui Cookie</p>
+      <p class="text-sm text-[#9b604b]" data-translate="cookie_text">
+        Utilizziamo cookie essenziali per garantire il corretto funzionamento del sito. Non utilizziamo cookie di tracciamento o di profilazione.
+      </p>
+    </div>
+
+    <!-- Pulsanti di Azione -->
+    <div class="flex-shrink-0 flex items-center gap-3">
+      <button id="cookie-reject"
+              class="px-5 py-2 text-sm font-bold text-[#1c110d] bg-[#f3eae7] rounded-full hover:bg-gray-200 transition-colors"
+              data-translate="cookie_reject">
+        Rifiuta
+      </button>
+      <button id="cookie-accept"
+              class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity"
+              data-translate="cookie_accept">
+        Accetta
+      </button>
+    </div>
+  </div>
+</div>
+
+<body>
+<div class="relative flex size-full min-h-screen flex-col bg-[#fcf9f8] group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+  <div class="layout-container flex h-full grow flex-col">
+    <!-- Header responsivo -->
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3eae7] px-4 md:px-10 py-3">
+      <div class="flex items-center gap-2 md:gap-4 text-[#1c110d]">
+        <div class="size-8 md:size-12">
+          <a href="index.html">
+            <img src="icons/logo.svg" alt="Logo Run Society" class="w-8 h-8 md:w-12 md:h-12" />
+          </a>
+        </div>
+        <a href="index.html">
+          <h2 class="text-[#1c110d] text-sm md:text-lg font-bold leading-tight tracking-[-0.015em] hover:text-[#e63f11] transition-colors duration-200">Run Society Trieste</h2>
+        </a>
+      </div>
+
+      <!-- Menu desktop -->
+      <div class="hidden lg:flex flex-1 justify-end gap-8">
+        <div class="flex items-center gap-9">
+          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="index.html" data-translate="nav_home">Home</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="calendario.html" data-translate="nav_events">Eventi</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="https://runsocietytrieste.myportfolio.com/" data-translate="nav_gallery">Galleria</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
+          <a class="text-[#1c110d] text-sm font-medium leading-normal" href="contatti.html" data-translate="nav_contact">Contatti</a>
+        </div>
+        <div class="flex gap-2 items-center">
+          <div class="relative">
+            <button id="langMenuButton"
+                    class="flex items-center gap-2 px-3 py-2 bg-[#f3eae7] text-[#1c110d] rounded-full text-sm font-bold"
+            >
+              <div class="text-[#1c110d]" data-icon="Globe" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM101.63,168h52.74C149,186.34,140,202.87,128,215.89,116,202.87,107,186.34,101.63,168ZM98,152a145.72,145.72,0,0,1,0-48h60a145.72,145.72,0,0,1,0,48ZM40,128a87.61,87.61,0,0,1,3.33-24H81.79a161.79,161.79,0,0,0,0,48H43.33A87.61,87.61,0,0,1,40,128ZM154.37,88H101.63C107,69.66,116,53.13,128,40.11,140,53.13,149,69.66,154.37,88Zm19.84,16h38.46a88.15,88.15,0,0,1,0,48H174.21a161.79,161.79,0,0,0,0-48Zm32.16-16H170.94a142.39,142.39,0,0,0-20.26-45A88.37,88.37,0,0,1,206.37,88ZM105.32,43A142.39,142.39,0,0,0,85.06,88H49.63A88.37,88.37,0,0,1,105.32,43ZM49.63,168H85.06a142.39,142.39,0,0,0,20.26,45A88.37,88.37,0,0,1,49.63,168Zm101.05,45a142.39,142.39,0,0,0,20.26-45h35.43A88.37,88.37,0,0,1,150.68,213Z"
+                  ></path>
+                </svg>
+              </div>
+              <span>ITA</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div id="langMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
+              <a href="?lang=it" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-t-lg">
+                <img src="icons/Ita.svg" alt="ITA" class="w-5 h-5" /> ITA
+              </a>
+              <a href="?lang=en" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-b-lg">
+                <img src="icons/Eng.svg" alt="ENG" class="w-5 h-5" /> ENG
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menu mobile -->
+      <div class="flex lg:hidden items-center gap-2">
+        <div class="relative">
+          <button id="langMenuButtonMobile"
+                  class="flex items-center gap-1 px-2 py-1 bg-[#f3eae7] text-[#1c110d] rounded-full text-xs font-bold"
+          >
+            <span>ITA</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div id="langMenuMobile" class="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
+            <a href="?lang=it" class="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-t-lg text-xs">
+              <img src="icons/Ita.svg" alt="ITA" class="w-5 h-5" /> ITA
+            </a>
+            <a href="?lang=en" class="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-b-lg text-xs">
+              <img src="icons/Eng.svg" alt="ENG" class="w-5 h-5" /> ENG
+            </a>
+          </div>
+        </div>
+        <button id="mobileMenuButton" class="p-2 rounded-lg bg-[#f3eae7] text-[#1c110d]">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Menu mobile overlay -->
+    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden lg:hidden">
+      <div class="fixed right-0 top-0 h-full w-64 bg-[#fcf9f8] shadow-lg transform transition-transform duration-300">
+        <div class="flex justify-between items-center p-4 border-b border-[#f3eae7]">
+          <h3 class="text-[#1c110d] font-bold">Menu</h3>
+          <button id="closeMobileMenu" class="p-2 text-[#1c110d]">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav class="flex flex-col p-4 space-y-4">
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="index.html" data-translate="nav_home">Home</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="calendario.html" data-translate="nav_events">Eventi</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="https://runsocietytrieste.myportfolio.com/" data-translate="nav_gallery">Galleria</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
+          <a class="text-[#1c110d] text-lg font-medium py-2" href="contatti.html" data-translate="nav_contact">Contatti</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Contenuto principale -->
+    <main class="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
+      <div class="layout-content-container flex flex-col w-full max-w-[960px] flex-1">
+        <div class="p-4">
+          <h1 class="text-[#1c110d] tracking-light text-2xl md:text-[32px] font-bold leading-tight" data-translate="contact_title">Contattaci</h1>
+        </div>
+
+        <form
+          action="https://formspree.io/f/xyzdoeja"
+          method="POST"
+          class="w-full max-w-[480px] mx-auto"
+          id="contact-form"
+        >
+          <div class="flex flex-col gap-4 p-4">
+            <!-- Puoi lasciare questo come fallback, ma il redirect vero lo fa lo script -->
+            <input type="hidden" name="_next" value="grazie.html">
+
+            <label class="flex flex-col w-full">
+              <input
+                type="text"
+                name="name"
+                placeholder="Il tuo nome"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1c110d] focus:outline-0 focus:ring-0 border-none bg-[#f3eae7] h-12 md:h-14 placeholder:text-[#9b604b] p-4 text-sm md:text-base"
+                data-translate="contact_form_name"
+                required
+              />
+            </label>
+            <label class="flex flex-col w-full">
+              <input
+                type="email"
+                name="email"
+                placeholder="La tua Email"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1c110d] focus:outline-0 focus:ring-0 border-none bg-[#f3eae7] h-12 md:h-14 placeholder:text-[#9b604b] p-4 text-sm md:text-base"
+                data-translate="contact_form_email"
+                required
+              />
+            </label>
+            <label class="flex flex-col w-full">
+              <input
+                type="text"
+                name="subject"
+                placeholder="Oggetto"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1c110d] focus:outline-0 focus:ring-0 border-none bg-[#f3eae7] h-12 md:h-14 placeholder:text-[#9b604b] p-4 text-sm md:text-base"
+                data-translate="contact_form_subject"
+                required
+              />
+            </label>
+            <label class="flex flex-col w-full">
+      <textarea
+        name="message"
+        placeholder="Il tuo messaggio"
+        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1c110d] focus:outline-0 focus:ring-0 border-none bg-[#f3eae7] min-h-36 placeholder:text-[#9b604b] p-4 text-sm md:text-base"
+        data-translate="contact_form_message"
+        required
+      ></textarea>
+            </label>
+            <button
+              type="submit"
+              class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 md:h-12 px-4 bg-[#e63f11] text-[#fcf9f8] text-sm md:text-base font-bold tracking-[0.015em] transition-opacity hover:opacity-90"
+            >
+              <span class="truncate" data-translate="contact_form_send">Invia</span>
+            </button>
+          </div>
+        </form>
+
+
+        <p class="text-[#1c110d] text-sm md:text-base font-normal leading-normal pb-3 pt-1 px-4 text-center" data-translate="contact_direct">
+          Oppure contattaci direttamente a runsocietyts@gmail.com
+        </p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="flex justify-center mt-auto" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif; background-color: #fcf9f8;'>
+      <div class="flex max-w-[960px] flex-1 flex-col">
+        <footer class="flex flex-col gap-4 md:gap-6 px-4 md:px-5 py-6 md:py-10 text-center @container">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 @[480px]:justify-around">
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32" href="contatti.html" data-translate="contact_us">Contatti</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32" href="privacy.html" data-translate="privacy_policy">Informativa Privacy</a>
+            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-32" href="esoneri.html" data-translate="terms_service">Liberatoria</a>
+          </div>
+          <div class="flex flex-wrap justify-center gap-4">
+
+
+            <a href="https://chat.whatsapp.com/LPwJwAzb6z2EGrQDAkqDAH?fbclid=PAVERDUAMoRZBleHRuA2FlbQIxMAABpwx0PSzNgUHbrgBHUc1JHv6M3uiduGTm1DjXnQDSH59REGWj2ZRxWVMS8hcb_aem_RHS46f_veDzzfz6_jEdNTw" class="text-[#9b604b] hover:text-[#25D366] transition-colors duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M186.368 153.408c-3.168 -1.589 -18.752 -9.248 -21.653 -10.315 -2.912 -1.056 -5.024 -1.579 -7.147 1.6 -2.101 3.168 -8.181 10.304 -10.027 12.416 -1.845 2.123 -3.701 2.379 -6.869 0.8 -3.168 -1.6 -13.387 -4.939 -25.493 -15.733 -9.419 -8.405 -15.787 -18.784 -17.632 -21.963 -1.845 -3.168 -0.192 -4.885 1.387 -6.464 1.429 -1.419 3.179 -3.701 4.757 -5.547s2.112 -3.179 3.179 -5.301c1.056 -2.112 0.533 -3.957 -0.267 -5.547s-7.136 -17.195 -9.771 -23.541c-2.581 -6.176 -5.195 -5.333 -7.136 -5.44a138.667 138.667 0 0 0 -6.08 -0.107c-2.112 0 -5.547 0.789 -8.448 3.968 -2.901 3.168 -11.093 10.837 -11.093 26.443 0 15.595 11.36 30.667 12.939 32.789s22.357 34.133 54.155 47.861c7.563 3.264 13.461 5.216 18.069 6.667 7.595 2.421 14.507 2.08 19.957 1.259 6.091 -0.907 18.752 -7.669 21.397 -15.072s2.645 -13.749 1.845 -15.072c-0.789 -1.323 -2.901 -2.112 -6.08 -3.701m-57.824 78.965h-0.043a105.28 105.28 0 0 1 -53.664 -14.699l-3.851 -2.283 -39.904 10.475 10.645 -38.912 -2.507 -3.989a105.173 105.173 0 0 1 -16.107 -56.107c0.011 -58.133 47.317 -105.429 105.472 -105.429 28.16 0 54.635 10.987 74.539 30.912a104.747 104.747 0 0 1 30.859 74.603c-0.032 58.133 -47.328 105.429 -105.44 105.429m89.739 -195.168A126.08 126.08 0 0 0 128.533 0C58.613 0 1.707 56.907 1.675 126.848c0 22.357 5.835 44.181 16.939 63.413L0.608 256l67.253 -17.643a126.933 126.933 0 0 0 60.619 15.445h0.053c69.909 0 126.827 -56.907 126.859 -126.859a126.08 126.08 0 0 0 -37.12 -89.739"
+                ></path>
+              </svg>
+            </a>
+
+            <!-- Icona Instagram con Gradiente solo su Hover -->
+            <a href="https://www.instagram.com/runsocietyts?igsh=ZDFkeDM5czNmYTU0" class="group"> <!-- 1. Il link contenitore è un "gruppo" -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 256 256">
+
+                <!-- 2. Definiamo il gradiente come prima -->
+                <defs>
+                  <linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%"   style="stop-color:#FCB045;" />
+                    <stop offset="50%"  style="stop-color:#FD1D1D;" />
+                    <stop offset="100%" style="stop-color:#833AB4;" />
+                  </linearGradient>
+                </defs>
+
+                <!-- 3. GRADIENTE (Strato Inferiore) -->
+                <!-- Questo path è sempre presente e riempito con il gradiente. -->
+                <path
+                  fill="url(#instagram-gradient)"
+                  d="M128 0C93.227 0 88.885 0.16 75.232 0.768 61.6 1.408 52.32 3.552 44.16 6.72c-8.416 3.264 -15.563 7.648 -22.677 14.763S9.973 35.733 6.72 44.16C3.552 52.32 1.397 61.6 0.768 75.232 0.128 88.885 0 93.227 0 128s0.16 39.115 0.768 52.768c0.64 13.621 2.784 22.912 5.952 31.072a62.933 62.933 0 0 0 14.763 22.677A62.933 62.933 0 0 0 44.16 249.28c8.171 3.157 17.451 5.323 31.072 5.952C88.885 255.872 93.227 256 128 256s39.115 -0.16 52.768 -0.768c13.621 -0.64 22.912 -2.795 31.072 -5.952a62.933 62.933 0 0 0 22.677 -14.763 62.933 62.933 0 0 0 14.763 -22.677c3.157 -8.16 5.323 -17.451 5.952 -31.072 0.64 -13.653 0.768 -17.995 0.768 -52.768s-0.16 -39.115 -0.768 -52.768c-0.64 -13.621 -2.795 -22.923 -5.952 -31.072a62.933 62.933 0 0 0 -14.763 -22.677A62.4 62.4 0 0 0 211.84 6.72c-8.16 -3.168 -17.451 -5.323 -31.072 -5.952C167.115 0.128 162.773 0 128 0m0 23.04c34.165 0 38.24 0.171 51.733 0.757 12.48 0.587 19.253 2.656 23.755 4.427 5.995 2.315 10.24 5.088 14.741 9.557 4.469 4.48 7.243 8.736 9.557 14.731 1.749 4.501 3.84 11.275 4.405 23.755 0.608 13.504 0.747 17.557 0.747 51.733s-0.16 38.24 -0.789 51.733c-0.651 12.48 -2.731 19.253 -4.491 23.755a40.533 40.533 0 0 1 -9.589 14.741 39.893 39.893 0 0 1 -14.72 9.557c-4.48 1.749 -11.36 3.84 -23.84 4.405 -13.589 0.608 -17.589 0.747 -51.829 0.747s-38.251 -0.16 -51.829 -0.789c-12.491 -0.651 -19.371 -2.731 -23.851 -4.491a39.467 39.467 0 0 1 -14.709 -9.589 38.827 38.827 0 0 1 -9.6 -14.72c-1.76 -4.48 -3.829 -11.36 -4.48 -23.84 -0.48 -13.44 -0.651 -17.589 -0.651 -51.669s0.171 -38.251 0.651 -51.851c0.651 -12.48 2.72 -19.349 4.48 -23.829 2.24 -6.08 5.109 -10.24 9.6 -14.731 4.469 -4.469 8.64 -7.349 14.709 -9.579 4.48 -1.771 11.211 -3.851 23.691 -4.491 13.6 -0.48 17.6 -0.64 51.829 -0.64zm0 39.232a65.728 65.728 0 1 0 0 131.456 65.728 65.728 0 1 0 0 -131.456M128 170.667c-23.573 0 -42.667 -19.093 -42.667 -42.667s19.093 -42.667 42.667 -42.667 42.667 19.093 42.667 42.667 -19.093 42.667 -42.667 42.667m83.691 -110.987a15.371 15.371 0 0 1 -30.72 0 15.36 15.36 0 0 1 30.72 0"
+                ></path>
+
+                <!-- 4. COLORE SOLIDO (Strato Superiore) -->
+                <!-- Questo è un path identico che sta sopra.
+                     Di base è opaco, ma diventa trasparente quando il "gruppo" (il link <a>) è in hover. -->
+                <path
+                  class="group-hover:opacity-0 transition-opacity duration-300"
+                  fill="#9b604b"
+                  d="M128 0C93.227 0 88.885 0.16 75.232 0.768 61.6 1.408 52.32 3.552 44.16 6.72c-8.416 3.264 -15.563 7.648 -22.677 14.763S9.973 35.733 6.72 44.16C3.552 52.32 1.397 61.6 0.768 75.232 0.128 88.885 0 93.227 0 128s0.16 39.115 0.768 52.768c0.64 13.621 2.784 22.912 5.952 31.072a62.933 62.933 0 0 0 14.763 22.677A62.933 62.933 0 0 0 44.16 249.28c8.171 3.157 17.451 5.323 31.072 5.952C88.885 255.872 93.227 256 128 256s39.115 -0.16 52.768 -0.768c13.621 -0.64 22.912 -2.795 31.072 -5.952a62.933 62.933 0 0 0 22.677 -14.763 62.933 62.933 0 0 0 14.763 -22.677c3.157 -8.16 5.323 -17.451 5.952 -31.072 0.64 -13.653 0.768 -17.995 0.768 -52.768s-0.16 -39.115 -0.768 -52.768c-0.64 -13.621 -2.795 -22.923 -5.952 -31.072a62.933 62.933 0 0 0 -14.763 -22.677A62.4 62.4 0 0 0 211.84 6.72c-8.16 -3.168 -17.451 -5.323 -31.072 -5.952C167.115 0.128 162.773 0 128 0m0 23.04c34.165 0 38.24 0.171 51.733 0.757 12.48 0.587 19.253 2.656 23.755 4.427 5.995 2.315 10.24 5.088 14.741 9.557 4.469 4.48 7.243 8.736 9.557 14.731 1.749 4.501 3.84 11.275 4.405 23.755 0.608 13.504 0.747 17.557 0.747 51.733s-0.16 38.24 -0.789 51.733c-0.651 12.48 -2.731 19.253 -4.491 23.755a40.533 40.533 0 0 1 -9.589 14.741 39.893 39.893 0 0 1 -14.72 9.557c-4.48 1.749 -11.36 3.84 -23.84 4.405 -13.589 0.608 -17.589 0.747 -51.829 0.747s-38.251 -0.16 -51.829 -0.789c-12.491 -0.651 -19.371 -2.731 -23.851 -4.491a39.467 39.467 0 0 1 -14.709 -9.589 38.827 38.827 0 0 1 -9.6 -14.72c-1.76 -4.48 -3.829 -11.36 -4.48 -23.84 -0.48 -13.44 -0.651 -17.589 -0.651 -51.669s0.171 -38.251 0.651 -51.851c0.651 -12.48 2.72 -19.349 4.48 -23.829 2.24 -6.08 5.109 -10.24 9.6 -14.731 4.469 -4.469 8.64 -7.349 14.709 -9.579 4.48 -1.771 11.211 -3.851 23.691 -4.491 13.6 -0.48 17.6 -0.64 51.829 -0.64zm0 39.232a65.728 65.728 0 1 0 0 131.456 65.728 65.728 0 1 0 0 -131.456M128 170.667c-23.573 0 -42.667 -19.093 -42.667 -42.667s19.093 -42.667 42.667 -42.667 42.667 19.093 42.667 42.667 -19.093 42.667 -42.667 42.667m83.691 -110.987a15.371 15.371 0 0 1 -30.72 0 15.36 15.36 0 0 1 30.72 0"
+                ></path>
+
+              </svg>
+            </a>
+
+            <a href="https://www.strava.com/clubs/1269203?utm_source=android_share&utm_medium=social&share_sig=CP0EHRRQ1720695690&_branch_match_id=1492642885219488784&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXLy4pSixL1EssKNDLyczL1k8x8g%2Bqyq4Is%2FBOsq8rSk1LLSrKzEuPTyrKLy9OLbL1zCsuSUwvSswFAMraNQRAAAAA&fbclid=PAVERDUAMoRitleHRuA2FlbQIxMAABp5nlBzCVDoCXONmyhcysnQNPvJS0sK5ciCTZ_XbM7mCUOao6tQpqRGTV5u8v_aem_y0OWIlGQavFVgOZyYLA7Sg" class="text-[#9b604b] hover:text-[#FC4C02] transition-colors duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="m164.128 191.403 -22.283 -43.904h-32.693L164.128 256l54.933 -108.501h-32.704m-74.752 -59.723 30.251 59.712h44.501L111.605 0l-74.667 147.499h44.469"
+                ></path>
+              </svg>
+            </a>
+          </div>
+          <p class="text-[#9b604b] text-xs md:text-base font-normal leading-normal" data-translate="rights_reserved">@2024 Run Society. Tutti i diritti riservati.</p>
+        </footer>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+  // Esegui questo codice solo quando l'intera struttura della pagina è pronta
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // --- SELETTORI DEGLI ELEMENTI ---
+    // Ora siamo sicuri che tutti questi elementi esistono
+    const langBtn = document.getElementById("langMenuButton");
+    const langMenu = document.getElementById("langMenu");
+    const langBtnMobile = document.getElementById("langMenuButtonMobile");
+    const langMenuMobile = document.getElementById("langMenuMobile");
+    const mobileMenuBtn = document.getElementById("mobileMenuButton");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const closeMobileMenuBtn = document.getElementById("closeMobileMenu");
+
+    // --- LISTENER DEGLI EVENTI ---
+
+    // Menu lingua desktop
+    if (langBtn && langMenu) {
+      langBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        langMenu.classList.toggle("hidden");
+      });
+    }
+
+    // Menu lingua mobile
+    if (langBtnMobile && langMenuMobile) {
+      langBtnMobile.addEventListener("click", (e) => {
+        e.stopPropagation();
+        langMenuMobile.classList.toggle("hidden");
+      });
+    }
+
+    // Pulsante per APRIRE il menu mobile
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        mobileMenu.classList.remove("hidden");
+      });
+    }
+
+    // Pulsante per CHIUDERE il menu mobile (la X)
+    if (closeMobileMenuBtn && mobileMenu) {
+      closeMobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+      });
+    }
+
+    // Listener globale per CHIUDERE i menu quando si clicca fuori
+    document.addEventListener("click", (e) => {
+      // Chiude il menu lingua desktop se il click è esterno
+      if (langMenu && !langMenu.classList.contains('hidden') && !langBtn.contains(e.target)) {
+        langMenu.classList.add("hidden");
+      }
+
+      // Chiude il menu lingua mobile se il click è esterno
+      if (langMenuMobile && !langMenuMobile.classList.contains('hidden') && !langBtnMobile.contains(e.target)) {
+        langMenuMobile.classList.add("hidden");
+      }
+
+      // Chiude il menu mobile principale se il click è sull'overlay (fuori dal pannello)
+      if (mobileMenu && e.target === mobileMenu) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    // Chiudi menu mobile quando si ridimensiona la finestra
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 1024 && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add("hidden");
+      }
+    });
+
+  });
+
+  //Brute redirect
+  (function () {
+    const form = document.getElementById("contact-form");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const action = form.getAttribute("action");
+      const method = form.getAttribute("method") || "POST";
+
+      try {
+        submitBtn?.setAttribute("disabled", "true");
+
+        const data = new FormData(form);
+        const res = await fetch(action, {
+          method,
+          body: data,
+          headers: { Accept: "application/json" }
+        });
+
+        if (res.ok) {
+          // ✅ Redirect client-side, stile invariato
+          window.location.assign("grazie.html");
+        } else {
+          // prova a mostrare eventuali errori Formspree
+          const json = await res.json().catch(() => null);
+          const msg =
+            json?.errors?.map((e) => e.message).join("\n") ||
+            "Errore nell'invio. Riprova più tardi.";
+          alert(msg);
+          submitBtn?.removeAttribute("disabled");
+        }
+      } catch (err) {
+        alert("Errore di rete. Controlla la connessione e riprova.");
+        submitBtn?.removeAttribute("disabled");
+      }
+    });
+  })();
+
+</script>
+
+</body>
+</html>

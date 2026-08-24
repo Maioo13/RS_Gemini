@@ -1,0 +1,104 @@
+    {
+      "date": "04/06/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Chi l'ha detto che fare sport deve essere una sofferenza? Noi lo trasformiamo in una festa! Allacciati le scarpe e unisciti alla community.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "11/06/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Scarica la tensione della giornata e fai il pieno di endorfine. Ti promettiamo una corsa panoramica e un aperitivo che non dimenticherai.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "18/06/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Il nostro mantra? Si parte insieme, si arriva insieme, si brinda insieme! Non restare sul divano, il Parco San Giuliano ci aspetta.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "25/06/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Colori del tramonto estivo, brezza serale e una community pronta ad accoglierti a braccia aperte. La tua nuova routine inizia da qui!",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "02/07/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Se stai cercando la motivazione per iniziare a correre... l'hai trovata! Corsa rilassante e un ottimo spritz ghiacciato per ricaricare le batterie.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "09/07/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Festeggiamo l'avvicinarsi del weekend nel modo migliore: sudando in compagnia e rilassandoci con un bel bicchiere in mano. Ci sei?",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "16/07/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "La vera vittoria non è il tempo sul cronometro, ma la qualità dei momenti condivisi. Vieni a creare nuovi ricordi con la nostra run family!",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "23/07/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Un'ora di corsa al parco e poi via a fare festa. La nostra Easy Run è il compromesso perfetto tra fitness e movida veneziana. Non mancare!",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "30/07/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Metti da parte i record personali, stasera si corre per il piacere di farlo. Ti aspettiamo per macinare chilometri e sorrisi.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "06/08/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "La stanchezza passa, le amicizie restano! Unisciti al nostro gruppo per una corsetta defaticante e un aperitivo super rinfrescante.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "13/08/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Il giovedì è il nuovo venerdì! Inizia a festeggiare in anticipo con una corsa rilassante e il nostro immancabile terzo tempo.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "20/08/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Nessuna pressione, nessun giudizio. Solo bella gente, un po' di sano sport e la voglia di condividere un aperitivo al tramonto.",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    },
+    {
+      "date": "27/08/2026",
+      "title": "Easy Run Easy Spritz",
+      "description": "Saluta l'estate sudando e sorridendo! Festeggiamo insieme i chilometri percorsi in questi mesi con uno spritz speciale. Ci vediamo al parco!",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "location": "forte_marghera",
+      "city": "venezia"
+    }

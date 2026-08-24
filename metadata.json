@@ -1,0 +1,8 @@
+{
+  "name": "Run Society Trieste",
+  "description": "A static website for Run Society Trieste, a running club in Trieste, Italy.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
