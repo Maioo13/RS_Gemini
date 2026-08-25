@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const acceptBtn = document.getElementById('cookie-accept');
   const rejectBtn = document.getElementById('cookie-reject');
 
-  if (!banner || !acceptBtn || !rejectBtn) {
+  if (!banner) {
     return;
   }
 
@@ -11,15 +11,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!consentValue) {
     setTimeout(() => {
-      banner.classList.remove('translate-y-full', 'translate-y-[200%]');
-    }, 500);
+      banner.classList.remove('translate-y-full');
+    }, 400);
   }
 
-  const handleConsent = (consentChoice) => {
-    localStorage.setItem('cookie_consent', consentChoice);
+  const handleConsent = (choice) => {
+    try {
+      localStorage.setItem('cookie_consent', choice || 'accepted');
+    } catch (e) {
+      console.warn('LocalStorage non disponibile', e);
+    }
     banner.classList.add('translate-y-full');
   };
 
-  acceptBtn.addEventListener('click', () => handleConsent('accepted'));
-  rejectBtn.addEventListener('click', () => handleConsent('rejected'));
+  if (acceptBtn) {
+    acceptBtn.addEventListener('click', () => handleConsent('accepted'));
+  }
+  if (rejectBtn) {
+    rejectBtn.addEventListener('click', () => handleConsent('acknowledged'));
+  }
 });
+

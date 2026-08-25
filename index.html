@@ -16,6 +16,73 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script src="js/language-switcher.js" defer></script>
   <script src="js/cookie-consent.js" defer></script>
+  <script src="js/faq-accordion.js" defer></script>
+
+  <!-- Structured Data: FAQPage Schema.org for Google Search Rich Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Devo pagare un'iscrizione o una quota per partecipare?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Assolutamente no. Siamo un gruppo totalmente informale e gratuito. Non ci sono quote, tessere o abbonamenti da pagare. Come diciamo sempre: \"Nessuna quota, porta solo la tua gioia\"."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Non ho mai corso in vita mia (o vado molto piano). Faccio da tappo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Zero stress! Le nostre run sono pensate per essere inclusive. Sul sito lo scriviamo chiaro: tutti i livelli sono benvenuti. Facciamo corse rilassanti dove l'obiettivo è stare insieme e muoversi, non preparare le Olimpiadi. Troverai sempre qualcuno che va al tuo stesso passo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quando e dove vi trovate di solito?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "L'appuntamento fisso è ogni giovedì. Corriamo per le strade di Trieste, ma il punto di ritrovo e il percorso possono variare. Per avere la posizione esatta e gli orari della settimana, entra nel nostro gruppo WhatsApp: comunichiamo tutto lì!"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Come faccio a unirmi alla mia prima corsa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Il funnel è facilissimo e senza frizioni: 1. Clicca sul link per entrare nel gruppo WhatsApp. 2. Leggi il messaggio con il punto di ritrovo del giovedì. 3. Presentati al punto di partenza con le scarpe allacciate. Fine!"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi piacerebbe venire, ma non conosco nessuno. Sarà strano?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Al contrario, sei nel posto giusto. Run Society nasce proprio come \"uno spazio sicuro per incontrare nuove persone\". La maggior parte dei ragazzi si unisce per fare rete, staccare dallo studio e socializzare. Rompere il ghiaccio correndo è la cosa più facile del mondo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "I’m an Erasmus student and my Italian is bad. Can I join?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Of course! Il nostro Run Club e il nostro sito parlano anche inglese. Accogliamo tantissimi studenti internazionali e fuorisede. È un'ottima occasione per praticare le lingue e scoprire Trieste insieme a noi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Cosa devo portare? C'è un posto dove lasciare lo zaino?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Essendo un ritrovo spontaneo \"on the road\" e non un'associazione sportiva con sede fisica, non abbiamo spogliatoi o un deposito borse strutturato. Ti consigliamo di venire \"pronto per correre\", portando con te il minimo indispensabile (chiavi, telefono e la voglia di divertirti)."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
@@ -182,25 +249,425 @@
 
         <div class="px-4">
 
-          <h2 class="text-[#1c110d] text-xl md:text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5" data-translate="weekly_run_title">Corsa Settimanale</h2>
+          <h2 class="text-[#1c110d] text-xl md:text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-center" data-translate="weekly_run_title">Corsa Settimanale</h2>
           <p class="text-[#1c110d] text-sm md:text-base font-normal leading-normal pb-3 pt-1 text-center" data-translate="weekly_run_description">
             Ogni giovedì ci incontriamo per una corsa rilassante in città. Tutti i livelli sono benvenuti!
           </p>
           <div class="flex justify-center">
             <div class="flex flex-col sm:flex-row gap-3 py-3 max-w-[480px] justify-center w-full">
               <button
-                class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 md:h-12 px-4 bg-[#e63f11] text-[#fcf9f8] text-sm md:text-base font-bold leading-normal tracking-[0.015em] flex-1"
+                class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 md:h-12 px-4 bg-[#e63f11] text-[#fcf9f8] text-sm md:text-base font-bold leading-normal tracking-[0.015em] flex-1 hover:bg-[#cf350c] transition-colors"
               >
                 <a class="truncate" href="calendario.html" data-translate="calendar_button">Guarda il calendario</a>
               </button>
               <button
-                class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 md:h-12 px-4 bg-[#f3eae7] text-[#1c110d] text-sm md:text-base font-bold leading-normal tracking-[0.015em] flex-1"
+                class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 md:h-12 px-4 bg-[#f3eae7] text-[#1c110d] text-sm md:text-base font-bold leading-normal tracking-[0.015em] flex-1 hover:bg-[#e8dad6] transition-colors"
               >
                 <a class="truncate" href="chiSiamo.html" data-translate="about_button">Di più su di noi</a>
               </button>
             </div>
           </div>
         </div>
+
+        <!-- SEZIONE FAQ: Tutto quello che devi sapere prima di correre con noi -->
+        <section id="faq" class="px-4 pt-10 md:pt-14 pb-4">
+          <div class="text-center max-w-2xl mx-auto mb-8">
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs md:text-sm font-semibold bg-[#f3eae7] text-[#e63f11] mb-3" data-translate="faq_badge">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              Zero Ansia, 100% Good Vibes
+            </span>
+            <h2 class="text-[#1c110d] text-2xl md:text-3xl font-extrabold leading-tight tracking-[-0.02em]" data-translate="faq_title">
+              FAQ: Tutto quello che devi sapere prima di correre con noi
+            </h2>
+            <p class="text-[#9b604b] text-sm md:text-base font-normal mt-2.5" data-translate="faq_subtitle">
+              Hai domande sul nostro Run Club a Trieste? Qui trovi tutte le risposte per unirti a noi senza pensieri.
+            </p>
+          </div>
+
+          <!-- Accordion Container -->
+          <div class="space-y-3.5 max-w-3xl mx-auto">
+
+            <!-- FAQ Item 1 -->
+            <div class="faq-item bg-white border border-[#f3eae7] rounded-2xl transition-all duration-200 hover:border-[#e63f11]/30">
+              <button
+                type="button"
+                id="faq-btn-1"
+                aria-expanded="false"
+                aria-controls="faq-ans-1"
+                class="faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left cursor-pointer gap-3.5 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e63f11]/50 group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                    <!-- Icon: 100% Free / Tag -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                      <line x1="7" y1="7" x2="7.01" y2="7"/>
+                    </svg>
+                  </div>
+                  <span class="text-[#1c110d] text-base md:text-lg font-bold leading-snug tracking-[-0.01em] group-hover:text-[#e63f11] transition-colors" data-translate="faq_q1">
+                    Devo pagare un'iscrizione o una quota per partecipare?
+                  </span>
+                </div>
+                <div class="faq-chevron w-8 h-8 rounded-full bg-[#f8f4f2] text-[#9b604b] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq-ans-1"
+                role="region"
+                aria-labelledby="faq-btn-1"
+                class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              >
+                <div class="overflow-hidden">
+                  <div class="px-4 pb-4 md:px-5 md:pb-5 pt-1 text-[#1c110d]/85 text-sm md:text-base leading-relaxed pl-14 md:pl-16">
+                    <p data-translate="faq_a1">
+                      Assolutamente no. Siamo un gruppo totalmente informale e gratuito. Non ci sono quote, tessere o abbonamenti da pagare. Come diciamo sempre: "Nessuna quota, porta solo la tua gioia".
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item bg-white border border-[#f3eae7] rounded-2xl transition-all duration-200 hover:border-[#e63f11]/30">
+              <button
+                type="button"
+                id="faq-btn-2"
+                aria-expanded="false"
+                aria-controls="faq-ans-2"
+                class="faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left cursor-pointer gap-3.5 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e63f11]/50 group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                    <!-- Icon: Inclusive pace / Heart / Smile -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                  </div>
+                  <span class="text-[#1c110d] text-base md:text-lg font-bold leading-snug tracking-[-0.01em] group-hover:text-[#e63f11] transition-colors" data-translate="faq_q2">
+                    Non ho mai corso in vita mia (o vado molto piano). Faccio da tappo?
+                  </span>
+                </div>
+                <div class="faq-chevron w-8 h-8 rounded-full bg-[#f8f4f2] text-[#9b604b] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq-ans-2"
+                role="region"
+                aria-labelledby="faq-btn-2"
+                class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              >
+                <div class="overflow-hidden">
+                  <div class="px-4 pb-4 md:px-5 md:pb-5 pt-1 text-[#1c110d]/85 text-sm md:text-base leading-relaxed pl-14 md:pl-16">
+                    <p data-translate="faq_a2">
+                      Zero stress! Le nostre run sono pensate per essere inclusive. Sul sito lo scriviamo chiaro: tutti i livelli sono benvenuti. Facciamo corse rilassanti dove l'obiettivo è stare insieme e muoversi, non preparare le Olimpiadi. Troverai sempre qualcuno che va al tuo stesso passo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item bg-white border border-[#f3eae7] rounded-2xl transition-all duration-200 hover:border-[#e63f11]/30">
+              <button
+                type="button"
+                id="faq-btn-3"
+                aria-expanded="false"
+                aria-controls="faq-ans-3"
+                class="faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left cursor-pointer gap-3.5 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e63f11]/50 group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                    <!-- Icon: Calendar & Map -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </div>
+                  <span class="text-[#1c110d] text-base md:text-lg font-bold leading-snug tracking-[-0.01em] group-hover:text-[#e63f11] transition-colors" data-translate="faq_q3">
+                    Quando e dove vi trovate di solito?
+                  </span>
+                </div>
+                <div class="faq-chevron w-8 h-8 rounded-full bg-[#f8f4f2] text-[#9b604b] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq-ans-3"
+                role="region"
+                aria-labelledby="faq-btn-3"
+                class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              >
+                <div class="overflow-hidden">
+                  <div class="px-4 pb-4 md:px-5 md:pb-5 pt-1 text-[#1c110d]/85 text-sm md:text-base leading-relaxed pl-14 md:pl-16">
+                    <p data-translate="faq_a3">
+                      L'appuntamento fisso è ogni giovedì. Corriamo per le strade di Trieste, ma il punto di ritrovo e il percorso possono variare. Per avere la posizione esatta e gli orari della settimana, entra nel nostro gruppo WhatsApp: comunichiamo tutto lì!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item bg-white border border-[#f3eae7] rounded-2xl transition-all duration-200 hover:border-[#e63f11]/30">
+              <button
+                type="button"
+                id="faq-btn-4"
+                aria-expanded="false"
+                aria-controls="faq-ans-4"
+                class="faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left cursor-pointer gap-3.5 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e63f11]/50 group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                    <!-- Icon: Rocket / Funnel -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                      <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                    </svg>
+                  </div>
+                  <span class="text-[#1c110d] text-base md:text-lg font-bold leading-snug tracking-[-0.01em] group-hover:text-[#e63f11] transition-colors" data-translate="faq_q4">
+                    Come faccio a unirmi alla mia prima corsa?
+                  </span>
+                </div>
+                <div class="faq-chevron w-8 h-8 rounded-full bg-[#f8f4f2] text-[#9b604b] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq-ans-4"
+                role="region"
+                aria-labelledby="faq-btn-4"
+                class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              >
+                <div class="overflow-hidden">
+                  <div class="px-4 pb-4 md:px-5 md:pb-5 pt-1 text-[#1c110d]/85 text-sm md:text-base leading-relaxed pl-14 md:pl-16">
+                    <p class="font-medium text-[#1c110d]" data-translate="faq_a4_intro">Il funnel è facilissimo e senza frizioni:</p>
+                    <ol class="mt-2 space-y-2 list-none">
+                      <li class="flex items-start gap-2.5">
+                        <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#fdf3f0] text-[#e63f11] text-xs font-bold shrink-0 mt-0.5 border border-[#e63f11]/20">1</span>
+                        <span data-translate="faq_a4_step1">Clicca sul link per entrare nel gruppo WhatsApp.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#fdf3f0] text-[#e63f11] text-xs font-bold shrink-0 mt-0.5 border border-[#e63f11]/20">2</span>
+                        <span data-translate="faq_a4_step2">Leggi il messaggio con il punto di ritrovo del giovedì.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#fdf3f0] text-[#e63f11] text-xs font-bold shrink-0 mt-0.5 border border-[#e63f11]/20">3</span>
+                        <span data-translate="faq_a4_step3">Presentati al punto di partenza con le scarpe allacciate. Fine!</span>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-item bg-white border border-[#f3eae7] rounded-2xl transition-all duration-200 hover:border-[#e63f11]/30">
+              <button
+                type="button"
+                id="faq-btn-5"
+                aria-expanded="false"
+                aria-controls="faq-ans-5"
+                class="faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left cursor-pointer gap-3.5 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e63f11]/50 group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                    <!-- Icon: Meeting people / Users -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <span class="text-[#1c110d] text-base md:text-lg font-bold leading-snug tracking-[-0.01em] group-hover:text-[#e63f11] transition-colors" data-translate="faq_q5">
+                    Mi piacerebbe venire, ma non conosco nessuno. Sarà strano?
+                  </span>
+                </div>
+                <div class="faq-chevron w-8 h-8 rounded-full bg-[#f8f4f2] text-[#9b604b] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq-ans-5"
+                role="region"
+                aria-labelledby="faq-btn-5"
+                class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              >
+                <div class="overflow-hidden">
+                  <div class="px-4 pb-4 md:px-5 md:pb-5 pt-1 text-[#1c110d]/85 text-sm md:text-base leading-relaxed pl-14 md:pl-16">
+                    <p data-translate="faq_a5">
+                      Al contrario, sei nel posto giusto. Run Society nasce proprio come "uno spazio sicuro per incontrare nuove persone". La maggior parte dei ragazzi si unisce per fare rete, staccare dallo studio e socializzare. Rompere il ghiaccio correndo è la cosa più facile del mondo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="faq-item bg-white border border-[#f3eae7] rounded-2xl transition-all duration-200 hover:border-[#e63f11]/30">
+              <button
+                type="button"
+                id="faq-btn-6"
+                aria-expanded="false"
+                aria-controls="faq-ans-6"
+                class="faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left cursor-pointer gap-3.5 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e63f11]/50 group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                    <!-- Icon: International / Erasmus / Globe -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                  </div>
+                  <span class="text-[#1c110d] text-base md:text-lg font-bold leading-snug tracking-[-0.01em] group-hover:text-[#e63f11] transition-colors" data-translate="faq_q6">
+                    I’m an Erasmus student and my Italian is bad. Can I join?
+                  </span>
+                </div>
+                <div class="faq-chevron w-8 h-8 rounded-full bg-[#f8f4f2] text-[#9b604b] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq-ans-6"
+                role="region"
+                aria-labelledby="faq-btn-6"
+                class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              >
+                <div class="overflow-hidden">
+                  <div class="px-4 pb-4 md:px-5 md:pb-5 pt-1 text-[#1c110d]/85 text-sm md:text-base leading-relaxed pl-14 md:pl-16">
+                    <p data-translate="faq_a6">
+                      Of course! Il nostro Run Club e il nostro sito parlano anche inglese. Accogliamo tantissimi studenti internazionali e fuorisede. È un'ottima occasione per praticare le lingue e scoprire Trieste insieme a noi.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 7 -->
+            <div class="faq-item bg-white border border-[#f3eae7] rounded-2xl transition-all duration-200 hover:border-[#e63f11]/30">
+              <button
+                type="button"
+                id="faq-btn-7"
+                aria-expanded="false"
+                aria-controls="faq-ans-7"
+                class="faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left cursor-pointer gap-3.5 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e63f11]/50 group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                    <!-- Icon: Backpack / Essentials -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/>
+                      <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+                      <path d="M8 21v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/>
+                      <path d="M8 10h8"/>
+                    </svg>
+                  </div>
+                  <span class="text-[#1c110d] text-base md:text-lg font-bold leading-snug tracking-[-0.01em] group-hover:text-[#e63f11] transition-colors" data-translate="faq_q7">
+                    Cosa devo portare? C'è un posto dove lasciare lo zaino?
+                  </span>
+                </div>
+                <div class="faq-chevron w-8 h-8 rounded-full bg-[#f8f4f2] text-[#9b604b] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq-ans-7"
+                role="region"
+                aria-labelledby="faq-btn-7"
+                class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              >
+                <div class="overflow-hidden">
+                  <div class="px-4 pb-4 md:px-5 md:pb-5 pt-1 text-[#1c110d]/85 text-sm md:text-base leading-relaxed pl-14 md:pl-16">
+                    <p data-translate="faq_a7">
+                      Essendo un ritrovo spontaneo "on the road" e non un'associazione sportiva con sede fisica, non abbiamo spogliatoi o un deposito borse strutturato. Ti consigliamo di venire "pronto per correre", portando con te il minimo indispensabile (chiavi, telefono e la voglia di divertirti).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Micro-CTA / Banner di Chiusura -->
+          <div class="mt-8 max-w-3xl mx-auto bg-gradient-to-br from-[#fff7f5] via-[#fcf9f8] to-[#fbf1ed] border border-[#f3eae7] rounded-3xl p-6 md:p-7 shadow-sm">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+              <div class="flex-1">
+                <div class="flex items-center justify-center md:justify-start gap-2 mb-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#e63f11] animate-pulse"></span>
+                  <h3 class="text-[#1c110d] text-lg md:text-xl font-bold tracking-tight" data-translate="faq_cta_title">
+                    Hai ancora dubbi o curiosità?
+                  </h3>
+                </div>
+                <p class="text-[#9b604b] text-sm md:text-base font-normal max-w-md" data-translate="faq_cta_subtitle">
+                  Scrivici su Instagram, mandaci un messaggio o vieni direttamente giovedì a fare un saluto!
+                </p>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
+                <!-- Instagram Link -->
+                <a
+                  href="https://www.instagram.com/runsocietyts?igsh=ZDFkeDM5czNmYTU0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white text-[#1c110d] text-sm font-bold border border-[#f3eae7] hover:border-[#e63f11]/40 hover:text-[#e63f11] shadow-xs hover:shadow-sm transition-all duration-200 group"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#e63f11] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                  <span data-translate="faq_cta_ig_btn">Scrivici su Instagram</span>
+                </a>
+
+                <!-- WhatsApp Link -->
+                <a
+                  href="https://chat.whatsapp.com/LPwJwAzb6z2EGrQDAkqDAH?fbclid=PAVERDUAMoRZBleHRuA2FlbQIxMAABpwx0PSzNgUHbrgBHUc1JHv6M3uiduGTm1DjXnQDSH59REGWj2ZRxWVMS8hcb_aem_RHS46f_veDzzfz6_jEdNTw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25D366] text-white text-sm font-bold hover:bg-[#20bd5a] shadow-xs hover:shadow-sm transition-all duration-200 group"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 256 256">
+                    <path d="M186.368 153.408c-3.168 -1.589 -18.752 -9.248 -21.653 -10.315 -2.912 -1.056 -5.024 -1.579 -7.147 1.6 -2.101 3.168 -8.181 10.304 -10.027 12.416 -1.845 2.123 -3.701 2.379 -6.869 0.8 -3.168 -1.6 -13.387 -4.939 -25.493 -15.733 -9.419 -8.405 -15.787 -18.784 -17.632 -21.963 -1.845 -3.168 -0.192 -4.885 1.387 -6.464 1.429 -1.419 3.179 -3.701 4.757 -5.547s2.112 -3.179 3.179 -5.301c1.056 -2.112 0.533 -3.957 -0.267 -5.547s-7.136 -17.195 -9.771 -23.541c-2.581 -6.176 -5.195 -5.333 -7.136 -5.44a138.667 138.667 0 0 0 -6.08 -0.107c-2.112 0 -5.547 0.789 -8.448 3.968 -2.901 3.168 -11.093 10.837 -11.093 26.443 0 15.595 11.36 30.667 12.939 32.789s22.357 34.133 54.155 47.861c7.563 3.264 13.461 5.216 18.069 6.667 7.595 2.421 14.507 2.08 19.957 1.259 6.091 -0.907 18.752 -7.669 21.397 -15.072s2.645 -13.749 1.845 -15.072c-0.789 -1.323 -2.901 -2.112 -6.08 -3.701m-57.824 78.965h-0.043a105.28 105.28 0 0 1 -53.664 -14.699l-3.851 -2.283 -39.904 10.475 10.645 -38.912 -2.507 -3.989a105.173 105.173 0 0 1 -16.107 -56.107c0.011 -58.133 47.317 -105.429 105.472 -105.429 28.16 0 54.635 10.987 74.539 30.912a104.747 104.747 0 0 1 30.859 74.603c-0.032 58.133 -47.328 105.429 -105.44 105.429m89.739 -195.168A126.08 126.08 0 0 0 128.533 0C58.613 0 1.707 56.907 1.675 126.848c0 22.357 5.835 44.181 16.939 63.413L0.608 256l67.253 -17.643a126.933 126.933 0 0 0 60.619 15.445h0.053c69.909 0 126.827 -56.907 126.859 -126.859a126.08 126.08 0 0 0 -37.12 -89.739"/>
+                  </svg>
+                  <span data-translate="faq_cta_wa_btn">Entra su WhatsApp</span>
+                </a>
+
+                <!-- Contact Page Link -->
+                <a
+                  href="contatti.html"
+                  class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[#f3eae7] text-[#1c110d] text-sm font-bold hover:bg-[#e8dad6] transition-colors"
+                  data-translate="faq_cta_contact_btn"
+                >
+                  Pagina Contatti
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
 

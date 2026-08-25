@@ -152,53 +152,97 @@
     </div>
 
     <!-- Contenuto principale -->
-    <main class="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
-  <div class="layout-content-container flex flex-col w-full max-w-[960px] flex-1">
-    <div class="p-4">
-      <h1 class="text-[#1c110d] tracking-light text-2xl md:text-[32px] font-bold leading-tight" data-translate="liability_title">
-        Liberatoria di Responsabilità
-      </h1>
-    </div>
+    <main class="px-4 md:px-8 lg:px-24 flex flex-1 justify-center py-6 md:py-10">
+      <div class="layout-content-container flex flex-col w-full max-w-[920px] flex-1">
+        
+        <!-- Header Sezione -->
+        <div class="mb-8">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#f3eae7] text-[#e63f11] mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span data-translate="liability_badge">Attività Amatoriale Spontanea</span>
+          </div>
+          <h1 class="text-[#1c110d] text-2xl md:text-4xl font-extrabold leading-tight tracking-tight" data-translate="liability_title">
+            Liberatoria di Responsabilità & Disclaimer Sportivo
+          </h1>
+          <p class="text-[#9b604b] text-sm md:text-base font-normal mt-2" data-translate="liability_subtitle">
+            Patto di partecipazione consapevole per le uscite e gli incontri della community Run Society Trieste.
+          </p>
+          <div class="mt-4 p-4 rounded-xl bg-white border border-[#f3eae7] text-[#1c110d] text-sm leading-relaxed" data-translate="liability_p1">
+            Il Run Club “Run Society Trieste” è un ritrovo spontaneo, libero e informale tra studenti universitari, appassionati di corsa e giovani a Trieste. Non costituisce un'associazione sportiva dilettantistica (ASD), né un ente o una società sportiva, né una guida o accompagnamento professionale a pagamento.
+          </div>
+        </div>
 
-    <div class="space-y-4 px-4 text-justify text-[#1c110d] text-sm md:text-base font-normal leading-relaxed">
-      <p data-translate="liability_p1">
-        Il Run Club “Run Society” è un ritrovo informale tra amici e appassionati di corsa, non costituisce un’associazione sportiva né un ente organizzato.
-      </p>
+        <!-- Sezioni Informative -->
+        <div class="space-y-6">
 
-      <p data-translate="liability_p2">
-        Con la partecipazione agli incontri ciascun partecipante dichiara di essere consapevole che:
-      </p>
+          <!-- 1. Condizioni di Partecipazione ed Esonero -->
+          <section class="bg-white border border-[#f3eae7] rounded-2xl p-5 md:p-7 shadow-xs">
+            <h2 class="text-[#1c110d] text-lg md:text-xl font-bold flex items-center gap-2.5 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center text-sm font-black">1</span>
+              <span data-translate="liability_p2">Con la partecipazione agli incontri ciascun partecipante dichiara di essere consapevole che:</span>
+            </h2>
+            <ul class="space-y-3.5 pl-2 text-[#1c110d]/90 text-sm md:text-base leading-relaxed">
+              <li class="flex items-start gap-2.5">
+                <span class="text-[#e63f11] font-bold mt-0.5">•</span>
+                <span data-translate="liability_li1">Responsabilità Individuale: Prende parte a tutte le attività sotto la propria esclusiva e personale responsabilità.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-[#e63f11] font-bold mt-0.5">•</span>
+                <span data-translate="liability_li2">Idoneità Fisica e Stato di Salute: È esclusivo onere di ciascun partecipante verificare preventivamente con il proprio medico di fiducia la propria idoneità fisica alla pratica dell'attività podistica amatoriale non agonistica.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-[#e63f11] font-bold mt-0.5">•</span>
+                <span data-translate="liability_li3">Norme del Codice della Strada: Le uscite si svolgono su strade urbane, percorsi pedonali e marciapiedi aperti al traffico. Ciascun partecipante è tenuto a osservare rigorosamente le norme del Codice della Strada e le comuni regole di prudenza.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-[#e63f11] font-bold mt-0.5">•</span>
+                <span data-translate="liability_li4">Esonero da Richieste Risarcitorie: Non potrà avanzare alcuna pretesa risarcitoria nei confronti dei promotori di fatto di Run Society Trieste o degli altri partecipanti in caso di infortuni, malori, cadute, smarrimento o danneggiamento di effetti personali.</span>
+              </li>
+            </ul>
+          </section>
 
-      <ul class="list-disc list-outside space-y-2 pl-5">
-        <li data-translate="liability_li1">
-          Prende parte alle attività sotto la propria esclusiva responsabilità;
-        </li>
-        <li data-translate="liability_li2">
-          È personalmente responsabile per la propria condotta e per gli eventuali danni causati a sé stesso, a terzi o a cose durante lo svolgimento degli incontri;
-        </li>
-        <li data-translate="liability_li3">
-          Non potrà in alcun modo avanzare pretese risarcitorie nei confronti del Run Club “Run Society”, dei suoi promotori o degli altri partecipanti in caso di infortunio, danno o perdita di beni personali;
-        </li>
-        <li data-translate="liability_li4">
-          Partecipa agli eventi in piena autonomia, sollevando da ogni responsabilità il Run Club “Run Society”.
-        </li>
-      </ul>
+          <!-- 2. Codice di Condotta & Convivenza Civile -->
+          <section class="bg-white border border-[#f3eae7] rounded-2xl p-5 md:p-7 shadow-xs">
+            <h2 class="text-[#1c110d] text-lg md:text-xl font-bold flex items-center gap-2.5 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center text-sm font-black">2</span>
+              Codice di Condotta & Clima Inclusivo
+            </h2>
+            <p class="text-[#1c110d]/90 text-sm md:text-base leading-relaxed text-justify" data-translate="liability_p4">
+              Codice di Condotta e Convivenza Civile: Run Society è uno spazio aperto, inclusivo e sicuro. Ogni partecipante si impegna a mantenere un comportamento rispettoso ed empatico. Il gruppo si riserva la facoltà di allontanare chiunque tenga condotte moleste, discriminatorie o pericolose per la serenità e l'incolumità del gruppo.
+            </p>
+          </section>
 
-      <!-- CLAUSOLA DI COMPORTAMENTO -->
-      <p data-translate="liability_p4">
-        Ogni partecipante si impegna a mantenere un comportamento civile, rispettoso e conforme alle normali regole di convivenza, evitando atteggiamenti molesti, offensivi o pericolosi.
-      </p>
+          <!-- 3. Foto, Video Social e Liberatoria Google Form -->
+          <section class="bg-white border border-[#f3eae7] rounded-2xl p-5 md:p-7 shadow-xs">
+            <h2 class="text-[#1c110d] text-lg md:text-xl font-bold flex items-center gap-2.5 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center text-sm font-black">3</span>
+              Liberatoria Immagini, Foto Social e Diritto di Revoca
+            </h2>
+            <p class="text-[#1c110d]/90 text-sm md:text-base leading-relaxed text-justify mb-4" data-translate="liability_p5">
+              Liberatoria Immagini e Social Media: Durante le corse possono essere realizzati contenuti fotografici e video per Instagram (@runsocietyts). Per formalizzare il consenso è disponibile il modulo Google Form dedicato. In qualsiasi momento è possibile richiedere la rimozione di foto che ti ritraggono.
+            </p>
+            <div class="p-4 rounded-xl bg-[#fff9f7] border border-[#f3eae7] text-xs md:text-sm text-[#1c110d]/90 flex items-start gap-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#e63f11] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <span>Per maggiori dettagli sul trattamento dei dati personali, consulta la nostra <a href="privacy.html" class="text-[#e63f11] font-bold underline hover:opacity-80">Informativa Privacy & Cookie Policy</a>.</span>
+            </div>
+          </section>
 
-      <p data-translate="liability_p5">
-        Il Run Club “Run Society” si riserva la facoltà di allontanare, a propria discrezione, chiunque tenga comportamenti ritenuti inadeguati o tali da compromettere la sicurezza, il benessere o la serenità del gruppo.
-      </p>
+          <!-- 4. Accettazione Conclusiva -->
+          <section class="p-4 md:p-5 rounded-2xl bg-gradient-to-br from-[#fff7f5] via-[#fcf9f8] to-[#fbf1ed] border border-[#f3eae7] text-center">
+            <p class="text-[#1c110d] text-sm md:text-base font-bold" data-translate="liability_p6">
+              La partecipazione effettiva a qualsiasi ritrovo o corsa costituisce piena e incondizionata accettazione del presente disclaimer.
+            </p>
+          </section>
 
-      <p data-translate="liability_p6">
-        La partecipazione implica l’accettazione integrale della presente liberatoria di responsabilità.
-      </p>
-    </div>
-  </div>
-</main>
+        </div>
+      </div>
+    </main>
 
 
     <!-- Footer -->
