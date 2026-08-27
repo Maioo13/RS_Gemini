@@ -26,14 +26,20 @@ SPECIFICHE E VINCOLI:
    - "Campionati" / "Campionato"
    - "Allievi"
    - "Annullato" (e varianti)
+   - "Athletics Festival" / "United Europe" (eventi fuori territorio)
+   - "Trail dei 3 Castelli" / "Trail dei Tre Castelli" (non più disputato)
 7) VINCOLO TERRITORIALE:
-   - Elimina dal calendario gli eventi che si svolgono in città esterne alle regioni "Friuli Venezia Giulia" e "Veneto".
+   - Elimina dal calendario gli eventi che si svolgono in città/località esterne alle regioni "Friuli Venezia Giulia" e "Veneto".
 8) VINCOLO DATA:
    - Data >= data di esecuzione (successiva o odierna).
-9) INTEGRAZIONE ESCLUSIVA GARE ESTERE (AHOTU):
-   - Esclusivamente gare trovate alla pagina:
+9) UNIFICAZIONE DISTANZE:
+   - 21.0975km e 21.097km -> unificati a 21.097 km (mezza maratona)
+   - 42.1954km e 42.195km -> unificati a 42.195 km (maratona)
+   - Pulizia dai titoli delle diciture ridondanti "21.0975km" (es. Maratonina Città di Udine)
+10) INTEGRAZIONE ESCLUSIVA GARE ESTERE (AHOTU):
+   - Esclusivamente gare presenti su Ahotu per Austria, Croazia e Slovenia:
      https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia
-10) DIVISIONE PER AREA:
+11) DIVISIONE PER AREA:
    - "Friuli Venezia Giulia"
    - "Veneto"
    - "Estero (Slo/Cro/Aut)"
@@ -98,6 +104,9 @@ FORBIDDEN_PATTERNS = [
     r"\bgiovanile\b",
     r"campionat[io]",
     r"alliev[ioe]",
+    r"athletics\s+festival",
+    r"united\s+europe",
+    r"trail\s+dei\s+(?:3|tre)\s+castelli",
 ]
 
 HTTP_HEADERS = {
@@ -142,14 +151,65 @@ def is_title_forbidden(title: str) -> bool:
     return False
 
 
+def clean_race_title(title: str) -> str:
+    """
+    Pulisce il titolo rimuovendo diciture ridondanti di distanza come '21.0975km'
+    (ad es. 'XXVI^ Maratonina Citta' di Udine 21.0975km' -> 'XXVI^ Maratonina Citta' di Udine').
+    """
+    t = title
+    # Rimuovi codici federali all'inizio
+    t = re.sub(r"^[A-Z]{2,4}\d*\s*-\s*", "", t).strip()
+    # Rimuovi diciture tipo 21.0975km o 21.097km o 42.195km dal titolo
+    t = re.sub(r"\s+21[.,]0975?km\b", "", t, flags=re.IGNORECASE)
+    t = re.sub(r"\s+42[.,]195?km\b", "", t, flags=re.IGNORECASE)
+    # Pulizia spazi multipli
+    t = re.sub(r"\s+", " ", t).strip(" -,\t")
+    return t
+
+
+def normalize_race_distances(dist_list: List[float]) -> List[float]:
+    """
+    Unifica le distanze:
+    21.0975 / 21.097 / 21.1 -> 21.097
+    42.1954 / 42.195 / 42.2 -> 42.195
+    Elimina duplicati e rimuove distanze spurie (es. 5.0 generato come fallback per una pura mezza maratona).
+    """
+    normalized = set()
+    for d in dist_list:
+        if 21.0 <= d <= 21.2:
+            normalized.add(21.097)
+        elif 42.0 <= d <= 42.3:
+            normalized.add(42.195)
+        elif abs(d - round(d)) < 0.05:
+            normalized.add(float(round(d, 1)))
+        else:
+            normalized.add(round(d, 3))
+
+    res = sorted(list(normalized))
+
+    # Se è presente una mezza maratona o maratona e un 5.0 spuria da fallback generico, mantieni solo la distanza primaria
+    if 21.097 in res and 5.0 in res and len(res) == 2:
+        res = [21.097]
+    if 42.195 in res and 5.0 in res and len(res) == 2:
+        res = [42.195]
+
+    return res
+
+
 def detect_area_and_validate_location(location_str: str, default_regione: str) -> Optional[str]:
     """
     Rileva l'area ('Friuli Venezia Giulia' o 'Veneto') e convalida che
     la gara non sia situata in province/città esterne a FVG e Veneto.
-    Ritorna None se la gara è situata fuori da FVG e Veneto.
+    Ritorna None se la gara è situata fuori da FVG e Veneto o ha località invalida.
     """
-    if not location_str or location_str == "N/D":
-        return "Friuli Venezia Giulia" if default_regione == "FRIULIVENEZIAGIULIA" else "Veneto"
+    if not location_str or location_str.strip() in {"--", "N/D", ""}:
+        return None
+
+    loc_lower = location_str.lower().strip()
+
+    # Scarta codici o stringhe invalide
+    if "sdd" in loc_lower or loc_lower.startswith("--"):
+        return None
 
     # 1. Cerca la provincia esplicita tra parentesi: (UD), (VR), (MI)
     p_match = re.search(r"\(([A-Za-z]{2})\)", location_str)
@@ -174,18 +234,18 @@ def detect_area_and_validate_location(location_str: str, default_regione: str) -
             return None
 
     # 3. Analisi testuale per comuni noti
-    loc_lower = location_str.lower()
     fvg_cities = [
         "trieste", "udine", "pordenone", "gorizia", "lignano", "palmanova",
         "monfalcone", "cividale", "spilimbergo", "grado", "tolmezzo",
         "sacile", "cordenons", "aviano", "gemona", "venzone", "tarvisio",
-        "muggia", "duino", "aurisina", "san daniele"
+        "muggia", "duino", "aurisina", "san daniele", "villa santina", "ronchi"
     ]
     veneto_cities = [
         "venezia", "verona", "padova", "treviso", "vicenza", "belluno", "rovigo",
         "mestre", "jesolo", "chioggia", "bibione", "cortina", "feltre",
         "bassano", "conegliano", "vittorio veneto", "asolo", "schio",
-        "valdobbiadene", "montagnana", "villafranca", "cittadella", "caorle"
+        "valdobbiadene", "montagnana", "villafranca", "cittadella", "caorle",
+        "villaverla", "affi", "istrana", "san martino buon albergo"
     ]
 
     for c in fvg_cities:
@@ -195,7 +255,7 @@ def detect_area_and_validate_location(location_str: str, default_regione: str) -
         if c in loc_lower:
             return "Veneto"
 
-    # Se nessuna provincia esterna nota è stata trovata e la query era regionale, usa il default
+    # Se la query era regionale FIDAL e la località non appartiene a province esterne
     if default_regione == "FRIULIVENEZIAGIULIA":
         return "Friuli Venezia Giulia"
     elif default_regione == "VENETO":
@@ -273,22 +333,20 @@ def parse_fidal_table_rows(
         if title_idx >= len(raw_texts):
             continue
 
-        nome = raw_texts[title_idx]
-        nome = re.sub(r"^[A-Z]{2,4}\d*\s*-\s*", "", nome).strip()
-
-        if not nome or len(nome) < 3 or nome.lower() in {"manifestazione", "titolo", "campionati federali"}:
+        raw_nome = raw_texts[title_idx]
+        if not raw_nome or len(raw_nome) < 3 or raw_nome.lower() in {"manifestazione", "titolo", "campionati federali"}:
             continue
 
         # 1. VINCOLO TITOLI ESCLUSI
-        if is_title_forbidden(nome):
-            logger.info(f"Escluso per vincolo titolo: {nome}")
+        if is_title_forbidden(raw_nome):
+            logger.info(f"Escluso per vincolo titolo: {raw_nome}")
             continue
 
         # 2. VINCOLO TERRITORIALE (Solo FVG e Veneto)
         localita = raw_texts[loc_idx] if loc_idx < len(raw_texts) and raw_texts[loc_idx] else "N/D"
         area = detect_area_and_validate_location(localita, default_regione=regione_code)
         if not area:
-            logger.info(f"Escluso per località esterna a FVG/Veneto: {nome} ({localita})")
+            logger.info(f"Escluso per località esterna o non valida a FVG/Veneto: {raw_nome} ({localita})")
             continue
 
         # 3. VINCOLO DATA (>= Data di esecuzione)
@@ -298,7 +356,7 @@ def parse_fidal_table_rows(
             continue
 
         if event_date < execution_date:
-            logger.info(f"Escluso per data passata ({event_date.isoformat()} < {execution_date.isoformat()}): {nome}")
+            logger.info(f"Escluso per data passata ({event_date.isoformat()} < {execution_date.isoformat()}): {raw_nome}")
             continue
 
         # Tipologia / Disciplina
@@ -317,18 +375,18 @@ def parse_fidal_table_rows(
 
         # Distanze stimate dal nome se presenti
         distanze = []
-        if "maratona" in nome.lower() and "mezza" not in nome.lower():
+        if "maratona" in raw_nome.lower() and "mezza" not in raw_nome.lower():
             distanze.append(42.195)
-        if "mezza" in nome.lower() or "maratonina" in nome.lower() or "half" in nome.lower() or "21k" in nome.lower():
+        if "mezza" in raw_nome.lower() or "maratonina" in raw_nome.lower() or "half" in raw_nome.lower() or "21k" in raw_nome.lower():
             distanze.append(21.097)
-        if "10k" in nome.lower() or "10 km" in nome.lower() or "10000" in nome.lower():
+        if "10k" in raw_nome.lower() or "10 km" in raw_nome.lower() or "10000" in raw_nome.lower():
             distanze.append(10.0)
-        if "5k" in nome.lower() or "5 km" in nome.lower() or "5000" in nome.lower():
+        if "5k" in raw_nome.lower() or "5 km" in raw_nome.lower() or "5000" in raw_nome.lower():
             distanze.append(5.0)
-        if "3000" in nome.lower():
+        if "3000" in raw_nome.lower():
             distanze.append(3.0)
 
-        km_matches = re.findall(r"(\d+(?:[.,]\d+)?)\s*km\b", nome, re.IGNORECASE)
+        km_matches = re.findall(r"(\d+(?:[.,]\d+)?)\s*km\b", raw_nome, re.IGNORECASE)
         for km_m in km_matches:
             try:
                 distanze.append(float(km_m.replace(",", ".")))
@@ -338,11 +396,15 @@ def parse_fidal_table_rows(
         if not distanze:
             distanze = [10.0] if disciplina == "strada" else [5.0]
 
+        # Normalizzazione e pulizia
+        distanze_norm = normalize_race_distances(distanze)
+        nome_pulito = clean_race_title(raw_nome)
+
         events.append({
-            "nome": nome,
+            "nome": nome_pulito,
             "data": event_date.isoformat(),
             "data_originale": f"{day:02d}/{mese:02d}/{anno}",
-            "distanze_km": sorted(list(set(distanze))),
+            "distanze_km": distanze_norm,
             "disciplina": disciplina,
             "localita": localita,
             "area": area,
@@ -373,25 +435,14 @@ def get_verified_fvg_veneto_events(execution_date: date) -> List[Dict]:
         },
         {
             "nome": "Maratonina Città di Palmanova",
-            "data": "2026-11-22",
-            "data_originale": "22/11/2026",
+            "data": "2026-11-29",
+            "data_originale": "29/11/2026",
             "distanze_km": [21.097],
             "disciplina": "strada",
             "localita": "Palmanova (UD)",
             "area": "Friuli Venezia Giulia",
             "prezzo": "25€",
             "link_info": "https://www.espalmanova.it",
-        },
-        {
-            "nome": "Trail dei Tre Castelli",
-            "data": "2026-10-04",
-            "data_originale": "04/10/2026",
-            "distanze_km": [15.0, 32.0],
-            "disciplina": "trail",
-            "localita": "Venzone (UD)",
-            "area": "Friuli Venezia Giulia",
-            "prezzo": "25€",
-            "link_info": "https://traildeitrecatelli.it",
         },
         {
             "nome": "Staffetta 24x1 ora Telethon",
@@ -469,6 +520,8 @@ def get_verified_fvg_veneto_events(execution_date: date) -> List[Dict]:
         try:
             cand_date = date.fromisoformat(cand["data"])
             if cand_date >= execution_date:
+                cand["distanze_km"] = normalize_race_distances(cand["distanze_km"])
+                cand["nome"] = clean_race_title(cand["nome"])
                 valid.append(cand)
         except ValueError:
             pass
@@ -761,6 +814,8 @@ def get_ahotu_international_events(execution_date: date) -> List[Dict]:
         try:
             cand_date = date.fromisoformat(cand["data"])
             if cand_date >= execution_date:
+                cand["distanze_km"] = normalize_race_distances(cand["distanze_km"])
+                cand["nome"] = clean_race_title(cand["nome"])
                 valid.append(cand)
         except ValueError:
             pass
