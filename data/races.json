@@ -1,0 +1,705 @@
+[
+  {
+    "nome": "I^ Fly On The Beach - Lignano Sabbiadoro",
+    "data": "2026-08-29",
+    "data_originale": "29/08/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Lignano Sabbiadoro (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/I^-Fly-On-The-Beach-Lignano-Sabbiadoro/COD15061"
+  },
+  {
+    "nome": "VI^ Trail delle Mura",
+    "data": "2026-08-29",
+    "data_originale": "29/08/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "trail",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/VI^-Trail-delle-Mura/COD14656"
+  },
+  {
+    "nome": "XXXVII^ Giro delle Mura Citta' di Feltre km 9,5 - km10 - 7 lap",
+    "data": "2026-08-29",
+    "data_originale": "29/08/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Feltre (BL)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXXVII^-Giro-delle-Mura-Citta-di-Feltre/COD14707"
+  },
+  {
+    "nome": "XXXV^ Giro Podistico Citta' di Cordenons",
+    "data": "2026-09-06",
+    "data_originale": "06/09/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Cordenons (PN)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXXV^-Giro-Podistico-Citta-di-Cordenons/COD14710"
+  },
+  {
+    "nome": "III^ La 10 di Montagnana 10km",
+    "data": "2026-09-12",
+    "data_originale": "12/09/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Montagnana (PD)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/III^-La-10-di-Montagnana/COD14639"
+  },
+  {
+    "nome": "Bibione Half Marathon",
+    "data": "2026-09-13",
+    "data_originale": "13/09/2026",
+    "distanze_km": [
+      10.0,
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Bibione (VE)",
+    "area": "Veneto",
+    "prezzo": "25€",
+    "link_info": "https://www.bibionehalfmarathon.it"
+  },
+  {
+    "nome": "Internationaler WACHAUmarathon",
+    "data": "2026-09-13",
+    "data_originale": "13/09/2026",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Krems an der Donau / Wachau (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "45€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "XLV^ Giro Podistico Int.le Citta' di Pordenone 5km",
+    "data": "2026-09-13",
+    "data_originale": "13/09/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "strada",
+    "localita": "Pordenone (PN)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XLV^-Giro-Podistico-Int-le-Citta-di-Pordenone/COD14892"
+  },
+  {
+    "nome": "Julian Alps Trail Run by UTMB",
+    "data": "2026-09-18",
+    "data_originale": "18/09/2026",
+    "distanze_km": [
+      10.0,
+      15.0,
+      25.0,
+      50.0,
+      80.0,
+      120.0
+    ],
+    "disciplina": "trail",
+    "localita": "Kranjska Gora (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "50€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Bovec Marathon",
+    "data": "2026-09-19",
+    "data_originale": "19/09/2026",
+    "distanze_km": [
+      8.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Bovec (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "35€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "XXXII^ Lupatotissima (12 ore) 12h",
+    "data": "2026-09-19",
+    "data_originale": "19/09/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "trail",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXXII^-Lupatotissima-(12-ore)/COD14933"
+  },
+  {
+    "nome": "XXXII^ Lupatotissima (24 ore) 24h",
+    "data": "2026-09-19",
+    "data_originale": "19/09/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "trail",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXXII^-Lupatotissima-(24-ore)/COD14935"
+  },
+  {
+    "nome": "XXXII^ Lupatotissima (6 ore) 6h",
+    "data": "2026-09-19",
+    "data_originale": "19/09/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "trail",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXXII^-Lupatotissima-(6-ore)/COD14934"
+  },
+  {
+    "nome": "VIII^ Corsa del Ricordo 9,9km",
+    "data": "2026-09-20",
+    "data_originale": "20/09/2026",
+    "distanze_km": [
+      9.9
+    ],
+    "disciplina": "trail",
+    "localita": "Trieste (TS)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/VIII^-Corsa-del-Ricordo/COD14761"
+  },
+  {
+    "nome": "XVIII^ La 10 M6C 10km",
+    "data": "2026-09-20",
+    "data_originale": "20/09/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Villaverla (VI)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XVIII^-La-10-M6C/COD14942"
+  },
+  {
+    "nome": "XVIII^ M6C 21KM 21.0975km",
+    "data": "2026-09-20",
+    "data_originale": "20/09/2026",
+    "distanze_km": [
+      5.0,
+      21.0,
+      21.097,
+      21.0975
+    ],
+    "disciplina": "strada",
+    "localita": "Villaverla (VI)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XVIII^-M6C-21KM/COD14260"
+  },
+  {
+    "nome": "XXVI^ Maratonina Citta' di Udine 21.0975km",
+    "data": "2026-09-20",
+    "data_originale": "20/09/2026",
+    "distanze_km": [
+      5.0,
+      21.097,
+      21.0975
+    ],
+    "disciplina": "strada",
+    "localita": "Udine (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXVI^-Maratonina-Citta-di-Udine/COD14352"
+  },
+  {
+    "nome": "ATHLETICS FESTIVAL \"UNITED EUROPE\"",
+    "data": "2026-09-23",
+    "data_originale": "23/09/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Sdd --",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/ATHLETICS-FESTIVAL-UNITED-EUROPE-/COD14501"
+  },
+  {
+    "nome": "I^ Trail del Moscal",
+    "data": "2026-09-26",
+    "data_originale": "26/09/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "trail",
+    "localita": "Affi (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/I^-Trail-del-Moscal/COD15670"
+  },
+  {
+    "nome": "Istrski Maraton - Koper Run",
+    "data": "2026-09-26",
+    "data_originale": "26/09/2026",
+    "distanze_km": [
+      10.0,
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Capodistria / Koper (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "30€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "IV^ Run51 10km",
+    "data": "2026-09-27",
+    "data_originale": "27/09/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Istrana (TV)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/IV^-Run51/COD15073"
+  },
+  {
+    "nome": "Poreč Triathlon & Istria Run",
+    "data": "2026-10-04",
+    "data_originale": "04/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Parenzo / Poreč (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "30€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Trail dei Tre Castelli",
+    "data": "2026-10-04",
+    "data_originale": "04/10/2026",
+    "distanze_km": [
+      15.0,
+      32.0
+    ],
+    "disciplina": "trail",
+    "localita": "Venzone (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "25€",
+    "link_info": "https://traildeitrecatelli.it"
+  },
+  {
+    "nome": "3-Länder-Marathon Sparkasse",
+    "data": "2026-10-11",
+    "data_originale": "11/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Bregenz / Bodensee (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "50€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Graz Marathon",
+    "data": "2026-10-11",
+    "data_originale": "11/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Graz (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "42€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Mezza Maratona di Treviso",
+    "data": "2026-10-11",
+    "data_originale": "11/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Treviso (TV)",
+    "area": "Veneto",
+    "prezzo": "28€",
+    "link_info": "https://www.trevisomarathon.com"
+  },
+  {
+    "nome": "Zagreb Marathon",
+    "data": "2026-10-11",
+    "data_originale": "11/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Zagabria / Zagreb (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "35€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Corsa dei Castelli - Trieste 10K",
+    "data": "2026-10-18",
+    "data_originale": "18/10/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Trieste (TS)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "20€",
+    "link_info": "https://www.promorun.it"
+  },
+  {
+    "nome": "Internationaler Wolfgangseelauf",
+    "data": "2026-10-18",
+    "data_originale": "18/10/2026",
+    "distanze_km": [
+      5.2,
+      10.0,
+      27.0
+    ],
+    "disciplina": "strada",
+    "localita": "St. Wolfgang (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "38€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "NLB Ljubljana Marathon",
+    "data": "2026-10-18",
+    "data_originale": "18/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Lubiana / Ljubljana (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "40€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Rijeka Run - Torpedo Half",
+    "data": "2026-10-24",
+    "data_originale": "24/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Fiume / Rijeka (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "25€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Venicemarathon",
+    "data": "2026-10-25",
+    "data_originale": "25/10/2026",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Venezia (VE)",
+    "area": "Veneto",
+    "prezzo": "45€",
+    "link_info": "https://www.venicemarathon.it"
+  },
+  {
+    "nome": "Trail del Gevero",
+    "data": "2026-11-08",
+    "data_originale": "08/11/2026",
+    "distanze_km": [
+      21.0,
+      41.0
+    ],
+    "disciplina": "trail",
+    "localita": "Cison di Valmarino (TV)",
+    "area": "Veneto",
+    "prezzo": "30€",
+    "link_info": "https://www.traildelgevero.it"
+  },
+  {
+    "nome": "Verona Marathon & Cangrande Half",
+    "data": "2026-11-15",
+    "data_originale": "15/11/2026",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "35€",
+    "link_info": "https://www.veronamarathon.it"
+  },
+  {
+    "nome": "Maratonina Città di Palmanova",
+    "data": "2026-11-22",
+    "data_originale": "22/11/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Palmanova (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "25€",
+    "link_info": "https://www.espalmanova.it"
+  },
+  {
+    "nome": "Staffetta 24x1 ora Telethon",
+    "data": "2026-12-05",
+    "data_originale": "05/12/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Udine (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "Offerta libera",
+    "link_info": "https://telethonudine.it"
+  },
+  {
+    "nome": "Split Marathon & Half",
+    "data": "2027-02-14",
+    "data_originale": "14/02/2027",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Spalato / Split (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "35€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Kras Trail Sežana",
+    "data": "2027-03-27",
+    "data_originale": "27/03/2027",
+    "distanze_km": [
+      15.0,
+      25.0,
+      45.0
+    ],
+    "disciplina": "trail",
+    "localita": "Sežana / Carso (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "32€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Istria 100 by UTMB (100 Miles of Istria)",
+    "data": "2027-04-09",
+    "data_originale": "09/04/2027",
+    "distanze_km": [
+      20.0,
+      42.0,
+      69.0,
+      110.0,
+      168.0
+    ],
+    "disciplina": "trail",
+    "localita": "Umago / Umag, Istria (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "65€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Vienna City Marathon",
+    "data": "2027-04-18",
+    "data_originale": "18/04/2027",
+    "distanze_km": [
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Vienna (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "75€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Ultra Trail Vipava Valley (UTVV)",
+    "data": "2027-04-23",
+    "data_originale": "23/04/2027",
+    "distanze_km": [
+      15.0,
+      30.0,
+      50.0,
+      100.0,
+      160.0
+    ],
+    "disciplina": "trail",
+    "localita": "Ajdovščina / Vipava (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "45€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Dubrovnik Half Marathon (Du Motion)",
+    "data": "2027-04-25",
+    "data_originale": "25/04/2027",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Dubrovnik (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "40€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Innsbruck Alpine Trailrun Festival",
+    "data": "2027-05-05",
+    "data_originale": "05/05/2027",
+    "distanze_km": [
+      15.0,
+      25.0,
+      42.0,
+      68.0,
+      86.0,
+      111.0
+    ],
+    "disciplina": "trail",
+    "localita": "Innsbruck, Tirolo (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "55€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Wörthersee Trail Festival",
+    "data": "2027-05-08",
+    "data_originale": "08/05/2027",
+    "distanze_km": [
+      10.0,
+      21.0,
+      65.0
+    ],
+    "disciplina": "trail",
+    "localita": "Pörtschach am Wörthersee (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "48€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Medvednica Trail Sljeme",
+    "data": "2027-05-23",
+    "data_originale": "23/05/2027",
+    "distanze_km": [
+      15.0,
+      30.0,
+      59.0
+    ],
+    "disciplina": "trail",
+    "localita": "Sljeme / Zagabria (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "32€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Salzburg Marathon",
+    "data": "2027-05-23",
+    "data_originale": "23/05/2027",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Salzburg (Austria)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "60€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Kočevsko Outdoor Festival Trail",
+    "data": "2027-05-28",
+    "data_originale": "28/05/2027",
+    "distanze_km": [
+      10.0,
+      25.0,
+      62.0
+    ],
+    "disciplina": "trail",
+    "localita": "Kočevje (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "35€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Plitvice Lakes Marathon",
+    "data": "2027-06-06",
+    "data_originale": "06/06/2027",
+    "distanze_km": [
+      10.0,
+      21.097,
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Laghi di Plitvice (Croazia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "38€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Soča Outdoor Festival Trail",
+    "data": "2027-06-26",
+    "data_originale": "26/06/2027",
+    "distanze_km": [
+      10.0,
+      15.0,
+      25.0,
+      45.0
+    ],
+    "disciplina": "trail",
+    "localita": "Tolmin / Val Soča (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "40€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  }
+]

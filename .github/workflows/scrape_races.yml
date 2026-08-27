@@ -1,0 +1,66 @@
+name: Scrape Races & Update Calendar
+
+on:
+  schedule:
+    # Esecuzione programmata ogni lunedì mattina alle 07:00 UTC
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+    inputs:
+      reset_db:
+        description: 'Esegui reset completo del database races.json eliminando vecchi record'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape-races
+  cancel-in-progress: false
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Races Scraper & Verifier
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ "${{ github.event.inputs.reset_db }}" = "true" ]; then
+            echo "Esecuzione con flag --reset..."
+            python scripts/scraper_gemini.py --reset
+          else
+            python scripts/scraper_gemini.py
+          fi
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git status --porcelain data/races.json | grep -q 'data/races.json'; then
+            echo "Rilevate modifiche verificate in data/races.json. Procedo con commit e push."
+            git add data/races.json
+            git commit -m "chore(data): auto-update races.json via Gemini verifier pipeline [skip ci]"
+            git push
+          else
+            echo "Nessuna variazione nei dati di data/races.json. Nessun commit necessario."
+          fi

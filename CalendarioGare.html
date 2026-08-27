@@ -264,12 +264,35 @@
 
         if (racesRes && racesRes.ok) {
           const racesJson = await racesRes.json();
-          const racesArray = Array.isArray(racesJson) ? racesJson : (racesJson.races || []);
+          const racesArray = Array.isArray(racesJson) ? racesJson : (racesJson.races || racesJson.gare || []);
           racesData = racesArray.map(race => {
+            const dateStr = race.data || race.date || '';
+            let jsDate = new Date();
+            if (dateStr.includes('-')) {
+              const [y, m, d] = dateStr.split('-').map(n => parseInt(n, 10));
+              jsDate = new Date(y, m - 1, d);
+            } else if (dateStr.includes('/')) {
+              const [d, m, y] = dateStr.split('/').map(n => parseInt(n, 10));
+              jsDate = new Date(y, m - 1, d);
+            } else if (race.date) {
+              jsDate = new Date(race.date);
+            }
+
+            const rawLocation = race.localita || race.location || '';
+            const locationCity = rawLocation.split('/')[0].split(',')[0].split('(')[0].trim();
+            const distances = race.distanze_km || race.distances || race.lenght;
+            const distanceStr = Array.isArray(distances) ? distances.map(d => `${d} km`).join(', ') : (distances ? `${distances}` : 'N/D');
+
             return {
               ...race,
-              jsDate: new Date(race.date),
-              locationCity: (race.location || '').split(',')[0].trim()
+              title: race.nome || race.name || race.title || 'Gara',
+              location: rawLocation,
+              locationCity,
+              type: race.disciplina || race.type || 'corsa',
+              lenght: distanceStr,
+              cost: race.prezzo || race.cost || 'N/D',
+              website: race.link_info || race.website || race.url || '',
+              jsDate
             };
           }).filter(r => r.jsDate >= new Date().setHours(0, 0, 0, 0)).sort((a, b) => a.jsDate - b.jsDate);
           populateRacesFilters();

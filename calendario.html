@@ -126,35 +126,42 @@
           <h1 class="text-[#1c110d] tracking-light text-2xl md:text-[32px] font-bold" data-translate="events_title">Calendario Eventi</h1>
         </div>
 
-        <!-- FILTRO CITTÀ -->
-        <div id="city-filter" class="flex flex-wrap justify-center gap-3 px-4 pb-4">
-          <button
-            data-city="all"
-            class="city-btn active-city px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 bg-[#e63f11] text-white shadow-sm"
-            data-translate="city_all"
-          >
-            Tutte le città
-          </button>
-          <button
-            data-city="trieste"
-            class="city-btn px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]"
-          >
-            📍 Trieste
-          </button>
-          <button
-            data-city="venezia"
-            class="city-btn px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]"
-          >
-            📍 Venezia
-          </button>
+        <!-- SELETTORE VISTA: EASY RUNS / GARE ESTERNE -->
+        <div class="flex justify-center items-center mb-6">
+          <div class="inline-flex p-1.5 bg-[#f3eae7] rounded-full gap-1.5 shadow-inner">
+            <button
+              id="tab-runs"
+              type="button"
+              class="px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 bg-[#e63f11] text-white shadow-sm flex items-center gap-1.5"
+            >
+              <span>🏃‍♂️</span>
+              <span data-translate="tab_easy_runs">Easy Runs (Club)</span>
+            </button>
+            <button
+              id="tab-races"
+              type="button"
+              class="px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 bg-transparent text-[#1c110d] hover:text-[#e63f11] flex items-center gap-1.5"
+            >
+              <span>🏅</span>
+              <span data-translate="tab_races">Gare & Eventi Esterni</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTRI AREA & CITTÀ / LOCALITÀ -->
+        <div class="flex flex-col items-center gap-3 px-4 pb-4">
+          <!-- Filtro Macro-Area (visibile solo se vista 'races') -->
+          <div id="area-filter" class="flex flex-wrap justify-center gap-2 hidden"></div>
+          <!-- Filtro Città/Località -->
+          <div id="city-filter" class="flex flex-wrap justify-center gap-2"></div>
         </div>
 
         <!-- Contenitore Calendari -->
         <div id="calendarContainer" class="flex flex-col md:flex-row flex-wrap justify-center gap-8 md:gap-12 lg:gap-16 p-4"></div>
 
-        <!-- Contenitore Lista Eventi -->
+        <!-- Contenitore Lista Eventi / Gare -->
         <div id="eventListContainer" class="px-4 mt-8">
-          <h2 class="text-[#1c110d] text-xl md:text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5" data-translate="upcoming_events">Prossimi Eventi</h2>
+          <h2 id="eventListTitle" class="text-[#1c110d] text-xl md:text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5" data-translate="upcoming_events">Prossimi Eventi</h2>
           <div id="event-list-items"></div>
         </div>
 
@@ -265,91 +272,340 @@
       if (window.innerWidth >= 1024 && mobileMenu && !mobileMenu.classList.contains('hidden')) { mobileMenu.classList.add("hidden"); }
     });
 
-    // --- LOGICA CALENDARIO ED EVENTI ---
-    let events =[];
-    let activeCity = 'all'; // Città selezionata attualmente
+    // --- LOGICA CALENDARIO, RUNS & GARE ESTERNE ---
+    let events = [];
+    let races = [];
+    let currentView = 'runs'; // 'runs' (default) o 'races'
+    let activeArea = 'all'; // 'all', 'fvg', 'veneto', 'estero' (per la vista gare)
+    let activeCity = 'all'; // Città/località selezionata attualmente
 
-    async function loadEvents() {
+    // Helper per determinare il badge dell'area geografica (Friuli Venezia Giulia, Veneto, Estero)
+    function getAreaBadge(area) {
+      const a = (area || 'Friuli Venezia Giulia').toUpperCase();
+      let icon = '🏔️';
+      let label = 'Friuli Venezia Giulia';
+      let bg = 'bg-sky-50 text-sky-800 border-sky-200';
+
+      if (a.includes('VENETO')) {
+        icon = '🦁';
+        label = 'Veneto';
+        bg = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+      } else if (a.includes('ESTERO') || a.includes('SLO') || a.includes('CRO') || a.includes('AUT') || a.includes('AUSTRIA')) {
+        icon = '🌍';
+        label = 'Estero (Slo/Cro/Aut)';
+        bg = 'bg-purple-50 text-purple-800 border-purple-200';
+      } else if (a.includes('FVG') || a.includes('FRIULI')) {
+        icon = '🏔️';
+        label = 'Friuli Venezia Giulia';
+        bg = 'bg-sky-50 text-sky-800 border-sky-200';
+      }
+
+      return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${bg}">
+        <span>${icon}</span><span>${label}</span>
+      </span>`;
+    }
+
+    // Helper per determinare l'icona e colore della disciplina
+    function getDisciplineBadge(disc) {
+      const d = (disc || '').toLowerCase();
+      let label = disc || 'Gara';
+      let icon = '🏃';
+      let bg = 'bg-orange-50 text-[#e63f11] border-[#fbdcd5]';
+
+      if (d.includes('trail')) {
+        icon = '🌲';
+        bg = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+      } else if (d.includes('strada') || d.includes('road')) {
+        icon = '🛣️';
+        bg = 'bg-blue-50 text-blue-800 border-blue-200';
+      } else if (d.includes('campestre') || d.includes('cross')) {
+        icon = '🌿';
+        bg = 'bg-amber-50 text-amber-800 border-amber-200';
+      } else if (d.includes('triathlon') || d.includes('duathlon')) {
+        icon = '🏊‍♂️';
+        bg = 'bg-purple-50 text-purple-800 border-purple-200';
+      } else if (d.includes('marcia') || d.includes('camminata')) {
+        icon = '🚶';
+        bg = 'bg-teal-50 text-teal-800 border-teal-200';
+      }
+
+      return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${bg}">
+        <span>${icon}</span><span class="capitalize">${label}</span>
+      </span>`;
+    }
+
+    async function loadAllData() {
       try {
-        const response = await fetch(`data/events.json?v=${new Date().getTime()}`);
-        if (!response.ok) {
-          throw new Error(`Errore nel caricamento del file: ${response.statusText}`);
+        const [eventsRes, racesRes] = await Promise.all([
+          fetch(`data/events.json?v=${new Date().getTime()}`).catch(() => ({ ok: false })),
+          fetch(`data/races.json?v=${new Date().getTime()}`).catch(() => ({ ok: false }))
+        ]);
+
+        if (eventsRes && eventsRes.ok) {
+          const eventsJson = await eventsRes.json();
+          const rawEvents = Array.isArray(eventsJson) ? eventsJson : (eventsJson.events || []);
+          events = rawEvents.map((event, idx) => {
+            const dateParts = event.date.split('/');
+            const day = parseInt(dateParts[0], 10);
+            const month = parseInt(dateParts[1], 10);
+            const year = parseInt(dateParts[2], 10);
+            return {
+              ...event,
+              day,
+              month: month - 1,
+              year,
+              id: `event-${String(day).padStart(2, '0')}${String(month).padStart(2, '0')}${year}-${idx}`
+            };
+          });
         }
-        const data = await response.json();
-        events = data.events.map(event => {
-          const dateParts = event.date.split('/');
-          const day = parseInt(dateParts[0], 10);
-          const month = parseInt(dateParts[1], 10);
-          const year = parseInt(dateParts[2], 10);
-          return {
-            ...event,
-            day,
-            month: month - 1,
-            year,
-            id: `event-${String(day).padStart(2, '0')}${String(month).padStart(2, '0')}${year}`
-          };
-        });
+
+        if (racesRes && racesRes.ok) {
+          const racesJson = await racesRes.json();
+          const rawRaces = Array.isArray(racesJson) ? racesJson : (racesJson.races || racesJson.gare || []);
+          races = rawRaces.map((race, idx) => {
+            const dateStr = race.data || race.date || '';
+            let day = 1, month = 0, year = new Date().getFullYear();
+            if (dateStr.includes('-')) {
+              const parts = dateStr.split('-');
+              year = parseInt(parts[0], 10);
+              month = parseInt(parts[1], 10) - 1;
+              day = parseInt(parts[2], 10);
+            } else if (dateStr.includes('/')) {
+              const parts = dateStr.split('/');
+              day = parseInt(parts[0], 10);
+              month = parseInt(parts[1], 10) - 1;
+              year = parseInt(parts[2], 10);
+            }
+            return {
+              ...race,
+              day,
+              month,
+              year,
+              area: race.area || 'FVG',
+              id: `race-${String(day).padStart(2, '0')}${String(month + 1).padStart(2, '0')}${year}-${idx}`
+            };
+          });
+        }
+
+        initViewToggle();
+        initAreaFilter();
         initCityFilter();
         initCalendar();
       } catch (error) {
-        console.error('Errore Dettagliato:', error);
+        console.error('Errore durante il caricamento dei dati:', error);
         const container = document.getElementById("event-list-items");
         if (container) container.innerHTML = `<p class="text-red-600 text-center py-4">Oops! Non è stato possibile caricare gli eventi.</p>`;
-        events =[];
       }
     }
 
-    // Inizializza i bottoni filtro città
-    function initCityFilter() {
-      const buttons = document.querySelectorAll('.city-btn');
+    // Inizializza il selettore tab tra Easy Runs del Club e Gare Esterne
+    function initViewToggle() {
+      const tabRuns = document.getElementById('tab-runs');
+      const tabRaces = document.getElementById('tab-races');
+      const areaContainer = document.getElementById('area-filter');
+      if (!tabRuns || !tabRaces) return;
 
-      // Ricava dinamicamente le città presenti negli eventi
-      const cities = [...new Set(events.map(e => e.city).filter(Boolean))];
+      tabRuns.addEventListener('click', () => {
+        if (currentView === 'runs') return;
+        currentView = 'runs';
+        activeArea = 'all';
+        activeCity = 'all';
 
-      // Mostra solo i bottoni delle città che hanno almeno un evento
-      buttons.forEach(btn => {
-        const city = btn.dataset.city;
-        if (city === 'all') return; // "Tutte" è sempre visibile
-        if (!cities.includes(city)) {
-          btn.style.display = 'none'; // Nasconde bottoni senza eventi
-        }
+        tabRuns.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 bg-[#e63f11] text-white shadow-sm flex items-center gap-1.5";
+        tabRaces.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 bg-transparent text-[#1c110d] hover:text-[#e63f11] flex items-center gap-1.5";
+
+        if (areaContainer) areaContainer.classList.add('hidden');
+        updateSectionTitle();
+        initCityFilter();
+        initCalendar();
       });
 
-      // Listener click sui bottoni
+      tabRaces.addEventListener('click', () => {
+        if (currentView === 'races') return;
+        currentView = 'races';
+        activeArea = 'all';
+        activeCity = 'all';
+
+        tabRaces.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 bg-[#e63f11] text-white shadow-sm flex items-center gap-1.5";
+        tabRuns.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 bg-transparent text-[#1c110d] hover:text-[#e63f11] flex items-center gap-1.5";
+
+        if (areaContainer) areaContainer.classList.remove('hidden');
+        updateSectionTitle();
+        initAreaFilter();
+        initCityFilter();
+        initCalendar();
+      });
+    }
+
+    function updateSectionTitle() {
+      const titleElem = document.getElementById('eventListTitle');
+      if (!titleElem) return;
+      const currentLang = localStorage.getItem('preferred-language') || 'it';
+      if (currentView === 'runs') {
+        titleElem.setAttribute('data-translate', 'upcoming_events');
+        titleElem.textContent = currentLang === 'it' ? 'Prossimi Eventi' : 'Upcoming Events';
+      } else {
+        titleElem.setAttribute('data-translate', 'upcoming_races');
+        titleElem.textContent = currentLang === 'it' ? 'Gare del Territorio' : 'Regional Races & Events';
+      }
+    }
+
+    // Helper per formattare con iniziale maiuscola qualsiasi stringa/città
+    function capitalize(str) {
+      if (!str) return '';
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Inizializza i bottoni di filtro per le macro-aree (FVG, Veneto, Estero)
+    function initAreaFilter() {
+      const container = document.getElementById('area-filter');
+      if (!container) return;
+
+      if (currentView !== 'races') {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      const currentLang = localStorage.getItem('preferred-language') || 'it';
+
+      const areas = [
+        { id: 'all', label: currentLang === 'it' ? 'Tutte le aree' : 'All areas', icon: '🌐', translate: 'area_all' },
+        { id: 'fvg', label: 'Friuli Venezia Giulia', icon: '🏔️', translate: 'area_fvg' },
+        { id: 'veneto', label: 'Veneto', icon: '🦁', translate: 'area_veneto' },
+        { id: 'estero', label: 'Estero (Slo/Cro/Aut)', icon: '🌍', translate: 'area_estero' },
+      ];
+
+      container.innerHTML = areas.map(area => {
+        const isActive = activeArea.toLowerCase() === area.id.toLowerCase();
+        return `
+          <button
+            data-area="${area.id}"
+            class="area-btn ${isActive ? 'active-area bg-[#e63f11] text-white shadow-sm' : 'bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]'} px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 flex items-center gap-1.5"
+            data-translate="${area.translate}"
+          >
+            <span>${area.icon}</span>
+            <span>${area.label}</span>
+          </button>
+        `;
+      }).join('');
+
+      const buttons = container.querySelectorAll('.area-btn');
       buttons.forEach(btn => {
         btn.addEventListener('click', () => {
-          // Aggiorna stile bottoni
-          buttons.forEach(b => b.classList.remove('active-city', 'bg-[#e63f11]', 'text-white'));
-          buttons.forEach(b => b.classList.add('bg-[#f3eae7]', 'text-[#1c110d]')); // Reset a stato non attivo
+          buttons.forEach(b => {
+            b.classList.remove('active-area', 'bg-[#e63f11]', 'text-white', 'shadow-sm');
+            b.classList.add('bg-[#f3eae7]', 'text-[#1c110d]');
+          });
 
-          btn.classList.add('active-city');
+          btn.classList.add('active-area', 'bg-[#e63f11]', 'text-white', 'shadow-sm');
           btn.classList.remove('bg-[#f3eae7]', 'text-[#1c110d]');
-          btn.classList.add('bg-[#e63f11]', 'text-white');
 
-          // Aggiorna città attiva e rigenera vista
+          activeArea = btn.dataset.area;
+          activeCity = 'all';
+          initCalendar();
+        });
+      });
+    }
+
+    // Inizializza i bottoni filtro località/città (esclusivamente per le Easy Runs del Club)
+    function initCityFilter() {
+      const container = document.getElementById('city-filter');
+      if (!container) return;
+
+      // Nella vista gare le città sono nascoste per evitare troppi pulsanti
+      if (currentView !== 'runs') {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      const currentLang = localStorage.getItem('preferred-language') || 'it';
+      const allLabel = currentLang === 'it' ? 'Tutte le città' : 'All cities';
+
+      const items = [...new Set(events.map(e => (e.city || '').trim()).filter(Boolean))];
+
+      let buttonsHtml = `
+        <button
+          data-city="all"
+          class="city-btn ${activeCity === 'all' ? 'active-city bg-[#e63f11] text-white shadow-sm' : 'bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]'} px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200"
+          data-translate="city_all"
+        >
+          ${allLabel}
+        </button>
+      `;
+
+      items.forEach(item => {
+        const cityName = capitalize(item);
+        const isActive = activeCity.toLowerCase() === item.toLowerCase();
+        const displayLabel = `📍 ${cityName}`;
+        buttonsHtml += `
+          <button
+            data-city="${item.toLowerCase()}"
+            class="city-btn ${isActive ? 'active-city bg-[#e63f11] text-white shadow-sm' : 'bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]'} px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200"
+          >
+            ${displayLabel}
+          </button>
+        `;
+      });
+
+      container.innerHTML = buttonsHtml;
+
+      const buttons = container.querySelectorAll('.city-btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => {
+            b.classList.remove('active-city', 'bg-[#e63f11]', 'text-white', 'shadow-sm');
+            b.classList.add('bg-[#f3eae7]', 'text-[#1c110d]');
+          });
+
+          btn.classList.add('active-city', 'bg-[#e63f11]', 'text-white', 'shadow-sm');
+          btn.classList.remove('bg-[#f3eae7]', 'text-[#1c110d]');
+
           activeCity = btn.dataset.city;
           initCalendar();
         });
       });
     }
 
-    // Restituisce gli eventi filtrati per la città attiva
-    function getFilteredEvents() {
-      if (activeCity === 'all') return events;
-      return events.filter(e => e.city === activeCity);
+    // Restituisce la lista corrente (runs o races) filtrata per area o città attiva
+    function getCurrentFilteredData() {
+      if (currentView === 'runs') {
+        if (activeCity === 'all') return events;
+        return events.filter(e => (e.city || '').toLowerCase() === activeCity.toLowerCase());
+      } else {
+        if (activeArea === 'all') return races;
+        return races.filter(r => {
+          const raceArea = (r.area || '').toLowerCase();
+          if (activeArea === 'fvg') {
+            return raceArea.includes('friuli') || raceArea === 'fvg';
+          }
+          if (activeArea === 'veneto') {
+            return raceArea.includes('veneto');
+          }
+          if (activeArea === 'estero') {
+            return raceArea.includes('estero') || raceArea.includes('slo') || raceArea.includes('cro') || raceArea.includes('aut') || raceArea.includes('austria');
+          }
+          return raceArea === activeArea.toLowerCase();
+        });
+      }
     }
 
     function generateCalendar(month, year) {
-      const filteredEvents = getFilteredEvents(); // <-- usa eventi filtrati
+      const currentList = getCurrentFilteredData();
       const date = new Date(year, month, 1);
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const firstDayIndex = (date.getDay() === 0) ? 6 : date.getDay() - 1;
-      const weekDays =["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
+      const currentLang = localStorage.getItem('preferred-language') || 'it';
+      const dateLocale = currentLang === 'it' ? 'it-IT' : 'en-US';
+      const weekDays = currentLang === 'it' 
+        ? ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"]
+        : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
       let html = `<div class="flex min-w-full sm:min-w-72 max-w-[360px] flex-1 flex-col gap-1">
         <div class="flex items-center p-1 justify-center">
           <p class="text-[#1c110d] text-lg font-bold leading-tight text-center capitalize">
-            ${date.toLocaleString("it-IT", { month: "long" })} ${year}
+            ${date.toLocaleString(dateLocale, { month: "long" })} ${year}
           </p>
         </div>
         <div class="grid grid-cols-7 gap-1">
@@ -360,16 +616,16 @@
       for (let d = 1; d <= daysInMonth; d++) {
         const today = new Date();
         const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-        const eventOnThisDay = filteredEvents.find(e => e.day === d && e.month === month && e.year === year);
+        const itemOnThisDay = currentList.find(e => e.day === d && e.month === month && e.year === year);
 
         let dayClasses = "flex size-full items-center justify-center rounded-full transition-colors duration-200 h-10 w-full text-sm font-medium text-[#1c110d]";
 
-        if (isToday) dayClasses += " bg-[#e63f11] text-white";
-        else if (eventOnThisDay) dayClasses += " bg-[#f3eae7] ring-2 ring-inset ring-[#e63f11] hover:bg-[#e63f11] hover:text-white cursor-pointer";
+        if (isToday) dayClasses += " bg-[#e63f11] text-white font-bold";
+        else if (itemOnThisDay) dayClasses += " bg-[#f3eae7] ring-2 ring-inset ring-[#e63f11] hover:bg-[#e63f11] hover:text-white cursor-pointer font-bold";
         else dayClasses += " text-gray-500";
 
-        if (eventOnThisDay) {
-          html += `<button onclick="scrollToEvent('${eventOnThisDay.id}')" class="${dayClasses}">${d}</button>`;
+        if (itemOnThisDay) {
+          html += `<button onclick="scrollToEvent('${itemOnThisDay.id}')" class="${dayClasses}" title="${itemOnThisDay.title || itemOnThisDay.nome || ''}">${d}</button>`;
         } else {
           html += `<div class="${dayClasses}">${d}</div>`;
         }
@@ -382,55 +638,149 @@
       const container = document.getElementById("event-list-items");
       if (!container) return;
 
-      const filteredEvents = getFilteredEvents(); // <-- usa eventi filtrati
+      const currentList = getCurrentFilteredData();
       const currentLang = localStorage.getItem('preferred-language') || 'it';
+      const dateLocale = currentLang === 'it' ? 'it-IT' : 'en-US';
       const now = new Date().setHours(0, 0, 0, 0);
-      const upcomingEvents = filteredEvents
+
+      const upcomingItems = currentList
         .filter(e => new Date(e.year, e.month, e.day) >= now)
         .sort((a, b) => new Date(a.year, a.month, a.day) - new Date(b.year, b.month, b.day));
 
-      let listHtml = upcomingEvents.map(event => {
-        const eventDate = new Date(event.year, event.month, event.day);
-        const dateLocale = currentLang === 'it' ? 'it-IT' : 'en-US';
-        const dateString = eventDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
-
-        const title = typeof event.title === 'object' ? (event.title[currentLang] || event.title.it) : event.title;
-        const description = typeof event.description === 'object' ? (event.description[currentLang] || event.description.it) : event.description;
-
-        let locationName, mapButtonHtml;
-        const mapIconSvg = `<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g><path d="M16 14.185c2.61 0 4.733 -2.123 4.733 -4.733 0 -2.61 -2.123 -4.733 -4.733 -4.733s-4.733 2.123 -4.733 4.733c0 2.61 2.123 4.733 4.733 4.733m0 -6.814c1.147 0 2.081 0.933 2.081 2.081 0 1.148 -0.934 2.082 -2.081 2.082s-2.081 -0.934 -2.081 -2.082c0 -1.147 0.933 -2.081 2.081 -2.081"/><path d="M29.566 12.172c0 -0.732 -0.594 -1.326 -1.326 -1.326h-2.989C26.212 4.813 21.54 0 16 0 10.501 0 5.779 4.772 6.749 10.846H3.76c-0.732 0 -1.326 0.594 -1.326 1.326v18.502c0 0.732 0.594 1.326 1.326 1.326h24.48c0.712 0 1.326 -0.577 1.326 -1.326 0 -0.824 0 -17.683 0 -18.502m-5.064 1.338 0.002 -0.004 0.003 -0.008h2.407v6.584h-5.461c1.06 -2.005 2.255 -4.437 3.05 -6.572M16 2.652c4.229 0 7.998 3.952 6.307 9.107 -1.219 3.715 -4.309 9.246 -6.307 12.61 -1.992 -3.355 -5.088 -8.896 -6.307 -12.61 -1.695 -5.168 2.088 -9.107 6.307 -9.107M9.96 29.348H5.086V13.498h2.407c0.39 1.073 1.187 2.949 2.467 5.454zm2.652 0v-5.523c1.269 2.214 2.251 3.787 2.264 3.807 0.519 0.83 1.73 0.829 2.248 0 0.013 -0.02 1.06 -1.698 2.39 -4.027l5.586 5.744zm14.302 -1.939 -4.547 -4.675h4.547z"/></g></svg>`;
-
-        if (typeof event.location === 'string' && locations[event.location]) {
-          const locationData = locations[event.location];
-          locationName = locationData.name;
-          mapButtonHtml = `<button onclick="openMapModal('${event.location}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors">${mapIconSvg}</button>`;
-        } else if (typeof event.location === 'object' && event.location.name && event.location.url) {
-          locationName = event.location.name;
-          mapButtonHtml = `<button onclick="openMapModal(null, '${event.location.url}', '${event.location.name}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors">${mapIconSvg}</button>`;
-        } else {
-          locationName = event.location || 'N/D';
-          mapButtonHtml = '<div class="w-[44px] h-[44px] flex-shrink-0"></div>';
+      if (currentView === 'runs') {
+        // --- VISTA EASY RUNS CLUB ---
+        if (upcomingItems.length === 0) {
+          container.innerHTML = `<p class="text-[#9b604b] text-center py-6" data-translate="no_events_city">Nessun evento in programma per questa città. Torna a trovarci presto!</p>`;
+          if (window.languageSwitcher) window.languageSwitcher.translatePage();
+          return;
         }
 
-        return `
-          <div id="${event.id}" class="flex flex-row items-center gap-4 border-b border-[#f3eae7] py-4 px-2 -mx-2">
-            <div class="shrink-0 text-sm font-bold text-[#1c110d] text-right w-24 sm:w-40">${dateString}</div>
-            <div class="flex-1">
-              <p class="text-[#1c110d] text-base font-bold leading-normal">${title}</p>
-              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">${description}</p>
-              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">🕒 ${event.time}</p>
-              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">📍 ${locationName}</p>
-            </div>
-            <div class="flex-shrink-0">${mapButtonHtml}</div>
-          </div>
-        `;
-      }).join('');
+        const mapIconSvg = `<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g><path d="M16 14.185c2.61 0 4.733 -2.123 4.733 -4.733 0 -2.61 -2.123 -4.733 -4.733 -4.733s-4.733 2.123 -4.733 4.733c0 2.61 2.123 4.733 4.733 4.733m0 -6.814c1.147 0 2.081 0.933 2.081 2.081 0 1.148 -0.934 2.082 -2.081 2.082s-2.081 -0.934 -2.081 -2.082c0 -1.147 0.933 -2.081 2.081 -2.081"/><path d="M29.566 12.172c0 -0.732 -0.594 -1.326 -1.326 -1.326h-2.989C26.212 4.813 21.54 0 16 0 10.501 0 5.779 4.772 6.749 10.846H3.76c-0.732 0 -1.326 0.594 -1.326 1.326v18.502c0 0.732 0.594 1.326 1.326 1.326h24.48c0.712 0 1.326 -0.577 1.326 -1.326 0 -0.824 0 -17.683 0 -18.502m-5.064 1.338 0.002 -0.004 0.003 -0.008h2.407v6.584h-5.461c1.06 -2.005 2.255 -4.437 3.05 -6.572M16 2.652c4.229 0 7.998 3.952 6.307 9.107 -1.219 3.715 -4.309 9.246 -6.307 12.61 -1.992 -3.355 -5.088 -8.896 -6.307 -12.61 -1.695 -5.168 2.088 -9.107 6.307 -9.107M9.96 29.348H5.086V13.498h2.407c0.39 1.073 1.187 2.949 2.467 5.454zm2.652 0v-5.523c1.269 2.214 2.251 3.787 2.264 3.807 0.519 0.83 1.73 0.829 2.248 0 0.013 -0.02 1.06 -1.698 2.39 -4.027l5.586 5.744zm14.302 -1.939 -4.547 -4.675h4.547z"/></g></svg>`;
 
-      if (upcomingEvents.length > 0) {
-        container.innerHTML = listHtml;
+        container.innerHTML = upcomingItems.map(event => {
+          const eventDate = new Date(event.year, event.month, event.day);
+          const dateString = eventDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
+          const title = typeof event.title === 'object' ? (event.title[currentLang] || event.title.it) : event.title;
+          const description = typeof event.description === 'object' ? (event.description[currentLang] || event.description.it) : event.description;
+
+          let locationName, mapButtonHtml;
+          if (typeof event.location === 'string' && locations[event.location]) {
+            locationName = locations[event.location].name;
+            mapButtonHtml = `<button onclick="openMapModal('${event.location}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors" title="Mappa">${mapIconSvg}</button>`;
+          } else if (typeof event.location === 'object' && event.location.name && event.location.url) {
+            locationName = event.location.name;
+            mapButtonHtml = `<button onclick="openMapModal(null, '${event.location.url}', '${event.location.name}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors" title="Mappa">${mapIconSvg}</button>`;
+          } else {
+            locationName = event.location || 'N/D';
+            mapButtonHtml = '<div class="w-[44px] h-[44px] flex-shrink-0"></div>';
+          }
+
+          return `
+            <div id="${event.id}" class="flex flex-row items-center gap-4 border-b border-[#f3eae7] py-4 px-2 -mx-2">
+              <div class="shrink-0 text-sm font-bold text-[#1c110d] text-right w-24 sm:w-40">${dateString}</div>
+              <div class="flex-1">
+                <p class="text-[#1c110d] text-base font-bold leading-normal">${title}</p>
+                <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">${description}</p>
+                <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">🕒 ${event.time}</p>
+                <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">📍 ${locationName}</p>
+              </div>
+              <div class="flex-shrink-0">${mapButtonHtml}</div>
+            </div>
+          `;
+        }).join('');
+
       } else {
-        container.innerHTML = `<p class="text-[#9b604b] text-center py-4" data-translate="no_events_city">Nessun evento in programma per questa città. Torna a trovarci presto!</p>`;
-        if (window.languageSwitcher) window.languageSwitcher.translatePage();
+        // --- VISTA GARE & EVENTI ESTERNI ---
+        if (upcomingItems.length === 0) {
+          container.innerHTML = `<p class="text-[#9b604b] text-center py-6" data-translate="no_races_found">Nessuna gara esterna in programma per questo periodo. Torna a trovarci presto!</p>`;
+          if (window.languageSwitcher) window.languageSwitcher.translatePage();
+          return;
+        }
+
+        const distancesLabel = currentLang === 'it' ? 'Distanze' : 'Distances';
+        const feeLabel = currentLang === 'it' ? 'Quota' : 'Fee';
+        const infoBtnText = currentLang === 'it' ? 'Dettagli & Iscrizioni' : 'Details & Registration';
+
+        container.innerHTML = upcomingItems.map(race => {
+          const raceDate = new Date(race.year, race.month, race.day);
+          const dateString = raceDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
+          const name = race.nome || race.name || 'Gara Podistica';
+          const disciplineBadge = getDisciplineBadge(race.disciplina || race.type);
+          const locationText = race.localita || race.location || 'Friuli-Venezia Giulia';
+          const priceText = race.prezzo || race.cost || 'N/D';
+
+          // Distanze
+          let distancesChips = '';
+          const rawDistances = race.distanze_km || race.distances || [];
+          if (Array.isArray(rawDistances) && rawDistances.length > 0) {
+            distancesChips = rawDistances.map(d => {
+              const formatted = typeof d === 'number' ? `${d} km` : `${d}`;
+              return `<span class="bg-[#f3eae7] text-[#1c110d] text-xs font-bold px-2.5 py-0.5 rounded-full">${formatted}</span>`;
+            }).join(' ');
+          } else if (rawDistances) {
+            distancesChips = `<span class="bg-[#f3eae7] text-[#1c110d] text-xs font-bold px-2.5 py-0.5 rounded-full">${rawDistances}</span>`;
+          }
+
+          // Link esterno
+          let linkHtml = '';
+          const link = race.link_info || race.website || race.url;
+          if (link && link !== 'N/D' && link.startsWith('http')) {
+            linkHtml = `
+              <a
+                href="${link}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-white bg-[#e63f11] hover:bg-[#d03509] px-4 py-2 rounded-full transition-all duration-200 shadow-xs"
+              >
+                <span>${infoBtnText}</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+              </a>
+            `;
+          }
+
+          return `
+            <div id="${race.id}" class="bg-white border border-[#f3eae7] rounded-2xl p-5 md:p-6 mb-4 shadow-xs hover:border-[#e63f11]/30 transition-all duration-300">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#f3eae7]">
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <span class="text-xs sm:text-sm font-bold text-[#e63f11] bg-[#fdf3f0] px-3 py-1 rounded-full">
+                    📅 ${dateString}
+                  </span>
+                  ${getAreaBadge(race.area)}
+                  ${disciplineBadge}
+                </div>
+                <div class="text-xs sm:text-sm font-medium text-[#9b604b]">
+                  📍 ${locationText}
+                </div>
+              </div>
+
+              <div class="pt-3.5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="space-y-2 flex-1">
+                  <h3 class="text-[#1c110d] text-lg sm:text-xl font-bold leading-tight">${name}</h3>
+                  
+                  <div class="flex flex-wrap items-center gap-2 pt-1 text-xs sm:text-sm text-[#9b604b]">
+                    <span class="font-bold text-[#1c110d]">${distancesLabel}:</span>
+                    <div class="inline-flex flex-wrap gap-1.5">${distancesChips}</div>
+                  </div>
+
+                  ${priceText && priceText !== 'N/D' ? `
+                    <div class="text-xs sm:text-sm text-[#9b604b] flex items-center gap-1.5">
+                      <span class="font-bold text-[#1c110d]">${feeLabel}:</span>
+                      <span>${priceText}</span>
+                    </div>
+                  ` : ''}
+                </div>
+
+                <div class="flex-shrink-0 pt-2 md:pt-0">
+                  ${linkHtml}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      if (window.languageSwitcher) {
+        window.languageSwitcher.translatePage();
       }
     }
 
@@ -448,11 +798,14 @@
     }
 
     window.updateCalendar = () => {
+      updateSectionTitle();
+      initAreaFilter();
+      initCityFilter();
       initCalendar();
     };
 
-    // Avvia tutto
-    loadEvents();
+    // Avvia tutto il caricamento dati
+    loadAllData();
   });
 </script>
 
