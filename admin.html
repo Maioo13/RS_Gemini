@@ -48,7 +48,7 @@
   <!-- 1. SCHERMATA LOGIN (NON AUTENTICATO)                                      -->
   <!-- ========================================================================= -->
   <main id="login-view" class="flex flex-1 items-center justify-center p-4 sm:p-6">
-    <div class="w-full max-w-md bg-white border border-[#f3eae7] rounded-3xl p-6 sm:p-8 shadow-xl shadow-[#1c110d]/5 fade-enter">
+    <div class="w-full max-w-lg bg-white border border-[#f3eae7] rounded-3xl p-6 sm:p-8 shadow-xl shadow-[#1c110d]/5 fade-enter">
       <div class="text-center mb-6">
         <div class="inline-flex items-center justify-center size-14 rounded-2xl bg-[#fdf3f0] mb-3 border border-[#f3eae7]">
           <img src="icons/logo.svg" alt="Run Society" class="w-9 h-9" />
@@ -57,17 +57,113 @@
         <p class="text-xs text-[#9b604b] mt-1 font-medium">Gestione riservata eventi, run e gare Run Society</p>
       </div>
 
+      <!-- Selettore Modalità di Accesso -->
+      <div class="flex items-center gap-1.5 p-1 bg-[#fcf9f8] border border-[#f3eae7] rounded-2xl mb-5">
+        <button
+          type="button"
+          id="tab-login-gh"
+          onclick="switchLoginTab('github')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all bg-[#e63f11] text-white shadow-xs flex items-center justify-center gap-1.5"
+        >
+          <span>🐙</span>
+          <span>GitHub Pages (Online)</span>
+        </button>
+        <button
+          type="button"
+          id="tab-login-server"
+          onclick="switchLoginTab('server')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all text-[#1c110d] hover:bg-[#f3eae7] flex items-center justify-center gap-1.5"
+        >
+          <span>🖥️</span>
+          <span>Server Node.js</span>
+        </button>
+      </div>
+
       <!-- Alert Box -->
       <div id="login-alert" class="hidden mb-4 p-3.5 rounded-xl text-xs font-semibold"></div>
 
-      <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
+      <!-- FORM 1: GITHUB DIRECT MODE (Consigliato per GitHub Pages) -->
+      <form id="login-gh-form" class="space-y-4" onsubmit="handleGitHubLogin(event)">
+        <div class="p-3.5 bg-amber-50/70 border border-amber-200/80 rounded-2xl text-[12px] text-amber-900 leading-relaxed">
+          <span class="font-bold">🚀 Modalità Gratuita Serverless:</span> Permette di aggiornare calendari e gare direttamente dal sito pubblico (GitHub Pages) tramite commit sicuro su GitHub, senza dover mantenere alcun server backend.
+        </div>
+
+        <div>
+          <label for="gh-repo" class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Repository GitHub (Owner/Repo) <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="gh-repo"
+            required
+            placeholder="es. lorymaiolo/run-society-trieste"
+            class="w-full px-4 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] focus:border-transparent transition-all outline-none"
+          />
+        </div>
+
+        <div>
+          <label for="gh-token" class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            GitHub Personal Access Token (PAT) <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <input
+              type="password"
+              id="gh-token"
+              required
+              autocomplete="off"
+              placeholder="github_pat_..."
+              class="w-full px-4 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] focus:border-transparent transition-all outline-none pr-10"
+            />
+            <button
+              type="button"
+              onclick="togglePasswordVisibility('gh-token')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs font-semibold p-1"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <!-- Guida rapida a fisarmonica per generare il token -->
+        <details class="bg-[#fcf9f8] border border-[#f3eae7] rounded-xl p-3 text-xs text-[#1c110d] group">
+          <summary class="font-bold cursor-pointer text-[#e63f11] flex items-center justify-between">
+            <span>📖 Come creare il token in 30 secondi</span>
+            <span class="text-xs transition-transform group-open:rotate-180">▼</span>
+          </summary>
+          <div class="mt-2.5 pt-2.5 border-t border-[#f3eae7] space-y-1.5 text-[11px] text-[#9b604b] leading-relaxed">
+            <p>1. Vai su GitHub &rarr; <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener" class="text-[#e63f11] underline font-bold">Personal Access Tokens (Fine-grained)</a></p>
+            <p>2. Clicca <strong>"Generate new token"</strong> e dagli un nome (es: <em>Admin Run Society</em>).</p>
+            <p>3. In <em>Repository access</em> seleziona <strong>"Only select repositories"</strong> e scegli il tuo repo.</p>
+            <p>4. In <em>Permissions &rarr; Repository permissions</em> imposta <strong>Contents: Read and write</strong>.</p>
+            <p>5. Clicca <strong>Generate token</strong>, copialo e incollalo qui sopra.</p>
+          </div>
+        </details>
+
+        <button
+          type="submit"
+          id="login-gh-btn"
+          class="w-full mt-2 py-3 px-4 bg-[#e63f11] hover:bg-[#d03509] active:scale-[0.99] text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+        >
+          <span>Connetti con GitHub</span>
+          <svg id="login-gh-spinner" class="hidden animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+        </button>
+      </form>
+
+      <!-- FORM 2: SERVER NODE.JS (Locale / VPS) -->
+      <form id="login-server-form" class="space-y-4 hidden" onsubmit="handleLogin(event)">
+        <div class="p-3 bg-blue-50/80 border border-blue-200/80 rounded-2xl text-[12px] text-blue-900 leading-relaxed">
+          <span class="font-bold">🖥️ Modalità Server:</span> Per ambienti con backend Node.js attivo (`node server.js`).
+        </div>
+
         <div>
           <label for="username" class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">Username</label>
           <input
             type="text"
             id="username"
             name="username"
-            required
             autocomplete="username"
             placeholder="admin"
             class="w-full px-4 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] focus:border-transparent transition-all outline-none"
@@ -81,7 +177,6 @@
               type="password"
               id="password"
               name="password"
-              required
               autocomplete="current-password"
               placeholder="••••••••••••"
               class="w-full px-4 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] focus:border-transparent transition-all outline-none pr-10"
@@ -101,7 +196,7 @@
           id="login-btn"
           class="w-full mt-2 py-3 px-4 bg-[#e63f11] hover:bg-[#d03509] active:scale-[0.99] text-white text-sm font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
         >
-          <span>Accedi alla Console</span>
+          <span>Accedi con Server Node.js</span>
           <svg id="login-spinner" class="hidden animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
@@ -111,7 +206,7 @@
 
       <div class="mt-6 pt-4 border-t border-[#f3eae7] text-center">
         <span class="text-[11px] text-[#9b604b] flex items-center justify-center gap-1.5 font-medium">
-          🔒 Connessione protetta con crittografia & rate-limiting attivo
+          🔒 Connessione sicura & crittografata (diretta via HTTPS)
         </span>
       </div>
     </div>
@@ -140,19 +235,29 @@
 
         <!-- Azioni Header -->
         <div class="flex items-center gap-2 md:gap-3">
+          <button
+            onclick="refreshData()"
+            id="sync-data-btn"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#f3eae7] hover:bg-[#ebdcd7] text-[#1c110d] text-xs font-bold rounded-full transition-colors"
+            title="Ricarica i dati aggiornati"
+          >
+            <span id="sync-icon">🔄</span>
+            <span class="hidden sm:inline">Sincronizza</span>
+          </button>
+
           <a
             href="calendario.html"
             target="_blank"
             rel="noopener noreferrer"
             class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f3eae7] hover:bg-[#ebdcd7] text-[#1c110d] text-xs font-bold rounded-full transition-colors"
           >
-            <span>Anteprima Calendario</span>
+            <span>Anteprima</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
           </a>
 
           <div class="text-right hidden md:block">
             <span id="user-display" class="text-xs font-bold text-[#1c110d] block">admin</span>
-            <span class="text-[10px] text-green-600 font-semibold flex items-center justify-end gap-1">
+            <span id="connection-status-badge" class="text-[10px] text-green-600 font-semibold flex items-center justify-end gap-1">
               <span class="size-1.5 bg-green-500 rounded-full animate-pulse"></span> Connesso
             </span>
           </div>
@@ -704,29 +809,147 @@
   <!-- JAVASCRIPT GESTIONE STATO, API & CRUD                                     -->
   <!-- ========================================================================= -->
   <script>
-    // Stato globale
+    // =========================================================================
+    // STATO GLOBALE APPLICAZIONE
+    // =========================================================================
     let currentTab = 'runs'; // 'runs' | 'races'
+    let authMode = null;     // 'github' | 'server' | null
     let allRuns = [];
     let allRaces = [];
     let activeRunCityFilter = 'all';
     let activeRaceAreaFilter = 'all';
     let deleteTarget = { type: null, index: null };
 
-    // Gestione Token di Autenticazione (compatibile con Iframe, Nuove Schede e Hosting)
+    // Configurazione GitHub Direct Mode
+    let githubConfig = {
+      owner: '',
+      repo: '',
+      token: ''
+    };
+    let eventsFileSha = '';
+    let racesFileSha = '';
+
+    // Token Sessione Server Node.js
     let authToken = sessionStorage.getItem('rs_admin_token') || localStorage.getItem('rs_admin_token') || '';
 
+    // =========================================================================
+    // GESTIONE CREDENZIALI & STORAGE
+    // =========================================================================
     function setAuthToken(token) {
       authToken = token || '';
       if (token) {
         sessionStorage.setItem('rs_admin_token', token);
-        localStorage.setItem('rs_admin_token', token);
       } else {
         sessionStorage.removeItem('rs_admin_token');
         localStorage.removeItem('rs_admin_token');
       }
     }
 
-    // Helper centralizzato per le chiamate autenticate
+    function setGitHubCredentials(owner, repo, token, persist = true) {
+      githubConfig.owner = owner;
+      githubConfig.repo = repo;
+      githubConfig.token = token;
+
+      if (token && owner && repo) {
+        sessionStorage.setItem('rs_gh_owner', owner);
+        sessionStorage.setItem('rs_gh_repo', repo);
+        sessionStorage.setItem('rs_gh_token', token);
+        if (persist) {
+          localStorage.setItem('rs_gh_repo_saved', `${owner}/${repo}`);
+        }
+      } else {
+        sessionStorage.removeItem('rs_gh_owner');
+        sessionStorage.removeItem('rs_gh_repo');
+        sessionStorage.removeItem('rs_gh_token');
+      }
+    }
+
+    function loadSavedGitHubCredentials() {
+      const owner = sessionStorage.getItem('rs_gh_owner');
+      const repo = sessionStorage.getItem('rs_gh_repo');
+      const token = sessionStorage.getItem('rs_gh_token');
+      if (owner && repo && token) {
+        githubConfig = { owner, repo, token };
+        return true;
+      }
+      return false;
+    }
+
+    // =========================================================================
+    // HELPER GITHUB API (UTF-8 SAFE BASE64)
+    // =========================================================================
+    function b64DecodeUnicode(str) {
+      return decodeURIComponent(atob(str.replace(/\s/g, '')).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+    }
+
+    function b64EncodeUnicode(str) {
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+        return String.fromCharCode('0x' + p1);
+      }));
+    }
+
+    async function fetchGitHubFile(path) {
+      const url = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${path}?t=${Date.now()}`;
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${githubConfig.token}`,
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      });
+
+      if (!res.ok) {
+        if (res.status === 401 || res.status === 403) {
+          throw new Error('Token GitHub non valido o privo di permessi.');
+        }
+        if (res.status === 404) {
+          throw new Error(`File "${path}" non trovato in ${githubConfig.owner}/${githubConfig.repo}. Verifica il nome del repository.`);
+        }
+        throw new Error(`Errore GitHub API (${res.status})`);
+      }
+
+      const data = await res.json();
+      const contentStr = b64DecodeUnicode(data.content);
+      return {
+        sha: data.sha,
+        data: JSON.parse(contentStr)
+      };
+    }
+
+    async function commitGitHubFile(path, newObject, currentSha, commitMsg) {
+      const url = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${path}`;
+      const jsonText = JSON.stringify(newObject, null, 2) + '\n';
+      const base64Content = b64EncodeUnicode(jsonText);
+
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${githubConfig.token}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        },
+        body: JSON.stringify({
+          message: commitMsg,
+          content: base64Content,
+          sha: currentSha
+        })
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.message || `Errore commit GitHub (${res.status})`);
+      }
+
+      const resJson = await res.json();
+      return resJson.content?.sha || currentSha;
+    }
+
+    // =========================================================================
+    // HELPER CHIAMATE SERVER NODE.JS
+    // =========================================================================
     async function adminFetch(url, options = {}) {
       const headers = {
         'Content-Type': 'application/json',
@@ -753,22 +976,47 @@
     // INIZIALIZZAZIONE & CONTROLLO SESSIONE
     // =========================================================================
     document.addEventListener('DOMContentLoaded', async () => {
+      // Pre-popola repository suggerito
+      const savedRepo = localStorage.getItem('rs_gh_repo_saved');
+      const ghRepoInput = document.getElementById('gh-repo');
+      if (ghRepoInput) {
+        ghRepoInput.value = savedRepo || 'lorymaiolo/run-society-trieste';
+      }
+
       await checkAuthStatus();
     });
 
     async function checkAuthStatus() {
+      // 1. Controlla se abbiamo credenziali GitHub salvate
+      if (loadSavedGitHubCredentials()) {
+        try {
+          const test = await fetchGitHubFile('data/events.json');
+          if (test && test.data) {
+            authMode = 'github';
+            showAdminDashboard(`${githubConfig.owner}/${githubConfig.repo}`, 'github');
+            return;
+          }
+        } catch (e) {
+          console.warn('Sessione GitHub non valida:', e);
+          setGitHubCredentials('', '', '');
+        }
+      }
+
+      // 2. Controlla se abbiamo sessione Server Node.js attiva
       try {
         const res = await adminFetch('/api/admin/me');
         if (res.ok) {
           const data = await res.json();
           if (data.authenticated) {
-            showAdminDashboard(data.username);
+            authMode = 'server';
+            showAdminDashboard(data.username || 'admin', 'server');
             return;
           }
         }
       } catch (e) {
-        console.warn('Verifica sessione fallita:', e);
+        // Nessun server locale attivo (normale su GitHub Pages)
       }
+
       showLoginView();
     }
 
@@ -777,12 +1025,47 @@
       document.getElementById('admin-view').classList.add('hidden');
     }
 
-    function showAdminDashboard(username) {
+    function showAdminDashboard(displayUser, mode) {
+      authMode = mode;
       document.getElementById('login-view').classList.add('hidden');
       document.getElementById('admin-view').classList.remove('hidden');
-      document.getElementById('user-display').textContent = username || 'admin';
+      
+      const userDisplay = document.getElementById('user-display');
+      const statusBadge = document.getElementById('connection-status-badge');
+
+      if (mode === 'github') {
+        userDisplay.innerHTML = `<span class="text-xs font-bold text-[#1c110d]">🐙 ${displayUser}</span>`;
+        statusBadge.innerHTML = `<span class="size-1.5 bg-emerald-500 rounded-full animate-pulse"></span> GitHub Pages (Serverless)`;
+        statusBadge.className = 'text-[10px] text-emerald-600 font-semibold flex items-center justify-end gap-1';
+      } else {
+        userDisplay.textContent = displayUser || 'admin';
+        statusBadge.innerHTML = `<span class="size-1.5 bg-green-500 rounded-full animate-pulse"></span> Server Node.js`;
+        statusBadge.className = 'text-[10px] text-green-600 font-semibold flex items-center justify-end gap-1';
+      }
+
       loadAllRuns();
       loadAllRaces();
+    }
+
+    function switchLoginTab(type) {
+      const tabGh = document.getElementById('tab-login-gh');
+      const tabServer = document.getElementById('tab-login-server');
+      const formGh = document.getElementById('login-gh-form');
+      const formServer = document.getElementById('login-server-form');
+      const alertBox = document.getElementById('login-alert');
+      alertBox.classList.add('hidden');
+
+      if (type === 'github') {
+        tabGh.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all bg-[#e63f11] text-white shadow-xs flex items-center justify-center gap-1.5';
+        tabServer.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all text-[#1c110d] hover:bg-[#f3eae7] flex items-center justify-center gap-1.5';
+        formGh.classList.remove('hidden');
+        formServer.classList.add('hidden');
+      } else {
+        tabServer.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all bg-[#e63f11] text-white shadow-xs flex items-center justify-center gap-1.5';
+        tabGh.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all text-[#1c110d] hover:bg-[#f3eae7] flex items-center justify-center gap-1.5';
+        formServer.classList.remove('hidden');
+        formGh.classList.add('hidden');
+      }
     }
 
     function togglePasswordVisibility(fieldId) {
@@ -819,11 +1102,60 @@
       setTimeout(() => {
         toast.classList.add('opacity-0', 'translate-y-[-10px]');
         setTimeout(() => toast.remove(), 300);
-      }, 4000);
+      }, 4500);
     }
 
     // =========================================================================
-    // GESTIONE AUTENTICAZIONE (LOGIN / LOGOUT)
+    // LOGIN GITHUB DIRECT MODE (GitHub Pages)
+    // =========================================================================
+    async function handleGitHubLogin(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('login-alert');
+      const btn = document.getElementById('login-gh-btn');
+      const spinner = document.getElementById('login-gh-spinner');
+
+      alertBox.classList.add('hidden');
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+
+      const rawRepo = document.getElementById('gh-repo').value.trim().replace(/^https:\/\/github\.com\//, '').replace(/\/$/, '');
+      const token = document.getElementById('gh-token').value.trim();
+
+      const parts = rawRepo.split('/');
+      if (parts.length !== 2 || !parts[0] || !parts[1]) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold bg-red-50 text-red-600 border border-red-200';
+        alertBox.textContent = 'Formato repository non valido. Usa "nome-proprietario/nome-repository" (es. lorymaiolo/run-society-trieste).';
+        alertBox.classList.remove('hidden');
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        return;
+      }
+
+      const [owner, repo] = parts;
+      setGitHubCredentials(owner, repo, token, true);
+
+      try {
+        // Verifica token e accesso ai file
+        const test = await fetchGitHubFile('data/events.json');
+        if (test && test.data) {
+          showToast('Connessione a GitHub riuscita!', 'success');
+          showAdminDashboard(`${owner}/${repo}`, 'github');
+        } else {
+          throw new Error('Dati eventi non reperibili.');
+        }
+      } catch (err) {
+        setGitHubCredentials('', '', '', false);
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold bg-red-50 text-red-600 border border-red-200';
+        alertBox.textContent = err.message || 'Errore di autenticazione con GitHub. Controlla il token e i permessi.';
+        alertBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // LOGIN SERVER NODE.JS
     // =========================================================================
     async function handleLogin(e) {
       e.preventDefault();
@@ -852,7 +1184,7 @@
             setAuthToken(data.token);
           }
           showToast('Accesso autorizzato!', 'success');
-          showAdminDashboard(data.user?.username);
+          showAdminDashboard(data.user?.username || username, 'server');
         } else {
           alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold bg-red-50 text-red-600 border border-red-200';
           alertBox.textContent = data.error || 'Credenziali non valide.';
@@ -860,7 +1192,10 @@
         }
       } catch (err) {
         alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold bg-red-50 text-red-600 border border-red-200';
-        alertBox.textContent = 'Errore di connessione al server.';
+        alertBox.innerHTML = `
+          <strong>Server Node.js non rilevato.</strong><br>
+          Se stai usando il sito pubblico su GitHub Pages, seleziona la scheda <strong>"🐙 GitHub Pages (Online)"</strong> sopra per connetterti direttamente tramite token gratuito.
+        `;
         alertBox.classList.remove('hidden');
       } finally {
         btn.disabled = false;
@@ -868,20 +1203,40 @@
       }
     }
 
+    // =========================================================================
+    // LOGOUT
+    // =========================================================================
     async function handleLogout() {
+      if (authMode === 'server') {
+        try {
+          await adminFetch('/api/admin/logout', { method: 'POST' });
+        } catch (e) {}
+      }
+      setAuthToken('');
+      setGitHubCredentials('', '', '', false);
+      authMode = null;
+      showToast('Disconnessione effettuata.', 'info');
+      showLoginView();
+    }
+
+    // =========================================================================
+    // RICARICA & SINCRONIZZAZIONE
+    // =========================================================================
+    async function refreshData() {
+      const syncIcon = document.getElementById('sync-icon');
+      if (syncIcon) syncIcon.classList.add('animate-spin');
       try {
-        await adminFetch('/api/admin/logout', { method: 'POST' });
+        await Promise.all([loadAllRuns(), loadAllRaces()]);
+        showToast('Dati sincronizzati con successo!', 'success');
       } catch (e) {
-        console.error('Logout error:', e);
+        showToast('Errore durante la sincronizzazione', 'error');
       } finally {
-        setAuthToken('');
-        showToast('Logout effettuato.', 'info');
-        showLoginView();
+        if (syncIcon) syncIcon.classList.remove('animate-spin');
       }
     }
 
     // =========================================================================
-    // SWITCH TABS
+    // SWITCH TABS (RUNS / RACES)
     // =========================================================================
     function switchTab(tab) {
       currentTab = tab;
@@ -933,13 +1288,21 @@
 
       try {
         loading.classList.remove('hidden');
-        const res = await adminFetch('/api/admin/events');
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || 'Errore nel recupero delle run');
+
+        if (authMode === 'github') {
+          const fileObj = await fetchGitHubFile('data/events.json');
+          eventsFileSha = fileObj.sha;
+          allRuns = Array.isArray(fileObj.data) ? fileObj.data : [];
+        } else {
+          const res = await adminFetch('/api/admin/events');
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || 'Errore nel recupero delle run');
+          }
+          const data = await res.json();
+          allRuns = data.events || [];
         }
-        const data = await res.json();
-        allRuns = data.events || [];
+
         document.getElementById('runs-count-badge').textContent = allRuns.length;
         renderRunsList();
       } catch (err) {
@@ -971,14 +1334,12 @@
       const query = (document.getElementById('search-runs')?.value || '').toLowerCase().trim();
 
       const filtered = allRuns.map((run, originalIndex) => ({ run, originalIndex })).filter(({ run }) => {
-        // Filtro città
         const c = (run.city || '').toLowerCase();
         if (activeRunCityFilter !== 'all') {
           if (activeRunCityFilter === 'entrambi' && c !== 'entrambi' && c !== 'both') return false;
           if (activeRunCityFilter !== 'entrambi' && c !== activeRunCityFilter && c !== 'entrambi') return false;
         }
 
-        // Filtro ricerca
         if (query) {
           const title = typeof run.title === 'object' ? (run.title.it || run.title.en || '') : (run.title || '');
           const desc = typeof run.description === 'object' ? (run.description.it || run.description.en || '') : (run.description || '');
@@ -1002,7 +1363,6 @@
         const desc = typeof run.description === 'object' ? (run.description.it || run.description.en) : (run.description || '');
         const loc = typeof run.location === 'object' ? (run.location.name || 'Custom') : (run.location || 'N/D');
 
-        // Badge Città
         let cityBadge = '';
         const cityLower = (run.city || '').toLowerCase();
         if (cityLower === 'venezia') {
@@ -1069,12 +1429,10 @@
       document.getElementById('run-title').value = title || '';
       document.getElementById('run-description').value = desc || '';
 
-      // Set City Radio
       const city = (run.city || 'trieste').toLowerCase();
       const radio = document.querySelector(`input[name="run_city"][value="${city}"]`) || document.querySelector(`input[name="run_city"][value="trieste"]`);
       if (radio) radio.checked = true;
 
-      // Set Location
       const locSelect = document.getElementById('run-location-select');
       const locCustom = document.getElementById('run-location-custom');
       const locVal = typeof run.location === 'object' ? (run.location.name || '') : (run.location || '');
@@ -1137,24 +1495,52 @@
       const payload = { date, time, title, description, city, location };
 
       try {
-        const url = isEditing ? `/api/admin/events/${editIndex}` : '/api/admin/events';
-        const method = isEditing ? 'PUT' : 'POST';
+        if (authMode === 'github') {
+          // 1. Ricarica ultimo stato del file da GitHub
+          const fresh = await fetchGitHubFile('data/events.json');
+          const currentList = Array.isArray(fresh.data) ? fresh.data : [];
+          
+          if (isEditing) {
+            currentList[editIndex] = payload;
+          } else {
+            currentList.push(payload);
+          }
 
-        const res = await adminFetch(url, {
-          method,
-          body: JSON.stringify(payload)
-        });
+          // Ordina per data crescente
+          currentList.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        const data = await res.json();
-        if (res.ok && data.success) {
-          showToast(isEditing ? 'Run modificata con successo!' : 'Nuova Run aggiunta con successo!', 'success');
+          const commitMsg = isEditing 
+            ? `admin: update run '${title}' (${date})` 
+            : `admin: add run '${title}' (${date})`;
+
+          eventsFileSha = await commitGitHubFile('data/events.json', currentList, fresh.sha, commitMsg);
+          allRuns = currentList;
+          document.getElementById('runs-count-badge').textContent = allRuns.length;
+          renderRunsList();
+
+          showToast(isEditing ? 'Run modificata e pubblicata su GitHub!' : 'Nuova Run aggiunta e pubblicata su GitHub!', 'success');
           closeModal('modal-run');
-          await loadAllRuns();
         } else {
-          showToast(data.error || 'Errore durante il salvataggio della run', 'error');
+          // Modalità server Node.js
+          const url = isEditing ? `/api/admin/events/${editIndex}` : '/api/admin/events';
+          const method = isEditing ? 'PUT' : 'POST';
+
+          const res = await adminFetch(url, {
+            method,
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            showToast(isEditing ? 'Run modificata con successo!' : 'Nuova Run aggiunta con successo!', 'success');
+            closeModal('modal-run');
+            await loadAllRuns();
+          } else {
+            showToast(data.error || 'Errore durante il salvataggio della run', 'error');
+          }
         }
       } catch (err) {
-        showToast('Errore di rete durante il salvataggio', 'error');
+        showToast(err.message || 'Errore durante il salvataggio', 'error');
       } finally {
         saveBtn.disabled = false;
       }
@@ -1169,13 +1555,21 @@
 
       try {
         loading.classList.remove('hidden');
-        const res = await adminFetch('/api/admin/races');
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || 'Errore nel recupero delle gare');
+
+        if (authMode === 'github') {
+          const fileObj = await fetchGitHubFile('data/races.json');
+          racesFileSha = fileObj.sha;
+          allRaces = Array.isArray(fileObj.data) ? fileObj.data : [];
+        } else {
+          const res = await adminFetch('/api/admin/races');
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || 'Errore nel recupero delle gare');
+          }
+          const data = await res.json();
+          allRaces = data.races || [];
         }
-        const data = await res.json();
-        allRaces = data.races || [];
+
         document.getElementById('races-count-badge').textContent = allRaces.length;
         renderRacesList();
       } catch (err) {
@@ -1207,13 +1601,11 @@
       const query = (document.getElementById('search-races')?.value || '').toLowerCase().trim();
 
       const filtered = allRaces.map((race, originalIndex) => ({ race, originalIndex })).filter(({ race }) => {
-        // Filtro macro area
         const a = (race.area || '').toLowerCase();
         if (activeRaceAreaFilter === 'fvg' && !a.includes('friuli') && a !== 'fvg') return false;
         if (activeRaceAreaFilter === 'veneto' && !a.includes('veneto')) return false;
         if (activeRaceAreaFilter === 'estero' && !a.includes('estero') && !a.includes('slo') && !a.includes('cro') && !a.includes('aut')) return false;
 
-        // Filtro ricerca
         if (query) {
           const searchable = `${race.nome || ''} ${race.localita || ''} ${race.data || ''} ${race.area || ''}`.toLowerCase();
           return searchable.includes(query);
@@ -1230,7 +1622,6 @@
       empty.classList.add('hidden');
 
       container.innerHTML = filtered.map(({ race, originalIndex }) => {
-        // Area Badge
         let areaBadge = '';
         const areaLower = (race.area || '').toLowerCase();
         if (areaLower.includes('veneto')) {
@@ -1241,7 +1632,6 @@
           areaBadge = `<span class="bg-teal-50 text-teal-700 border border-teal-200 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">🌍 Estero</span>`;
         }
 
-        // Distanze chips
         let distChips = '';
         const dists = race.distanze_km || [];
         if (Array.isArray(dists) && dists.length > 0) {
@@ -1347,30 +1737,64 @@
       const disciplina = document.getElementById('race-disciplina').value;
       const prezzo = document.getElementById('race-price').value.trim() || 'N/D';
       const localita = document.getElementById('race-location').value.trim();
-      const distanze_km = document.getElementById('race-distances').value.trim();
+      const distanze_raw = document.getElementById('race-distances').value.trim();
       const link_info = document.getElementById('race-link').value.trim();
+
+      // Normalizza distanze array
+      let distanze_km = [];
+      if (distanze_raw) {
+        distanze_km = distanze_raw.split(',').map(s => {
+          const val = parseFloat(s.trim());
+          return isNaN(val) ? s.trim() : val;
+        }).filter(Boolean);
+      }
 
       const payload = { nome, data, area, disciplina, prezzo, localita, distanze_km, link_info };
 
       try {
-        const url = isEditing ? `/api/admin/races/${editIndex}` : '/api/admin/races';
-        const method = isEditing ? 'PUT' : 'POST';
+        if (authMode === 'github') {
+          const fresh = await fetchGitHubFile('data/races.json');
+          const currentList = Array.isArray(fresh.data) ? fresh.data : [];
 
-        const res = await adminFetch(url, {
-          method,
-          body: JSON.stringify(payload)
-        });
+          if (isEditing) {
+            currentList[editIndex] = payload;
+          } else {
+            currentList.push(payload);
+          }
 
-        const resData = await res.json();
-        if (res.ok && resData.success) {
-          showToast(isEditing ? 'Gara aggiornata con successo!' : 'Nuova Gara aggiunta con successo!', 'success');
+          currentList.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+          const commitMsg = isEditing 
+            ? `admin: update race '${nome}' (${data})` 
+            : `admin: add race '${nome}' (${data})`;
+
+          racesFileSha = await commitGitHubFile('data/races.json', currentList, fresh.sha, commitMsg);
+          allRaces = currentList;
+          document.getElementById('races-count-badge').textContent = allRaces.length;
+          renderRacesList();
+
+          showToast(isEditing ? 'Gara modificata e pubblicata su GitHub!' : 'Nuova Gara aggiunta e pubblicata su GitHub!', 'success');
           closeModal('modal-race');
-          await loadAllRaces();
         } else {
-          showToast(resData.error || 'Errore durante il salvataggio della gara', 'error');
+          const url = isEditing ? `/api/admin/races/${editIndex}` : '/api/admin/races';
+          const method = isEditing ? 'PUT' : 'POST';
+
+          const res = await adminFetch(url, {
+            method,
+            body: JSON.stringify(payload)
+          });
+
+          const resData = await res.json();
+          if (res.ok && resData.success) {
+            showToast(isEditing ? 'Gara aggiornata con successo!' : 'Nuova Gara aggiunta con successo!', 'success');
+            closeModal('modal-race');
+            await loadAllRaces();
+          } else {
+            showToast(resData.error || 'Errore durante il salvataggio della gara', 'error');
+          }
         }
       } catch (err) {
-        showToast('Errore di rete durante il salvataggio', 'error');
+        showToast(err.message || 'Errore durante il salvataggio della gara', 'error');
       } finally {
         saveBtn.disabled = false;
       }
@@ -1394,21 +1818,48 @@
 
       try {
         const { type, index } = deleteTarget;
-        const endpoint = type === 'run' ? `/api/admin/events/${index}` : `/api/admin/races/${index}`;
 
-        const res = await adminFetch(endpoint, { method: 'DELETE' });
-        const data = await res.json();
+        if (authMode === 'github') {
+          const filePath = type === 'run' ? 'data/events.json' : 'data/races.json';
+          const fresh = await fetchGitHubFile(filePath);
+          const currentList = Array.isArray(fresh.data) ? fresh.data : [];
 
-        if (res.ok && data.success) {
-          showToast(type === 'run' ? 'Run eliminata con successo' : 'Gara eliminata con successo', 'success');
+          const deletedItem = currentList.splice(index, 1);
+          const itemName = deletedItem[0]?.title || deletedItem[0]?.nome || 'item';
+          const commitMsg = `admin: delete ${type} '${itemName}'`;
+
+          const newSha = await commitGitHubFile(filePath, currentList, fresh.sha, commitMsg);
+
+          if (type === 'run') {
+            eventsFileSha = newSha;
+            allRuns = currentList;
+            document.getElementById('runs-count-badge').textContent = allRuns.length;
+            renderRunsList();
+          } else {
+            racesFileSha = newSha;
+            allRaces = currentList;
+            document.getElementById('races-count-badge').textContent = allRaces.length;
+            renderRacesList();
+          }
+
+          showToast(type === 'run' ? 'Run eliminata con successo da GitHub' : 'Gara eliminata con successo da GitHub', 'success');
           closeModal('modal-delete');
-          if (type === 'run') await loadAllRuns();
-          else await loadAllRaces();
         } else {
-          showToast(data.error || 'Impossibile eliminare l\'elemento', 'error');
+          const endpoint = type === 'run' ? `/api/admin/events/${index}` : `/api/admin/races/${index}`;
+          const res = await adminFetch(endpoint, { method: 'DELETE' });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            showToast(type === 'run' ? 'Run eliminata con successo' : 'Gara eliminata con successo', 'success');
+            closeModal('modal-delete');
+            if (type === 'run') await loadAllRuns();
+            else await loadAllRaces();
+          } else {
+            showToast(data.error || 'Impossibile eliminare l\'elemento', 'error');
+          }
         }
       } catch (err) {
-        showToast('Errore durante l\'eliminazione', 'error');
+        showToast(err.message || 'Errore durante l\'eliminazione', 'error');
       } finally {
         btn.disabled = false;
       }
