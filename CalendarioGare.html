@@ -253,11 +253,20 @@
 
         if (eventsRes.ok) {
           const eventsJson = await eventsRes.json();
-          easyRunsData = (eventsJson.events || []).map(event => {
-            const dateParts = event.date.split('/');
+          const rawEvents = Array.isArray(eventsJson) ? eventsJson : (eventsJson.events || []);
+          easyRunsData = rawEvents.map(event => {
+            const dateStr = event.date || '';
+            let jsDate = new Date();
+            if (dateStr.includes('-')) {
+              const [y, m, d] = dateStr.split('-').map(n => parseInt(n, 10));
+              jsDate = new Date(y, m - 1, d);
+            } else if (dateStr.includes('/')) {
+              const [d, m, y] = dateStr.split('/').map(n => parseInt(n, 10));
+              jsDate = new Date(y, m - 1, d);
+            }
             return {
               ...event,
-              jsDate: new Date(parseInt(dateParts[2], 10), parseInt(dateParts[1], 10) - 1, parseInt(dateParts[0], 10))
+              jsDate
             };
           }).filter(e => e.jsDate >= new Date().setHours(0, 0, 0, 0)).sort((a, b) => a.jsDate - b.jsDate);
         }

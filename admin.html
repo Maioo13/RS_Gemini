@@ -1279,6 +1279,41 @@
     }
 
     // =========================================================================
+    // DATE HELPERS
+    // =========================================================================
+    function toIsoDate(dateStr) {
+      if (!dateStr) return '';
+      const str = String(dateStr).trim();
+      if (str.includes('-')) return str;
+      if (str.includes('/')) {
+        const parts = str.split('/');
+        if (parts.length === 3) {
+          const d = parts[0].padStart(2, '0');
+          const m = parts[1].padStart(2, '0');
+          const y = parts[2];
+          return `${y}-${m}-${d}`;
+        }
+      }
+      return str;
+    }
+
+    function toDisplayDate(dateStr) {
+      if (!dateStr) return '';
+      const str = String(dateStr).trim();
+      if (str.includes('/')) return str;
+      if (str.includes('-')) {
+        const parts = str.split('-');
+        if (parts.length === 3) {
+          const y = parts[0];
+          const m = parts[1].padStart(2, '0');
+          const d = parts[2].padStart(2, '0');
+          return `${d}/${m}/${y}`;
+        }
+      }
+      return str;
+    }
+
+    // =========================================================================
     // RUNS DEL CLUB (events.json)
     // =========================================================================
     async function loadAllRuns() {
@@ -1292,7 +1327,13 @@
         if (authMode === 'github') {
           const fileObj = await fetchGitHubFile('data/events.json');
           eventsFileSha = fileObj.sha;
-          allRuns = Array.isArray(fileObj.data) ? fileObj.data : [];
+          if (Array.isArray(fileObj.data)) {
+            allRuns = fileObj.data;
+          } else if (fileObj.data && Array.isArray(fileObj.data.events)) {
+            allRuns = fileObj.data.events;
+          } else {
+            allRuns = [];
+          }
         } else {
           const res = await adminFetch('/api/admin/events');
           if (!res.ok) {
@@ -1300,7 +1341,7 @@
             throw new Error(errData.error || 'Errore nel recupero delle run');
           }
           const data = await res.json();
-          allRuns = data.events || [];
+          allRuns = Array.isArray(data.events) ? data.events : (Array.isArray(data) ? data : []);
         }
 
         document.getElementById('runs-count-badge').textContent = allRuns.length;
@@ -1421,7 +1462,7 @@
 
       document.getElementById('modal-run-title').textContent = 'Modifica Run del Club';
       document.getElementById('run-edit-index').value = index;
-      document.getElementById('run-date').value = run.date || '';
+      document.getElementById('run-date').value = toIsoDate(run.date) || '';
       document.getElementById('run-time').value = run.time || 'Meeting: 18:45, Start: 19:00';
       
       const title = typeof run.title === 'object' ? (run.title.it || run.title.en) : run.title;
@@ -1478,7 +1519,8 @@
       const editIndex = parseInt(document.getElementById('run-edit-index').value, 10);
       const isEditing = !isNaN(editIndex) && editIndex >= 0;
 
-      const date = document.getElementById('run-date').value.trim();
+      const rawDate = document.getElementById('run-date').value.trim();
+      const date = toDisplayDate(rawDate);
       const time = document.getElementById('run-time').value.trim();
       const title = document.getElementById('run-title').value.trim();
       const description = document.getElementById('run-description').value.trim();
@@ -1498,7 +1540,15 @@
         if (authMode === 'github') {
           // 1. Ricarica ultimo stato del file da GitHub
           const fresh = await fetchGitHubFile('data/events.json');
-          const currentList = Array.isArray(fresh.data) ? fresh.data : [];
+          let currentList = [];
+          let isObjectWrapper = true;
+          if (Array.isArray(fresh.data)) {
+            currentList = fresh.data;
+            isObjectWrapper = false;
+          } else if (fresh.data && Array.isArray(fresh.data.events)) {
+            currentList = fresh.data.events;
+            isObjectWrapper = true;
+          }
           
           if (isEditing) {
             currentList[editIndex] = payload;
@@ -1507,13 +1557,14 @@
           }
 
           // Ordina per data crescente
-          currentList.sort((a, b) => new Date(a.date) - new Date(b.date));
+          currentList.sort((a, b) => new Date(toIsoDate(a.date)) - new Date(toIsoDate(b.date)));
 
           const commitMsg = isEditing 
             ? `admin: update run '${title}' (${date})` 
             : `admin: add run '${title}' (${date})`;
 
-          eventsFileSha = await commitGitHubFile('data/events.json', currentList, fresh.sha, commitMsg);
+          const payloadToCommit = isObjectWrapper ? { events: currentList } : currentList;
+          eventsFileSha = await commitGitHubFile('data/events.json', payloadToCommit, fresh.sha, commitMsg);
           allRuns = currentList;
           document.getElementById('runs-count-badge').textContent = allRuns.length;
           renderRunsList();
@@ -1822,13 +1873,26 @@
         if (authMode === 'github') {
           const filePath = type === 'run' ? 'data/events.json' : 'data/races.json';
           const fresh = await fetchGitHubFile(filePath);
-          const currentList = Array.isArray(fresh.data) ? fresh.data : [];
+          let currentList = [];
+          let isObjectWrapper = (type === 'run');
+
+          if (Array.isArray(fresh.data)) {
+            currentList = fresh.data;
+            isObjectWrapper = false;
+          } else if (fresh.data && Array.isArray(fresh.data.events)) {
+            currentList = fresh.data.events;
+            isObjectWrapper = true;
+          } else if (fresh.data && Array.isArray(fresh.data.races)) {
+            currentList = fresh.data.races;
+            isObjectWrapper = true;
+          }
 
           const deletedItem = currentList.splice(index, 1);
           const itemName = deletedItem[0]?.title || deletedItem[0]?.nome || 'item';
           const commitMsg = `admin: delete ${type} '${itemName}'`;
 
-          const newSha = await commitGitHubFile(filePath, currentList, fresh.sha, commitMsg);
+          const payloadToCommit = isObjectWrapper ? (type === 'run' ? { events: currentList } : { races: currentList }) : currentList;
+          const newSha = await commitGitHubFile(filePath, payloadToCommit, fresh.sha, commitMsg);
 
           if (type === 'run') {
             eventsFileSha = newSha;

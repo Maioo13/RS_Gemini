@@ -345,16 +345,25 @@
           const eventsJson = await eventsRes.json();
           const rawEvents = Array.isArray(eventsJson) ? eventsJson : (eventsJson.events || []);
           events = rawEvents.map((event, idx) => {
-            const dateParts = event.date.split('/');
-            const day = parseInt(dateParts[0], 10);
-            const month = parseInt(dateParts[1], 10);
-            const year = parseInt(dateParts[2], 10);
+            const dateStr = event.date || '';
+            let day = 1, month = 0, year = new Date().getFullYear();
+            if (dateStr.includes('-')) {
+              const parts = dateStr.split('-');
+              year = parseInt(parts[0], 10);
+              month = parseInt(parts[1], 10) - 1;
+              day = parseInt(parts[2], 10);
+            } else if (dateStr.includes('/')) {
+              const parts = dateStr.split('/');
+              day = parseInt(parts[0], 10);
+              month = parseInt(parts[1], 10) - 1;
+              year = parseInt(parts[2], 10);
+            }
             return {
               ...event,
               day,
-              month: month - 1,
+              month,
               year,
-              id: `event-${String(day).padStart(2, '0')}${String(month).padStart(2, '0')}${year}-${idx}`
+              id: `event-${String(day).padStart(2, '0')}${String(month + 1).padStart(2, '0')}${year}-${idx}`
             };
           });
         }
