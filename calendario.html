@@ -482,10 +482,9 @@
           <button
             data-area="${area.id}"
             class="area-btn ${isActive ? 'active-area bg-[#e63f11] text-white shadow-sm' : 'bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf]'} px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 flex items-center gap-1.5"
-            data-translate="${area.translate}"
           >
             <span>${area.icon}</span>
-            <span>${area.label}</span>
+            <span data-translate="${area.translate}">${area.label}</span>
           </button>
         `;
       }).join('');
@@ -523,7 +522,11 @@
       const currentLang = localStorage.getItem('preferred-language') || 'it';
       const allLabel = currentLang === 'it' ? 'Tutte le città' : 'All cities';
 
-      const items = [...new Set(events.map(e => (e.city || '').trim()).filter(Boolean))];
+      const rawCities = events.map(e => (e.city || '').trim().toLowerCase()).filter(Boolean);
+      // Mantieni solo città standard escludendo 'entrambi' o 'all' dai bottoni città
+      const knownCities = ['trieste', 'venezia'];
+      const extraCities = [...new Set(rawCities)].filter(c => !knownCities.includes(c) && c !== 'entrambi' && c !== 'both' && c !== 'all');
+      const items = [...knownCities.filter(c => rawCities.includes(c) || rawCities.includes('entrambi')), ...extraCities];
 
       let buttonsHtml = `
         <button
@@ -572,7 +575,11 @@
     function getCurrentFilteredData() {
       if (currentView === 'runs') {
         if (activeCity === 'all') return events;
-        return events.filter(e => (e.city || '').toLowerCase() === activeCity.toLowerCase());
+        return events.filter(e => {
+          const c = (e.city || '').toLowerCase().trim();
+          if (c === 'entrambi' || c === 'both' || c === 'all' || (c.includes('trieste') && c.includes('venezia'))) return true;
+          return c === activeCity.toLowerCase();
+        });
       } else {
         if (activeArea === 'all') return races;
         return races.filter(r => {

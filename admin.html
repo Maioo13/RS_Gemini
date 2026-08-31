@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  <title>Admin Console | Run Society</title>
+  <link rel="icon" type="image/png" href="icons/logo.png?v=2" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+  />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+    }
+    .modal {
+      display: none;
+    }
+    .modal.is-open {
+      display: flex;
+    }
+    /* Animazioni smooth */
+    .fade-enter {
+      animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body class="bg-[#fcf9f8] text-[#1c110d] min-h-screen flex flex-col antialiased selection:bg-[#e63f11] selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- ========================================================================= -->
+  <!-- 1. SCHERMATA LOGIN (NON AUTENTICATO)                                      -->
+  <!-- ========================================================================= -->
+  <main id="login-view" class="flex flex-1 items-center justify-center p-4 sm:p-6">
+    <div class="w-full max-w-md bg-white border border-[#f3eae7] rounded-3xl p-6 sm:p-8 shadow-xl shadow-[#1c110d]/5 fade-enter">
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center size-14 rounded-2xl bg-[#fdf3f0] mb-3 border border-[#f3eae7]">
+          <img src="icons/logo.svg" alt="Run Society" class="w-9 h-9" />
+        </div>
+        <h1 class="text-2xl font-black tracking-tight text-[#1c110d]">Admin Console</h1>
+        <p class="text-xs text-[#9b604b] mt-1 font-medium">Gestione riservata eventi, run e gare Run Society</p>
+      </div>
+
+      <!-- Alert Box -->
+      <div id="login-alert" class="hidden mb-4 p-3.5 rounded-xl text-xs font-semibold"></div>
+
+      <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
+        <div>
+          <label for="username" class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            autocomplete="username"
+            placeholder="admin"
+            class="w-full px-4 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] focus:border-transparent transition-all outline-none"
+          />
+        </div>
+
+        <div>
+          <label for="password" class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">Password</label>
+          <div class="relative">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              autocomplete="current-password"
+              placeholder="••••••••••••"
+              class="w-full px-4 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] focus:border-transparent transition-all outline-none pr-10"
+            />
+            <button
+              type="button"
+              onclick="togglePasswordVisibility('password')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs font-semibold p-1"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="login-btn"
+          class="w-full mt-2 py-3 px-4 bg-[#e63f11] hover:bg-[#d03509] active:scale-[0.99] text-white text-sm font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+        >
+          <span>Accedi alla Console</span>
+          <svg id="login-spinner" class="hidden animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-[#f3eae7] text-center">
+        <span class="text-[11px] text-[#9b604b] flex items-center justify-center gap-1.5 font-medium">
+          🔒 Connessione protetta con crittografia & rate-limiting attivo
+        </span>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 2. DASHBOARD ADMIN (AUTENTICATO)                                         -->
+  <!-- ========================================================================= -->
+  <div id="admin-view" class="hidden flex-1 flex flex-col">
+    <!-- Navbar Superiore -->
+    <header class="bg-white border-b border-[#f3eae7] px-4 md:px-8 py-3 sticky top-0 z-30 shadow-xs">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <!-- Logo & Titolo -->
+        <div class="flex items-center gap-3">
+          <img src="icons/logo.svg" alt="Run Society" class="w-8 h-8 md:w-9 md:h-9" />
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-base md:text-lg font-black text-[#1c110d] leading-none">Run Society</h1>
+              <span class="bg-[#fdf3f0] text-[#e63f11] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-[#e63f11]/20">
+                ADMIN
+              </span>
+            </div>
+            <p class="text-[11px] text-[#9b604b] mt-0.5">Console di Gestione Calendari</p>
+          </div>
+        </div>
+
+        <!-- Azioni Header -->
+        <div class="flex items-center gap-2 md:gap-3">
+          <a
+            href="calendario.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f3eae7] hover:bg-[#ebdcd7] text-[#1c110d] text-xs font-bold rounded-full transition-colors"
+          >
+            <span>Anteprima Calendario</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
+
+          <div class="text-right hidden md:block">
+            <span id="user-display" class="text-xs font-bold text-[#1c110d] block">admin</span>
+            <span class="text-[10px] text-green-600 font-semibold flex items-center justify-end gap-1">
+              <span class="size-1.5 bg-green-500 rounded-full animate-pulse"></span> Connesso
+            </span>
+          </div>
+
+          <button
+            onclick="handleLogout()"
+            class="px-3.5 py-1.5 border border-[#f3eae7] hover:border-red-300 hover:bg-red-50 text-red-600 text-xs font-bold rounded-full transition-all flex items-center gap-1"
+          >
+            <span>Esci</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenitore Principale Dashboard -->
+    <main class="max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 flex-1">
+      
+      <!-- Selettore Sezione (Tabs) -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#f3eae7]">
+        <div class="flex items-center gap-2 bg-white p-1 rounded-2xl border border-[#f3eae7] shadow-xs">
+          <button
+            id="tab-btn-runs"
+            onclick="switchTab('runs')"
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-[#e63f11] text-white shadow-xs flex items-center gap-2"
+          >
+            <span>🏃</span>
+            <span>Run del Club (Easy Runs)</span>
+            <span id="runs-count-badge" class="bg-white/20 text-white text-[11px] px-2 py-0.5 rounded-full font-extrabold">0</span>
+          </button>
+
+          <button
+            id="tab-btn-races"
+            onclick="switchTab('races')"
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-[#1c110d] hover:bg-[#fcf9f8] flex items-center gap-2"
+          >
+            <span>🏆</span>
+            <span>Gare Esterne (Territorio)</span>
+            <span id="races-count-badge" class="bg-[#f3eae7] text-[#1c110d] text-[11px] px-2 py-0.5 rounded-full font-extrabold">0</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button
+            id="primary-add-btn"
+            onclick="openCreateModal()"
+            class="w-full sm:w-auto px-5 py-2.5 bg-[#e63f11] hover:bg-[#d03509] text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2"
+          >
+            <span class="text-base leading-none">➕</span>
+            <span id="primary-add-label">Aggiungi Nuova Run</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- TAB 1: SEZIONE GESTIONE RUN DEL CLUB (events.json)                    -->
+      <!-- ===================================================================== -->
+      <section id="section-runs" class="space-y-4">
+        <!-- Filtri e Ricerca Run -->
+        <div class="bg-white border border-[#f3eae7] rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
+          <!-- Ricerca testuale -->
+          <div class="relative flex-1">
+            <input
+              type="text"
+              id="search-runs"
+              placeholder="Cerca per titolo, data o location..."
+              oninput="filterRuns()"
+              class="w-full pl-9 pr-4 py-2 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            />
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">🔍</span>
+          </div>
+
+          <!-- Filtro Città -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
+            <span class="text-xs font-bold text-[#9b604b] whitespace-nowrap">Filtra per:</span>
+            <button
+              onclick="setRunCityFilter('all')"
+              data-city-filter="all"
+              class="run-city-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#e63f11] text-white transition-all shadow-xs"
+            >
+              Tutte
+            </button>
+            <button
+              onclick="setRunCityFilter('trieste')"
+              data-city-filter="trieste"
+              class="run-city-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all"
+            >
+              📍 Trieste
+            </button>
+            <button
+              onclick="setRunCityFilter('venezia')"
+              data-city-filter="venezia"
+              class="run-city-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all"
+            >
+              📍 Venezia
+            </button>
+            <button
+              onclick="setRunCityFilter('entrambi')"
+              data-city-filter="entrambi"
+              class="run-city-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all"
+            >
+              🔄 Entrambi
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista Run Card / Table -->
+        <div class="bg-white border border-[#f3eae7] rounded-2xl overflow-hidden shadow-xs">
+          <div id="runs-loading" class="p-8 text-center text-sm text-[#9b604b]">
+            <div class="inline-block animate-spin size-6 border-2 border-[#e63f11] border-t-transparent rounded-full mb-2"></div>
+            <p>Caricamento run dal database in corso...</p>
+          </div>
+
+          <div id="runs-empty" class="hidden p-12 text-center">
+            <span class="text-4xl block mb-2">👟</span>
+            <h3 class="text-base font-bold text-[#1c110d]">Nessuna run trovata</h3>
+            <p class="text-xs text-[#9b604b] mt-1">Non ci sono eventi corrispondenti ai filtri attivi.</p>
+          </div>
+
+          <div id="runs-container" class="divide-y divide-[#f3eae7]">
+            <!-- Generato dinamicamente da JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- TAB 2: SEZIONE GESTIONE GARE ESTERNE (races.json)                     -->
+      <!-- ===================================================================== -->
+      <section id="section-races" class="hidden space-y-4">
+        <!-- Filtri e Ricerca Gare -->
+        <div class="bg-white border border-[#f3eae7] rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
+          <!-- Ricerca testuale -->
+          <div class="relative flex-1">
+            <input
+              type="text"
+              id="search-races"
+              placeholder="Cerca gara per nome, città, data..."
+              oninput="filterRaces()"
+              class="w-full pl-9 pr-4 py-2 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            />
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">🔍</span>
+          </div>
+
+          <!-- Filtro Area -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
+            <span class="text-xs font-bold text-[#9b604b] whitespace-nowrap">Macro-area:</span>
+            <button
+              onclick="setRaceAreaFilter('all')"
+              data-area-filter="all"
+              class="race-area-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#e63f11] text-white transition-all shadow-xs"
+            >
+              Tutte
+            </button>
+            <button
+              onclick="setRaceAreaFilter('fvg')"
+              data-area-filter="fvg"
+              class="race-area-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all"
+            >
+              🏔️ FVG
+            </button>
+            <button
+              onclick="setRaceAreaFilter('veneto')"
+              data-area-filter="veneto"
+              class="race-area-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all"
+            >
+              🦁 Veneto
+            </button>
+            <button
+              onclick="setRaceAreaFilter('estero')"
+              data-area-filter="estero"
+              class="race-area-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all"
+            >
+              🌍 Estero
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista Gare Card / Table -->
+        <div class="bg-white border border-[#f3eae7] rounded-2xl overflow-hidden shadow-xs">
+          <div id="races-loading" class="p-8 text-center text-sm text-[#9b604b]">
+            <div class="inline-block animate-spin size-6 border-2 border-[#e63f11] border-t-transparent rounded-full mb-2"></div>
+            <p>Caricamento gare in corso...</p>
+          </div>
+
+          <div id="races-empty" class="hidden p-12 text-center">
+            <span class="text-4xl block mb-2">🏅</span>
+            <h3 class="text-base font-bold text-[#1c110d]">Nessuna gara trovata</h3>
+            <p class="text-xs text-[#9b604b] mt-1">Non ci sono gare corrispondenti ai filtri impostati.</p>
+          </div>
+
+          <div id="races-container" class="divide-y divide-[#f3eae7]">
+            <!-- Generato dinamicamente da JS -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODALE: CREA / MODIFICA RUN (events.json)                                 -->
+  <!-- ========================================================================= -->
+  <div id="modal-run" class="modal fixed inset-0 z-50 bg-black/50 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 shadow-2xl border border-[#f3eae7] fade-enter">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#f3eae7]">
+        <div class="flex items-center gap-2.5">
+          <span class="size-8 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center text-base">🏃</span>
+          <div>
+            <h2 id="modal-run-title" class="text-lg font-black text-[#1c110d]">Nuova Run del Club</h2>
+            <p class="text-xs text-[#9b604b]">Inserisci o modifica i dettagli dell'evento</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-run')" class="text-gray-400 hover:text-gray-600 text-lg font-bold p-1">✕</button>
+      </div>
+
+      <form id="form-run" onsubmit="handleSaveRun(event)" class="space-y-4">
+        <input type="hidden" id="run-edit-index" value="-1" />
+
+        <!-- Selezione Calendario / Città (OBBLIGATORIO) -->
+        <div class="p-3.5 bg-[#fcf9f8] rounded-2xl border border-[#f3eae7]">
+          <label class="block text-xs font-bold text-[#1c110d] mb-2 uppercase tracking-wider">
+            📅 Destinazione Calendario (Città) <span class="text-red-500">*</span>
+          </label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="cursor-pointer">
+              <input type="radio" name="run_city" value="trieste" class="peer sr-only" checked />
+              <div class="p-2.5 text-center text-xs font-bold rounded-xl border border-[#f3eae7] bg-white peer-checked:bg-[#e63f11] peer-checked:text-white peer-checked:border-[#e63f11] hover:bg-gray-50 transition-all">
+                📍 Trieste
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="run_city" value="venezia" class="peer sr-only" />
+              <div class="p-2.5 text-center text-xs font-bold rounded-xl border border-[#f3eae7] bg-white peer-checked:bg-[#e63f11] peer-checked:text-white peer-checked:border-[#e63f11] hover:bg-gray-50 transition-all">
+                📍 Venezia
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="run_city" value="entrambi" class="peer sr-only" />
+              <div class="p-2.5 text-center text-xs font-bold rounded-xl border border-[#f3eae7] bg-white peer-checked:bg-[#e63f11] peer-checked:text-white peer-checked:border-[#e63f11] hover:bg-gray-50 transition-all">
+                🔄 Entrambi
+              </div>
+            </label>
+          </div>
+          <p class="text-[11px] text-[#9b604b] mt-1.5">Selezionando "Entrambi", l'evento sarà visibile nei calendari di entrambe le community.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Data -->
+          <div>
+            <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+              Data dell'evento <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="run-date"
+              required
+              placeholder="GG/MM/AAAA (es. 24/09/2026)"
+              class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            />
+          </div>
+
+          <!-- Orario / Time -->
+          <div>
+            <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+              Orario (Meeting & Start) <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="run-time"
+              required
+              value="Meeting: 18:45, Start: 19:00"
+              placeholder="Meeting: 18:45, Start: 19:00"
+              class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Titolo -->
+        <div>
+          <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Titolo della Run <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="run-title"
+            required
+            placeholder="es. Easy Run Easy Gelatino"
+            class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+          />
+        </div>
+
+        <!-- Descrizione -->
+        <div>
+          <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Descrizione dell'evento
+          </label>
+          <textarea
+            id="run-description"
+            rows="3"
+            placeholder="Descrivi l'evento, il tipo di allenamento o il momento conviviale finale..."
+            class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Location -->
+        <div>
+          <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Luogo di Ritrovo / Location <span class="text-red-500">*</span>
+          </label>
+          <select
+            id="run-location-select"
+            onchange="handleLocationSelectChange(this)"
+            class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none mb-2"
+          >
+            <option value="porto_vecchio">Ingresso Porto Vecchio (Trieste)</option>
+            <option value="barcola">Piazzale 11 Settembre, Barcola (Trieste)</option>
+            <option value="piazza_unita">Piazza Unità d'Italia (Trieste)</option>
+            <option value="miramare">Castello di Miramare (Trieste)</option>
+            <option value="forte_marghera">Parcheggio Forte Marghera (Venezia/Mestre)</option>
+            <option value="scala_santa">Scala Santa (Trieste)</option>
+            <option value="accademia_biliardo">Accademia del Biliardo (Trieste)</option>
+            <option value="bowling_duino">Bowling Duino</option>
+            <option value="custom">-- Altra Location Personalizzata --</option>
+          </select>
+          <input
+            type="text"
+            id="run-location-custom"
+            placeholder="Inserisci nome location o indirizzo"
+            class="hidden w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+          />
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-[#f3eae7]">
+          <button
+            type="button"
+            onclick="closeModal('modal-run')"
+            class="px-4 py-2.5 text-xs sm:text-sm font-bold text-[#1c110d] bg-[#f3eae7] hover:bg-[#e8d5cf] rounded-xl transition-all"
+          >
+            Annulla
+          </button>
+          <button
+            type="submit"
+            id="run-save-btn"
+            class="px-6 py-2.5 text-xs sm:text-sm font-bold text-white bg-[#e63f11] hover:bg-[#d03509] rounded-xl shadow-sm transition-all flex items-center gap-2"
+          >
+            <span>Salva Run</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODALE: CREA / MODIFICA GARA (races.json)                                 -->
+  <!-- ========================================================================= -->
+  <div id="modal-race" class="modal fixed inset-0 z-50 bg-black/50 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-7 shadow-2xl border border-[#f3eae7] fade-enter">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#f3eae7]">
+        <div class="flex items-center gap-2.5">
+          <span class="size-8 rounded-xl bg-[#fdf3f0] text-[#e63f11] flex items-center justify-center text-base">🏆</span>
+          <div>
+            <h2 id="modal-race-title" class="text-lg font-black text-[#1c110d]">Nuova Gara Esterna</h2>
+            <p class="text-xs text-[#9b604b]">Dettagli manifestazione podistica o trail</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-race')" class="text-gray-400 hover:text-gray-600 text-lg font-bold p-1">✕</button>
+      </div>
+
+      <form id="form-race" onsubmit="handleSaveRace(event)" class="space-y-4">
+        <input type="hidden" id="race-edit-index" value="-1" />
+
+        <!-- Nome Gara -->
+        <div>
+          <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Nome della Gara / Evento <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="race-name"
+            required
+            placeholder="es. Venicemarathon"
+            class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Data ISO -->
+          <div>
+            <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+              Data (AAAA-MM-GG) <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              id="race-date"
+              required
+              class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            />
+          </div>
+
+          <!-- Macro Area -->
+          <div>
+            <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+              Macro Area Territoriale <span class="text-red-500">*</span>
+            </label>
+            <select
+              id="race-area"
+              required
+              class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            >
+              <option value="Friuli Venezia Giulia">🏔️ Friuli Venezia Giulia</option>
+              <option value="Veneto">🦁 Veneto</option>
+              <option value="Estero (Slo/Cro/Aut)">🌍 Estero (Slo/Cro/Aut)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Disciplina -->
+          <div>
+            <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+              Disciplina
+            </label>
+            <select
+              id="race-disciplina"
+              class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            >
+              <option value="strada">Strada</option>
+              <option value="trail">Trail Running</option>
+              <option value="montagna">Corsa in Montagna</option>
+              <option value="campestre">Campestre / Cross</option>
+              <option value="pista">Pista</option>
+              <option value="indoor">Indoor</option>
+            </select>
+          </div>
+
+          <!-- Prezzo / Quota -->
+          <div>
+            <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+              Quota / Prezzo
+            </label>
+            <input
+              type="text"
+              id="race-price"
+              placeholder="es. 25€ oppure Gratuito"
+              class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Località -->
+        <div>
+          <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Località & Provincia <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="race-location"
+            required
+            placeholder="es. Trieste (TS) oppure Venezia (VE)"
+            class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+          />
+        </div>
+
+        <!-- Distanze KM -->
+        <div>
+          <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Distanze in KM (separate da virgola)
+          </label>
+          <input
+            type="text"
+            id="race-distances"
+            placeholder="es. 10.0, 21.097, 42.195"
+            class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none mb-2"
+          />
+          <div class="flex flex-wrap gap-1.5">
+            <span class="text-[11px] text-[#9b604b] py-0.5">Scelta rapida:</span>
+            <button type="button" onclick="appendDistance('5.0')" class="px-2 py-0.5 bg-[#f3eae7] hover:bg-[#e8d5cf] rounded-md text-xs font-bold">+ 5K</button>
+            <button type="button" onclick="appendDistance('10.0')" class="px-2 py-0.5 bg-[#f3eae7] hover:bg-[#e8d5cf] rounded-md text-xs font-bold">+ 10K</button>
+            <button type="button" onclick="appendDistance('21.097')" class="px-2 py-0.5 bg-[#f3eae7] hover:bg-[#e8d5cf] rounded-md text-xs font-bold">+ 21.097K (Mezza)</button>
+            <button type="button" onclick="appendDistance('42.195')" class="px-2 py-0.5 bg-[#f3eae7] hover:bg-[#e8d5cf] rounded-md text-xs font-bold">+ 42.195K (Maratona)</button>
+          </div>
+        </div>
+
+        <!-- Link Info -->
+        <div>
+          <label class="block text-xs font-bold text-[#1c110d] mb-1.5 uppercase tracking-wider">
+            Sito Ufficiale / Link Iscrizioni
+          </label>
+          <input
+            type="url"
+            id="race-link"
+            placeholder="https://..."
+            class="w-full px-3.5 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] outline-none"
+          />
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-[#f3eae7]">
+          <button
+            type="button"
+            onclick="closeModal('modal-race')"
+            class="px-4 py-2.5 text-xs sm:text-sm font-bold text-[#1c110d] bg-[#f3eae7] hover:bg-[#e8d5cf] rounded-xl transition-all"
+          >
+            Annulla
+          </button>
+          <button
+            type="submit"
+            id="race-save-btn"
+            class="px-6 py-2.5 text-xs sm:text-sm font-bold text-white bg-[#e63f11] hover:bg-[#d03509] rounded-xl shadow-sm transition-all flex items-center gap-2"
+          >
+            <span>Salva Gara</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODALE: CONFERMA ELIMINAZIONE                                             -->
+  <!-- ========================================================================= -->
+  <div id="modal-delete" class="modal fixed inset-0 z-50 bg-black/50 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border border-[#f3eae7] fade-enter">
+      <div class="size-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-2xl mx-auto mb-4">
+        ⚠️
+      </div>
+      <h3 class="text-lg font-black text-[#1c110d] mb-1">Sei assolutamente sicuro?</h3>
+      <p id="delete-item-desc" class="text-xs text-[#9b604b] mb-6">
+        Stai per eliminare questo elemento in modo permanente. L'azione aggiornerà immediatamente il database del sito.
+      </p>
+
+      <div class="flex items-center justify-center gap-3">
+        <button
+          onclick="closeModal('modal-delete')"
+          class="flex-1 py-2.5 text-xs sm:text-sm font-bold text-[#1c110d] bg-[#f3eae7] hover:bg-[#e8d5cf] rounded-xl transition-all"
+        >
+          Annulla
+        </button>
+        <button
+          id="confirm-delete-btn"
+          onclick="executeDelete()"
+          class="flex-1 py-2.5 text-xs sm:text-sm font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-sm transition-all"
+        >
+          Elimina
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT GESTIONE STATO, API & CRUD                                     -->
+  <!-- ========================================================================= -->
+  <script>
+    // Stato globale
+    let currentTab = 'runs'; // 'runs' | 'races'
+    let allRuns = [];
+    let allRaces = [];
+    let activeRunCityFilter = 'all';
+    let activeRaceAreaFilter = 'all';
+    let deleteTarget = { type: null, index: null };
+
+    // Gestione Token di Autenticazione (compatibile con Iframe, Nuove Schede e Hosting)
+    let authToken = sessionStorage.getItem('rs_admin_token') || localStorage.getItem('rs_admin_token') || '';
+
+    function setAuthToken(token) {
+      authToken = token || '';
+      if (token) {
+        sessionStorage.setItem('rs_admin_token', token);
+        localStorage.setItem('rs_admin_token', token);
+      } else {
+        sessionStorage.removeItem('rs_admin_token');
+        localStorage.removeItem('rs_admin_token');
+      }
+    }
+
+    // Helper centralizzato per le chiamate autenticate
+    async function adminFetch(url, options = {}) {
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      };
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      const response = await fetch(url, {
+        ...options,
+        credentials: 'include',
+        headers
+      });
+
+      if (response.status === 401 && !url.includes('/api/admin/login')) {
+        setAuthToken('');
+        showLoginView();
+      }
+
+      return response;
+    }
+
+    // =========================================================================
+    // INIZIALIZZAZIONE & CONTROLLO SESSIONE
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      await checkAuthStatus();
+    });
+
+    async function checkAuthStatus() {
+      try {
+        const res = await adminFetch('/api/admin/me');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authenticated) {
+            showAdminDashboard(data.username);
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Verifica sessione fallita:', e);
+      }
+      showLoginView();
+    }
+
+    function showLoginView() {
+      document.getElementById('login-view').classList.remove('hidden');
+      document.getElementById('admin-view').classList.add('hidden');
+    }
+
+    function showAdminDashboard(username) {
+      document.getElementById('login-view').classList.add('hidden');
+      document.getElementById('admin-view').classList.remove('hidden');
+      document.getElementById('user-display').textContent = username || 'admin';
+      loadAllRuns();
+      loadAllRaces();
+    }
+
+    function togglePasswordVisibility(fieldId) {
+      const input = document.getElementById(fieldId);
+      if (input.type === 'password') input.type = 'text';
+      else input.type = 'password';
+    }
+
+    // =========================================================================
+    // TOAST NOTIFICATIONS
+    // =========================================================================
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bgColors = {
+        success: 'bg-emerald-600 text-white',
+        error: 'bg-red-600 text-white',
+        info: 'bg-[#1c110d] text-white'
+      };
+      const icons = {
+        success: '✅',
+        error: '❌',
+        info: 'ℹ️'
+      };
+
+      toast.className = `pointer-events-auto p-4 rounded-2xl shadow-xl flex items-center gap-3 text-xs sm:text-sm font-bold transition-all duration-300 transform translate-y-[-10px] opacity-0 ${bgColors[type] || bgColors.info}`;
+      toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span class="flex-1">${message}</span>`;
+      
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-[-10px]', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-[-10px]');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // =========================================================================
+    // GESTIONE AUTENTICAZIONE (LOGIN / LOGOUT)
+    // =========================================================================
+    async function handleLogin(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('login-alert');
+      const btn = document.getElementById('login-btn');
+      const spinner = document.getElementById('login-spinner');
+      
+      alertBox.classList.add('hidden');
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          if (data.token) {
+            setAuthToken(data.token);
+          }
+          showToast('Accesso autorizzato!', 'success');
+          showAdminDashboard(data.user?.username);
+        } else {
+          alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold bg-red-50 text-red-600 border border-red-200';
+          alertBox.textContent = data.error || 'Credenziali non valide.';
+          alertBox.classList.remove('hidden');
+        }
+      } catch (err) {
+        alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold bg-red-50 text-red-600 border border-red-200';
+        alertBox.textContent = 'Errore di connessione al server.';
+        alertBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+      }
+    }
+
+    async function handleLogout() {
+      try {
+        await adminFetch('/api/admin/logout', { method: 'POST' });
+      } catch (e) {
+        console.error('Logout error:', e);
+      } finally {
+        setAuthToken('');
+        showToast('Logout effettuato.', 'info');
+        showLoginView();
+      }
+    }
+
+    // =========================================================================
+    // SWITCH TABS
+    // =========================================================================
+    function switchTab(tab) {
+      currentTab = tab;
+      const tabRunsBtn = document.getElementById('tab-btn-runs');
+      const tabRacesBtn = document.getElementById('tab-btn-races');
+      const secRuns = document.getElementById('section-runs');
+      const secRaces = document.getElementById('section-races');
+      const addLabel = document.getElementById('primary-add-label');
+
+      if (tab === 'runs') {
+        tabRunsBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-[#e63f11] text-white shadow-xs flex items-center gap-2';
+        tabRacesBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-[#1c110d] hover:bg-[#fcf9f8] flex items-center gap-2';
+        secRuns.classList.remove('hidden');
+        secRaces.classList.add('hidden');
+        addLabel.textContent = 'Aggiungi Nuova Run';
+      } else {
+        tabRacesBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-[#e63f11] text-white shadow-xs flex items-center gap-2';
+        tabRunsBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-[#1c110d] hover:bg-[#fcf9f8] flex items-center gap-2';
+        secRaces.classList.remove('hidden');
+        secRuns.classList.add('hidden');
+        addLabel.textContent = 'Aggiungi Nuova Gara';
+      }
+    }
+
+    function openCreateModal() {
+      if (currentTab === 'runs') {
+        document.getElementById('modal-run-title').textContent = 'Nuova Run del Club';
+        document.getElementById('run-edit-index').value = '-1';
+        document.getElementById('form-run').reset();
+        document.getElementById('run-time').value = 'Meeting: 18:45, Start: 19:00';
+        handleLocationSelectChange(document.getElementById('run-location-select'));
+        openModal('modal-run');
+      } else {
+        document.getElementById('modal-race-title').textContent = 'Nuova Gara Esterna';
+        document.getElementById('race-edit-index').value = '-1';
+        document.getElementById('form-race').reset();
+        document.getElementById('race-distances').value = '10.0, 21.097';
+        openModal('modal-race');
+      }
+    }
+
+    // =========================================================================
+    // RUNS DEL CLUB (events.json)
+    // =========================================================================
+    async function loadAllRuns() {
+      const loading = document.getElementById('runs-loading');
+      const container = document.getElementById('runs-container');
+      const empty = document.getElementById('runs-empty');
+
+      try {
+        loading.classList.remove('hidden');
+        const res = await adminFetch('/api/admin/events');
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || 'Errore nel recupero delle run');
+        }
+        const data = await res.json();
+        allRuns = data.events || [];
+        document.getElementById('runs-count-badge').textContent = allRuns.length;
+        renderRunsList();
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+
+    function setRunCityFilter(city) {
+      activeRunCityFilter = city;
+      document.querySelectorAll('.run-city-filter-btn').forEach(btn => {
+        if (btn.dataset.cityFilter === city) {
+          btn.className = 'run-city-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#e63f11] text-white transition-all shadow-xs';
+        } else {
+          btn.className = 'run-city-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all';
+        }
+      });
+      renderRunsList();
+    }
+
+    function filterRuns() {
+      renderRunsList();
+    }
+
+    function renderRunsList() {
+      const container = document.getElementById('runs-container');
+      const empty = document.getElementById('runs-empty');
+      const query = (document.getElementById('search-runs')?.value || '').toLowerCase().trim();
+
+      const filtered = allRuns.map((run, originalIndex) => ({ run, originalIndex })).filter(({ run }) => {
+        // Filtro città
+        const c = (run.city || '').toLowerCase();
+        if (activeRunCityFilter !== 'all') {
+          if (activeRunCityFilter === 'entrambi' && c !== 'entrambi' && c !== 'both') return false;
+          if (activeRunCityFilter !== 'entrambi' && c !== activeRunCityFilter && c !== 'entrambi') return false;
+        }
+
+        // Filtro ricerca
+        if (query) {
+          const title = typeof run.title === 'object' ? (run.title.it || run.title.en || '') : (run.title || '');
+          const desc = typeof run.description === 'object' ? (run.description.it || run.description.en || '') : (run.description || '');
+          const loc = typeof run.location === 'object' ? (run.location.name || '') : (run.location || '');
+          const searchable = `${title} ${desc} ${loc} ${run.date || ''}`.toLowerCase();
+          return searchable.includes(query);
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+
+      container.innerHTML = filtered.map(({ run, originalIndex }) => {
+        const title = typeof run.title === 'object' ? (run.title.it || run.title.en) : run.title;
+        const desc = typeof run.description === 'object' ? (run.description.it || run.description.en) : (run.description || '');
+        const loc = typeof run.location === 'object' ? (run.location.name || 'Custom') : (run.location || 'N/D');
+
+        // Badge Città
+        let cityBadge = '';
+        const cityLower = (run.city || '').toLowerCase();
+        if (cityLower === 'venezia') {
+          cityBadge = `<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">📍 Venezia</span>`;
+        } else if (cityLower === 'trieste') {
+          cityBadge = `<span class="bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">📍 Trieste</span>`;
+        } else {
+          cityBadge = `<span class="bg-purple-50 text-purple-700 border border-purple-200 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">🔄 Venezia & Trieste</span>`;
+        }
+
+        return `
+          <div class="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#fcf9f8] transition-colors">
+            <div class="space-y-1.5 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs font-bold text-[#e63f11] bg-[#fdf3f0] px-2.5 py-0.5 rounded-md">
+                  📅 ${run.date}
+                </span>
+                ${cityBadge}
+                <span class="text-xs text-[#9b604b] font-medium">🕒 ${run.time || 'N/D'}</span>
+              </div>
+
+              <h4 class="text-base font-bold text-[#1c110d]">${title}</h4>
+              ${desc ? `<p class="text-xs text-[#9b604b] line-clamp-2">${desc}</p>` : ''}
+              
+              <div class="text-[11px] text-[#9b604b] font-medium pt-0.5">
+                📍 Location: <span class="text-[#1c110d] font-semibold">${loc}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 flex-shrink-0 pt-2 md:pt-0">
+              <button
+                onclick="editRun(${originalIndex})"
+                class="px-3 py-1.5 bg-[#f3eae7] hover:bg-[#e8d5cf] text-[#1c110d] text-xs font-bold rounded-xl transition-all flex items-center gap-1"
+                title="Modifica Run"
+              >
+                <span>✏️</span>
+                <span>Modifica</span>
+              </button>
+              <button
+                onclick="confirmDelete('run', ${originalIndex}, '${escapeHtml(title)}', '${run.date}')"
+                class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold rounded-xl transition-all flex items-center gap-1"
+                title="Elimina Run"
+              >
+                <span>🗑️</span>
+                <span>Elimina</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function editRun(index) {
+      const run = allRuns[index];
+      if (!run) return;
+
+      document.getElementById('modal-run-title').textContent = 'Modifica Run del Club';
+      document.getElementById('run-edit-index').value = index;
+      document.getElementById('run-date').value = run.date || '';
+      document.getElementById('run-time').value = run.time || 'Meeting: 18:45, Start: 19:00';
+      
+      const title = typeof run.title === 'object' ? (run.title.it || run.title.en) : run.title;
+      const desc = typeof run.description === 'object' ? (run.description.it || run.description.en) : (run.description || '');
+      document.getElementById('run-title').value = title || '';
+      document.getElementById('run-description').value = desc || '';
+
+      // Set City Radio
+      const city = (run.city || 'trieste').toLowerCase();
+      const radio = document.querySelector(`input[name="run_city"][value="${city}"]`) || document.querySelector(`input[name="run_city"][value="trieste"]`);
+      if (radio) radio.checked = true;
+
+      // Set Location
+      const locSelect = document.getElementById('run-location-select');
+      const locCustom = document.getElementById('run-location-custom');
+      const locVal = typeof run.location === 'object' ? (run.location.name || '') : (run.location || '');
+
+      let matchedOption = false;
+      for (let opt of locSelect.options) {
+        if (opt.value === locVal) {
+          locSelect.value = locVal;
+          matchedOption = true;
+          break;
+        }
+      }
+
+      if (!matchedOption) {
+        locSelect.value = 'custom';
+        locCustom.value = locVal;
+        locCustom.classList.remove('hidden');
+      } else {
+        locCustom.classList.add('hidden');
+        locCustom.value = '';
+      }
+
+      openModal('modal-run');
+    }
+
+    function handleLocationSelectChange(select) {
+      const customInput = document.getElementById('run-location-custom');
+      if (select.value === 'custom') {
+        customInput.classList.remove('hidden');
+        customInput.required = true;
+        customInput.focus();
+      } else {
+        customInput.classList.add('hidden');
+        customInput.required = false;
+      }
+    }
+
+    async function handleSaveRun(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('run-save-btn');
+      saveBtn.disabled = true;
+
+      const editIndex = parseInt(document.getElementById('run-edit-index').value, 10);
+      const isEditing = !isNaN(editIndex) && editIndex >= 0;
+
+      const date = document.getElementById('run-date').value.trim();
+      const time = document.getElementById('run-time').value.trim();
+      const title = document.getElementById('run-title').value.trim();
+      const description = document.getElementById('run-description').value.trim();
+      
+      const cityRadio = document.querySelector('input[name="run_city"]:checked');
+      const city = cityRadio ? cityRadio.value : 'trieste';
+
+      const locSelect = document.getElementById('run-location-select');
+      let location = locSelect.value;
+      if (location === 'custom') {
+        location = document.getElementById('run-location-custom').value.trim() || 'porto_vecchio';
+      }
+
+      const payload = { date, time, title, description, city, location };
+
+      try {
+        const url = isEditing ? `/api/admin/events/${editIndex}` : '/api/admin/events';
+        const method = isEditing ? 'PUT' : 'POST';
+
+        const res = await adminFetch(url, {
+          method,
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast(isEditing ? 'Run modificata con successo!' : 'Nuova Run aggiunta con successo!', 'success');
+          closeModal('modal-run');
+          await loadAllRuns();
+        } else {
+          showToast(data.error || 'Errore durante il salvataggio della run', 'error');
+        }
+      } catch (err) {
+        showToast('Errore di rete durante il salvataggio', 'error');
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    // =========================================================================
+    // GARE ESTERNE (races.json)
+    // =========================================================================
+    async function loadAllRaces() {
+      const loading = document.getElementById('races-loading');
+      const empty = document.getElementById('races-empty');
+
+      try {
+        loading.classList.remove('hidden');
+        const res = await adminFetch('/api/admin/races');
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || 'Errore nel recupero delle gare');
+        }
+        const data = await res.json();
+        allRaces = data.races || [];
+        document.getElementById('races-count-badge').textContent = allRaces.length;
+        renderRacesList();
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+
+    function setRaceAreaFilter(area) {
+      activeRaceAreaFilter = area;
+      document.querySelectorAll('.race-area-filter-btn').forEach(btn => {
+        if (btn.dataset.areaFilter === area) {
+          btn.className = 'race-area-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#e63f11] text-white transition-all shadow-xs';
+        } else {
+          btn.className = 'race-area-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#f3eae7] text-[#1c110d] hover:bg-[#e8d5cf] transition-all';
+        }
+      });
+      renderRacesList();
+    }
+
+    function filterRaces() {
+      renderRacesList();
+    }
+
+    function renderRacesList() {
+      const container = document.getElementById('races-container');
+      const empty = document.getElementById('races-empty');
+      const query = (document.getElementById('search-races')?.value || '').toLowerCase().trim();
+
+      const filtered = allRaces.map((race, originalIndex) => ({ race, originalIndex })).filter(({ race }) => {
+        // Filtro macro area
+        const a = (race.area || '').toLowerCase();
+        if (activeRaceAreaFilter === 'fvg' && !a.includes('friuli') && a !== 'fvg') return false;
+        if (activeRaceAreaFilter === 'veneto' && !a.includes('veneto')) return false;
+        if (activeRaceAreaFilter === 'estero' && !a.includes('estero') && !a.includes('slo') && !a.includes('cro') && !a.includes('aut')) return false;
+
+        // Filtro ricerca
+        if (query) {
+          const searchable = `${race.nome || ''} ${race.localita || ''} ${race.data || ''} ${race.area || ''}`.toLowerCase();
+          return searchable.includes(query);
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+
+      container.innerHTML = filtered.map(({ race, originalIndex }) => {
+        // Area Badge
+        let areaBadge = '';
+        const areaLower = (race.area || '').toLowerCase();
+        if (areaLower.includes('veneto')) {
+          areaBadge = `<span class="bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">🦁 Veneto</span>`;
+        } else if (areaLower.includes('friuli') || areaLower === 'fvg') {
+          areaBadge = `<span class="bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">🏔️ FVG</span>`;
+        } else {
+          areaBadge = `<span class="bg-teal-50 text-teal-700 border border-teal-200 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">🌍 Estero</span>`;
+        }
+
+        // Distanze chips
+        let distChips = '';
+        const dists = race.distanze_km || [];
+        if (Array.isArray(dists) && dists.length > 0) {
+          distChips = dists.map(d => `<span class="bg-[#f3eae7] text-[#1c110d] text-[10px] font-bold px-2 py-0.5 rounded-md">${d} km</span>`).join(' ');
+        }
+
+        return `
+          <div class="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#fcf9f8] transition-colors">
+            <div class="space-y-1.5 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs font-bold text-[#e63f11] bg-[#fdf3f0] px-2.5 py-0.5 rounded-md">
+                  📅 ${race.data_originale || race.data}
+                </span>
+                ${areaBadge}
+                <span class="text-xs text-[#9b604b] font-medium uppercase tracking-wider">🏃 ${race.disciplina || 'strada'}</span>
+              </div>
+
+              <h4 class="text-base font-bold text-[#1c110d]">${race.nome}</h4>
+              
+              <div class="flex flex-wrap items-center gap-2 text-xs text-[#9b604b] pt-0.5">
+                <span>📍 ${race.localita || 'N/D'}</span>
+                ${race.prezzo && race.prezzo !== 'N/D' ? `<span class="font-bold text-[#1c110d]">• ${race.prezzo}</span>` : ''}
+              </div>
+
+              ${distChips ? `<div class="flex flex-wrap gap-1 pt-1">${distChips}</div>` : ''}
+            </div>
+
+            <div class="flex items-center gap-2 flex-shrink-0 pt-2 md:pt-0">
+              ${race.link_info && race.link_info.startsWith('http') ? `
+                <a
+                  href="${race.link_info}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-2 text-gray-400 hover:text-[#e63f11] transition-colors"
+                  title="Apri link ufficiale"
+                >
+                  🔗
+                </a>
+              ` : ''}
+              <button
+                onclick="editRace(${originalIndex})"
+                class="px-3 py-1.5 bg-[#f3eae7] hover:bg-[#e8d5cf] text-[#1c110d] text-xs font-bold rounded-xl transition-all flex items-center gap-1"
+                title="Modifica Gara"
+              >
+                <span>✏️</span>
+                <span>Modifica</span>
+              </button>
+              <button
+                onclick="confirmDelete('race', ${originalIndex}, '${escapeHtml(race.nome)}', '${race.data}')"
+                class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold rounded-xl transition-all flex items-center gap-1"
+                title="Elimina Gara"
+              >
+                <span>🗑️</span>
+                <span>Elimina</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function editRace(index) {
+      const race = allRaces[index];
+      if (!race) return;
+
+      document.getElementById('modal-race-title').textContent = 'Modifica Gara Esterna';
+      document.getElementById('race-edit-index').value = index;
+      document.getElementById('race-name').value = race.nome || '';
+      document.getElementById('race-date').value = race.data || '';
+      document.getElementById('race-area').value = race.area || 'Friuli Venezia Giulia';
+      document.getElementById('race-disciplina').value = race.disciplina || 'strada';
+      document.getElementById('race-price').value = race.prezzo || '';
+      document.getElementById('race-location').value = race.localita || '';
+      document.getElementById('race-distances').value = Array.isArray(race.distanze_km) ? race.distanze_km.join(', ') : (race.distanze_km || '');
+      document.getElementById('race-link').value = race.link_info || '';
+
+      openModal('modal-race');
+    }
+
+    function appendDistance(kmStr) {
+      const input = document.getElementById('race-distances');
+      const cur = input.value.trim();
+      if (!cur) input.value = kmStr;
+      else {
+        const parts = cur.split(',').map(s => s.trim());
+        if (!parts.includes(kmStr)) {
+          input.value = cur + ', ' + kmStr;
+        }
+      }
+    }
+
+    async function handleSaveRace(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('race-save-btn');
+      saveBtn.disabled = true;
+
+      const editIndex = parseInt(document.getElementById('race-edit-index').value, 10);
+      const isEditing = !isNaN(editIndex) && editIndex >= 0;
+
+      const nome = document.getElementById('race-name').value.trim();
+      const data = document.getElementById('race-date').value.trim();
+      const area = document.getElementById('race-area').value;
+      const disciplina = document.getElementById('race-disciplina').value;
+      const prezzo = document.getElementById('race-price').value.trim() || 'N/D';
+      const localita = document.getElementById('race-location').value.trim();
+      const distanze_km = document.getElementById('race-distances').value.trim();
+      const link_info = document.getElementById('race-link').value.trim();
+
+      const payload = { nome, data, area, disciplina, prezzo, localita, distanze_km, link_info };
+
+      try {
+        const url = isEditing ? `/api/admin/races/${editIndex}` : '/api/admin/races';
+        const method = isEditing ? 'PUT' : 'POST';
+
+        const res = await adminFetch(url, {
+          method,
+          body: JSON.stringify(payload)
+        });
+
+        const resData = await res.json();
+        if (res.ok && resData.success) {
+          showToast(isEditing ? 'Gara aggiornata con successo!' : 'Nuova Gara aggiunta con successo!', 'success');
+          closeModal('modal-race');
+          await loadAllRaces();
+        } else {
+          showToast(resData.error || 'Errore durante il salvataggio della gara', 'error');
+        }
+      } catch (err) {
+        showToast('Errore di rete durante il salvataggio', 'error');
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    // =========================================================================
+    // ELIMINAZIONE SICURA CON CONFERMA
+    // =========================================================================
+    function confirmDelete(type, index, title, date) {
+      deleteTarget = { type, index };
+      document.getElementById('delete-item-desc').innerHTML = `
+        Stai per eliminare <strong>"${escapeHtml(title)}"</strong> (${date}) dal database.<br>
+        L'operazione non può essere annullata.
+      `;
+      openModal('modal-delete');
+    }
+
+    async function executeDelete() {
+      const btn = document.getElementById('confirm-delete-btn');
+      btn.disabled = true;
+
+      try {
+        const { type, index } = deleteTarget;
+        const endpoint = type === 'run' ? `/api/admin/events/${index}` : `/api/admin/races/${index}`;
+
+        const res = await adminFetch(endpoint, { method: 'DELETE' });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showToast(type === 'run' ? 'Run eliminata con successo' : 'Gara eliminata con successo', 'success');
+          closeModal('modal-delete');
+          if (type === 'run') await loadAllRuns();
+          else await loadAllRaces();
+        } else {
+          showToast(data.error || 'Impossibile eliminare l\'elemento', 'error');
+        }
+      } catch (err) {
+        showToast('Errore durante l\'eliminazione', 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // =========================================================================
+    // HELPERS UTILITY & MODALI
+    // =========================================================================
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('is-open');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('is-open');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

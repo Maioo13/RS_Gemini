@@ -667,5 +667,21 @@
     "area": "Estero (Slo/Cro/Aut)",
     "prezzo": "38€",
     "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Soča Outdoor Festival Trail",
+    "data": "2027-06-26",
+    "data_originale": "26/06/2027",
+    "distanze_km": [
+      10,
+      15,
+      25,
+      45
+    ],
+    "disciplina": "trail",
+    "localita": "Tolmin / Val Soča (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "40€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
   }
 ]

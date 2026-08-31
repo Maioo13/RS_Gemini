@@ -1,5 +1,8 @@
 # www.robotstxt.org/
 
-# Allow crawling of all content
+# Allow crawling of public content, block protected admin pages
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /api/admin/
+

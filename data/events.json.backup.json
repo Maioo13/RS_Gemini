@@ -263,6 +263,14 @@
       "time": "Meeting: 19:15, Start: 19:30",
       "location": "forte_marghera",
       "city": "venezia"
+    },
+    {
+      "date": "01/01/2027",
+      "title": "Corsa di Test",
+      "description": "Descrizione di prova",
+      "time": "Meeting: 18:45, Start: 19:00",
+      "location": "porto_vecchio",
+      "city": "trieste"
     }
   ]
 }

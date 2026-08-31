@@ -200,7 +200,7 @@
     <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden lg:hidden">
       <div class="fixed right-0 top-0 h-full w-64 bg-[#fcf9f8] shadow-lg transform transition-transform duration-300">
         <div class="flex justify-between items-center p-4 border-b border-[#f3eae7]">
-          <h3 class="text-[#1c110d] font-bold">Menu</h3>
+          <h3 class="text-[#1c110d] font-bold" data-translate="menu_title">Menu</h3>
           <button id="closeMobileMenu" class="p-2 text-[#1c110d]">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -612,61 +612,7 @@
 
           </div>
 
-          <!-- Micro-CTA / Banner di Chiusura -->
-          <div class="mt-8 max-w-3xl mx-auto bg-gradient-to-br from-[#fff7f5] via-[#fcf9f8] to-[#fbf1ed] border border-[#f3eae7] rounded-3xl p-6 md:p-7 shadow-sm">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
-              <div class="flex-1">
-                <div class="flex items-center justify-center md:justify-start gap-2 mb-1.5">
-                  <span class="w-2 h-2 rounded-full bg-[#e63f11] animate-pulse"></span>
-                  <h3 class="text-[#1c110d] text-lg md:text-xl font-bold tracking-tight" data-translate="faq_cta_title">
-                    Hai ancora dubbi o curiosità?
-                  </h3>
-                </div>
-                <p class="text-[#9b604b] text-sm md:text-base font-normal max-w-md" data-translate="faq_cta_subtitle">
-                  Scrivici su Instagram, mandaci un messaggio o vieni direttamente giovedì a fare un saluto!
-                </p>
-              </div>
 
-              <div class="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
-                <!-- Instagram Link -->
-                <a
-                  href="https://www.instagram.com/runsocietyts?igsh=ZDFkeDM5czNmYTU0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white text-[#1c110d] text-sm font-bold border border-[#f3eae7] hover:border-[#e63f11]/40 hover:text-[#e63f11] shadow-xs hover:shadow-sm transition-all duration-200 group"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#e63f11] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg>
-                  <span data-translate="faq_cta_ig_btn">Scrivici su Instagram</span>
-                </a>
-
-                <!-- WhatsApp Link -->
-                <a
-                  href="https://chat.whatsapp.com/LPwJwAzb6z2EGrQDAkqDAH?fbclid=PAVERDUAMoRZBleHRuA2FlbQIxMAABpwx0PSzNgUHbrgBHUc1JHv6M3uiduGTm1DjXnQDSH59REGWj2ZRxWVMS8hcb_aem_RHS46f_veDzzfz6_jEdNTw"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25D366] text-white text-sm font-bold hover:bg-[#20bd5a] shadow-xs hover:shadow-sm transition-all duration-200 group"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 256 256">
-                    <path d="M186.368 153.408c-3.168 -1.589 -18.752 -9.248 -21.653 -10.315 -2.912 -1.056 -5.024 -1.579 -7.147 1.6 -2.101 3.168 -8.181 10.304 -10.027 12.416 -1.845 2.123 -3.701 2.379 -6.869 0.8 -3.168 -1.6 -13.387 -4.939 -25.493 -15.733 -9.419 -8.405 -15.787 -18.784 -17.632 -21.963 -1.845 -3.168 -0.192 -4.885 1.387 -6.464 1.429 -1.419 3.179 -3.701 4.757 -5.547s2.112 -3.179 3.179 -5.301c1.056 -2.112 0.533 -3.957 -0.267 -5.547s-7.136 -17.195 -9.771 -23.541c-2.581 -6.176 -5.195 -5.333 -7.136 -5.44a138.667 138.667 0 0 0 -6.08 -0.107c-2.112 0 -5.547 0.789 -8.448 3.968 -2.901 3.168 -11.093 10.837 -11.093 26.443 0 15.595 11.36 30.667 12.939 32.789s22.357 34.133 54.155 47.861c7.563 3.264 13.461 5.216 18.069 6.667 7.595 2.421 14.507 2.08 19.957 1.259 6.091 -0.907 18.752 -7.669 21.397 -15.072s2.645 -13.749 1.845 -15.072c-0.789 -1.323 -2.901 -2.112 -6.08 -3.701m-57.824 78.965h-0.043a105.28 105.28 0 0 1 -53.664 -14.699l-3.851 -2.283 -39.904 10.475 10.645 -38.912 -2.507 -3.989a105.173 105.173 0 0 1 -16.107 -56.107c0.011 -58.133 47.317 -105.429 105.472 -105.429 28.16 0 54.635 10.987 74.539 30.912a104.747 104.747 0 0 1 30.859 74.603c-0.032 58.133 -47.328 105.429 -105.44 105.429m89.739 -195.168A126.08 126.08 0 0 0 128.533 0C58.613 0 1.707 56.907 1.675 126.848c0 22.357 5.835 44.181 16.939 63.413L0.608 256l67.253 -17.643a126.933 126.933 0 0 0 60.619 15.445h0.053c69.909 0 126.827 -56.907 126.859 -126.859a126.08 126.08 0 0 0 -37.12 -89.739"/>
-                  </svg>
-                  <span data-translate="faq_cta_wa_btn">Entra su WhatsApp</span>
-                </a>
-
-                <!-- Contact Page Link -->
-                <a
-                  href="contatti.html"
-                  class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[#f3eae7] text-[#1c110d] text-sm font-bold hover:bg-[#e8dad6] transition-colors"
-                  data-translate="faq_cta_contact_btn"
-                >
-                  Pagina Contatti
-                </a>
-              </div>
-            </div>
-          </div>
         </section>
       </div>
     </div>
