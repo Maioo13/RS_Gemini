@@ -287,6 +287,14 @@
       "time": "Meeting: 18:45, Start: 19:00",
       "location": "barcola",
       "city": "trieste"
+    },
+    {
+      "date": "24/09/2026",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "title": "Easy Run Easy Spritz",
+      "description": "Se stai cercando la motivazione per iniziare a correre... l'hai trovata! Corsa rilassante e un ottimo spritz ghiacciato per ricaricare le batterie.",
+      "city": "venezia",
+      "location": "forte_marghera"
     }
   ]
 }
