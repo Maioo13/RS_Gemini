@@ -1,49 +1,10 @@
 [
   {
-    "nome": "I^ Fly On The Beach - Lignano Sabbiadoro",
-    "data": "2026-08-29",
-    "data_originale": "29/08/2026",
-    "distanze_km": [
-      10
-    ],
-    "disciplina": "strada",
-    "localita": "Lignano Sabbiadoro (UD)",
-    "area": "Friuli Venezia Giulia",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/I^-Fly-On-The-Beach-Lignano-Sabbiadoro/COD15061"
-  },
-  {
-    "nome": "VI^ Trail delle Mura",
-    "data": "2026-08-29",
-    "data_originale": "29/08/2026",
-    "distanze_km": [
-      5
-    ],
-    "disciplina": "trail",
-    "localita": "Verona (VR)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/VI^-Trail-delle-Mura/COD14656"
-  },
-  {
-    "nome": "XXXVII^ Giro delle Mura Citta' di Feltre km 9,5 - km10 - 7 lap",
-    "data": "2026-08-29",
-    "data_originale": "29/08/2026",
-    "distanze_km": [
-      10
-    ],
-    "disciplina": "strada",
-    "localita": "Feltre (BL)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XXXVII^-Giro-delle-Mura-Citta-di-Feltre/COD14707"
-  },
-  {
     "nome": "XXXV^ Giro Podistico Citta' di Cordenons",
     "data": "2026-09-06",
     "data_originale": "06/09/2026",
     "distanze_km": [
-      10
+      10.0
     ],
     "disciplina": "strada",
     "localita": "Cordenons (PN)",
@@ -56,7 +17,7 @@
     "data": "2026-09-12",
     "data_originale": "12/09/2026",
     "distanze_km": [
-      10
+      10.0
     ],
     "disciplina": "strada",
     "localita": "Montagnana (PD)",
@@ -69,7 +30,7 @@
     "data": "2026-09-13",
     "data_originale": "13/09/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097
     ],
     "disciplina": "strada",
@@ -83,7 +44,7 @@
     "data": "2026-09-13",
     "data_originale": "13/09/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -98,7 +59,7 @@
     "data": "2026-09-13",
     "data_originale": "13/09/2026",
     "distanze_km": [
-      5
+      5.0
     ],
     "disciplina": "strada",
     "localita": "Pordenone (PN)",
@@ -111,12 +72,12 @@
     "data": "2026-09-18",
     "data_originale": "18/09/2026",
     "distanze_km": [
-      10,
-      15,
-      25,
-      50,
-      80,
-      120
+      10.0,
+      15.0,
+      25.0,
+      50.0,
+      80.0,
+      120.0
     ],
     "disciplina": "trail",
     "localita": "Kranjska Gora (Slovenia)",
@@ -129,7 +90,7 @@
     "data": "2026-09-19",
     "data_originale": "19/09/2026",
     "distanze_km": [
-      8,
+      8.0,
       21.097,
       42.195
     ],
@@ -144,7 +105,7 @@
     "data": "2026-09-19",
     "data_originale": "19/09/2026",
     "distanze_km": [
-      5
+      5.0
     ],
     "disciplina": "trail",
     "localita": "Verona (VR)",
@@ -157,7 +118,7 @@
     "data": "2026-09-19",
     "data_originale": "19/09/2026",
     "distanze_km": [
-      5
+      5.0
     ],
     "disciplina": "trail",
     "localita": "Verona (VR)",
@@ -170,7 +131,7 @@
     "data": "2026-09-19",
     "data_originale": "19/09/2026",
     "distanze_km": [
-      5
+      5.0
     ],
     "disciplina": "trail",
     "localita": "Verona (VR)",
@@ -196,7 +157,7 @@
     "data": "2026-09-20",
     "data_originale": "20/09/2026",
     "distanze_km": [
-      10
+      10.0
     ],
     "disciplina": "strada",
     "localita": "Villaverla (VI)",
@@ -235,7 +196,7 @@
     "data": "2026-09-26",
     "data_originale": "26/09/2026",
     "distanze_km": [
-      5
+      5.0
     ],
     "disciplina": "trail",
     "localita": "Affi (VR)",
@@ -248,7 +209,7 @@
     "data": "2026-09-26",
     "data_originale": "26/09/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097
     ],
     "disciplina": "strada",
@@ -262,7 +223,7 @@
     "data": "2026-09-27",
     "data_originale": "27/09/2026",
     "distanze_km": [
-      10
+      10.0
     ],
     "disciplina": "strada",
     "localita": "Istrana (TV)",
@@ -275,7 +236,7 @@
     "data": "2026-10-04",
     "data_originale": "04/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097
     ],
     "disciplina": "strada",
@@ -289,7 +250,7 @@
     "data": "2026-10-11",
     "data_originale": "11/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -304,7 +265,7 @@
     "data": "2026-10-11",
     "data_originale": "11/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -319,7 +280,7 @@
     "data": "2026-10-11",
     "data_originale": "11/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097
     ],
     "disciplina": "strada",
@@ -333,7 +294,7 @@
     "data": "2026-10-11",
     "data_originale": "11/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -348,7 +309,7 @@
     "data": "2026-10-18",
     "data_originale": "18/10/2026",
     "distanze_km": [
-      10
+      10.0
     ],
     "disciplina": "strada",
     "localita": "Trieste (TS)",
@@ -362,8 +323,8 @@
     "data_originale": "18/10/2026",
     "distanze_km": [
       5.2,
-      10,
-      27
+      10.0,
+      27.0
     ],
     "disciplina": "strada",
     "localita": "St. Wolfgang (Austria)",
@@ -376,7 +337,7 @@
     "data": "2026-10-18",
     "data_originale": "18/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -387,25 +348,11 @@
     "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
   },
   {
-    "nome": "Test Trail delle Dolomiti Friulane",
-    "data": "2026-10-18",
-    "data_originale": "18/10/2026",
-    "distanze_km": [
-      15,
-      30
-    ],
-    "disciplina": "trail",
-    "localita": "Forni di Sopra (UD)",
-    "area": "Friuli Venezia Giulia",
-    "prezzo": "35€",
-    "link_info": "https://www.fidal.it"
-  },
-  {
     "nome": "Rijeka Run - Torpedo Half",
     "data": "2026-10-24",
     "data_originale": "24/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097
     ],
     "disciplina": "strada",
@@ -419,7 +366,7 @@
     "data": "2026-10-25",
     "data_originale": "25/10/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -435,7 +382,7 @@
     "data_originale": "08/11/2026",
     "distanze_km": [
       21.097,
-      41
+      41.0
     ],
     "disciplina": "trail",
     "localita": "Cison di Valmarino (TV)",
@@ -448,7 +395,7 @@
     "data": "2026-11-15",
     "data_originale": "15/11/2026",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -476,7 +423,7 @@
     "data": "2026-12-05",
     "data_originale": "05/12/2026",
     "distanze_km": [
-      10
+      10.0
     ],
     "disciplina": "strada",
     "localita": "Udine (UD)",
@@ -489,7 +436,7 @@
     "data": "2027-02-14",
     "data_originale": "14/02/2027",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -504,9 +451,9 @@
     "data": "2027-03-27",
     "data_originale": "27/03/2027",
     "distanze_km": [
-      15,
-      25,
-      45
+      15.0,
+      25.0,
+      45.0
     ],
     "disciplina": "trail",
     "localita": "Sežana / Carso (Slovenia)",
@@ -519,11 +466,11 @@
     "data": "2027-04-09",
     "data_originale": "09/04/2027",
     "distanze_km": [
-      20,
+      20.0,
       42.195,
-      69,
-      110,
-      168
+      69.0,
+      110.0,
+      168.0
     ],
     "disciplina": "trail",
     "localita": "Umago / Umag, Istria (Croazia)",
@@ -550,11 +497,11 @@
     "data": "2027-04-23",
     "data_originale": "23/04/2027",
     "distanze_km": [
-      15,
-      30,
-      50,
-      100,
-      160
+      15.0,
+      30.0,
+      50.0,
+      100.0,
+      160.0
     ],
     "disciplina": "trail",
     "localita": "Ajdovščina / Vipava (Slovenia)",
@@ -580,12 +527,12 @@
     "data": "2027-05-05",
     "data_originale": "05/05/2027",
     "distanze_km": [
-      15,
-      25,
+      15.0,
+      25.0,
       42.195,
-      68,
-      86,
-      111
+      68.0,
+      86.0,
+      111.0
     ],
     "disciplina": "trail",
     "localita": "Innsbruck, Tirolo (Austria)",
@@ -598,9 +545,9 @@
     "data": "2027-05-08",
     "data_originale": "08/05/2027",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
-      65
+      65.0
     ],
     "disciplina": "trail",
     "localita": "Pörtschach am Wörthersee (Austria)",
@@ -613,9 +560,9 @@
     "data": "2027-05-23",
     "data_originale": "23/05/2027",
     "distanze_km": [
-      15,
-      30,
-      59
+      15.0,
+      30.0,
+      59.0
     ],
     "disciplina": "trail",
     "localita": "Sljeme / Zagabria (Croazia)",
@@ -628,7 +575,7 @@
     "data": "2027-05-23",
     "data_originale": "23/05/2027",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -643,9 +590,9 @@
     "data": "2027-05-28",
     "data_originale": "28/05/2027",
     "distanze_km": [
-      10,
-      25,
-      62
+      10.0,
+      25.0,
+      62.0
     ],
     "disciplina": "trail",
     "localita": "Kočevje (Slovenia)",
@@ -658,7 +605,7 @@
     "data": "2027-06-06",
     "data_originale": "06/06/2027",
     "distanze_km": [
-      10,
+      10.0,
       21.097,
       42.195
     ],
@@ -666,6 +613,22 @@
     "localita": "Laghi di Plitvice (Croazia)",
     "area": "Estero (Slo/Cro/Aut)",
     "prezzo": "38€",
+    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "Soča Outdoor Festival Trail",
+    "data": "2027-06-26",
+    "data_originale": "26/06/2027",
+    "distanze_km": [
+      10.0,
+      15.0,
+      25.0,
+      45.0
+    ],
+    "disciplina": "trail",
+    "localita": "Tolmin / Val Soča (Slovenia)",
+    "area": "Estero (Slo/Cro/Aut)",
+    "prezzo": "40€",
     "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
   }
 ]
