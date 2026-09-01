@@ -89,7 +89,7 @@
             type="text"
             id="gh-repo"
             required
-            placeholder="es. lorymaiolo/run-society-trieste"
+            placeholder="es. Owner/Repo"
             class="w-full px-4 py-2.5 bg-[#fcf9f8] border border-[#f3eae7] rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#e63f11] focus:border-transparent transition-all outline-none"
           />
         </div>
@@ -973,7 +973,7 @@
       const savedRepo = localStorage.getItem('rs_gh_repo_saved');
       const ghRepoInput = document.getElementById('gh-repo');
       if (ghRepoInput) {
-        ghRepoInput.value = savedRepo || 'lorymaiolo/run-society-trieste';
+        ghRepoInput.value = savedRepo || '';
       }
 
       await checkAuthStatus();
@@ -1117,7 +1117,7 @@
       const parts = rawRepo.split('/');
       if (parts.length !== 2 || !parts[0] || !parts[1]) {
         alertBox.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold bg-red-50 text-red-600 border border-red-200';
-        alertBox.textContent = 'Formato repository non valido. Usa "nome-proprietario/nome-repository" (es. lorymaiolo/run-society-trieste).';
+        alertBox.textContent = 'Formato repository non valido. Usa "nome-proprietario/nome-repository" (es. Owner/Repo).';
         alertBox.classList.remove('hidden');
         btn.disabled = false;
         spinner.classList.add('hidden');
