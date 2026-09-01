@@ -327,6 +327,14 @@
       "description": "Senzanome 1, Senzanome 2, Senzanome 5,... si, stiamo già scegliendo il gusto di gelato da prendere dopo la run!\nScarpe allacciate, Garmin pronti e corsetta che termina da Zampooooo",
       "city": "trieste",
       "location": "porto_vecchio"
+    },
+    {
+      "date": "15/10/2026",
+      "time": "Meeting: 18:45, Start: 19:00",
+      "title": "Easy Run Easy Aperitivo",
+      "description": "L'evento di reintegrazione dei sali minerali più importante dell'anno è tornato...e più forte che mai! L'estate ci ha insegnato che una birretta fresca è incredibile, sfruttiamo l'occasione per usarla come scusa post-run!",
+      "city": "trieste",
+      "location": "porto_vecchio"
     }
   ]
 }
