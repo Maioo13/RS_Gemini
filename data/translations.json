@@ -171,7 +171,7 @@
     "faq_cta_wa_btn": "Entra su WhatsApp",
     "faq_cta_contact_btn": "Pagina Contatti",
     "privacy_manage_cookies": "Gestisci Preferenze Privacy",
-    "contact_privacy_consent": "Ho letto l'<a href=\"/privacy.html\" target=\"_blank\" class=\"text-[#e63f11] underline\">Informativa sulla Privacy</a> e acconsento al trattamento dei dati. Sono consapevole che questo modulo si appoggia al servizio esterno Formspree (USA) per il recapito sicuro dei messaggi.",
+    "contact_privacy_consent": "Ho letto l'<a href=\"privacy.html\" target=\"_blank\" class=\"text-[#e63f11] underline\">Informativa sulla Privacy</a> e acconsento al trattamento dei dati. Sono consapevole che questo modulo si appoggia al servizio esterno Formspree (USA) per il recapito sicuro dei messaggi.",
     "privacy_sec2_li_ip": "Dati Tecnici di Sicurezza (Indirizzo IP): Per garantire la sicurezza dell'infrastruttura e prevenire frodi o attacchi informatici (es. brute-force nell'area amministrativa), il sistema elabora e conserva temporaneamente l'indirizzo IP dell'utente nella memoria volatile del server per il rate-limiting. La base giuridica è il legittimo interesse del Titolare (Art. 6.1.f GDPR). Tali dati vengono automaticamente cancellati entro 15 minuti e non sono mai incrociati con altre informazioni identificative.",
     "privacy_sec5_li4": "Cookie di Amministrazione: Oltre al LocalStorage utilizzato per l'interfaccia pubblica, si fa presente che l'infrastruttura backend (server Node.js) genera un cookie di sessione temporaneo ed esclusivamente tecnico (denominato rs_admin_session) avente una durata di 15 minuti, unicamente per il personale autorizzato che accede all'Area di Amministrazione riservata. Tale cookie non viene mai generato per o assegnato ai normali visitatori del sito."
   },
@@ -347,7 +347,7 @@
     "faq_cta_wa_btn": "Join on WhatsApp",
     "faq_cta_contact_btn": "Contact Page",
     "privacy_manage_cookies": "Manage Privacy Preferences",
-    "contact_privacy_consent": "I have read the <a href=\"/privacy.html\" target=\"_blank\" class=\"text-[#e63f11] underline\">Privacy Policy</a> and consent to the processing of data. I am aware that this form relies on the external service Formspree (USA) for secure message delivery.",
+    "contact_privacy_consent": "I have read the <a href=\"privacy.html\" target=\"_blank\" class=\"text-[#e63f11] underline\">Privacy Policy</a> and consent to the processing of data. I am aware that this form relies on the external service Formspree (USA) for secure message delivery.",
     "privacy_sec2_li_ip": "Technical Security Data (IP Address): To ensure infrastructure security and prevent fraud or cyber attacks (e.g., brute-force on the admin area), the system temporarily processes and stores the user's IP address in the server's volatile memory for rate-limiting purposes. The legal basis is the legitimate interest of the Data Controller (Art. 6.1.f GDPR). These data are automatically deleted within 15 minutes and are never cross-referenced with other identifying information.",
     "privacy_sec5_li4": "Administration Cookie: In addition to the LocalStorage used for the public interface, please note that the backend infrastructure (Node.js server) generates a temporary and exclusively technical session cookie (named rs_admin_session) with a duration of 15 minutes, solely for authorized personnel accessing the reserved Administration Area. This cookie is never generated for or assigned to normal site visitors."
   }
