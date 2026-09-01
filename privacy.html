@@ -10,32 +10,22 @@
   <script src="js/language-switcher.js" defer></script>
   <script src="js/cookie-consent.js" defer></script>
   <link rel="stylesheet" href="/fonts.css" />
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
   <!-- Cookie Consent Banner -->
-  <div id="cookie-banner"
-       class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-t-lg p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
     <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[#1c110d]">
-      <!-- Testo Informativo -->
       <div class="text-center md:text-left">
-        <p class="font-bold" data-translate="cookie_title">Informativa sui Cookie</p>
-        <p class="text-sm text-[#9b604b]" data-translate="cookie_text">
-          Utilizziamo esclusivamente la memoria locale per preferenze tecniche (es. lingua). Non usiamo cookie di profilazione. Il sito si appoggia a servizi tecnici di terze parti (CDN Tailwind, Formspree, Google Maps) che potrebbero acquisire il tuo indirizzo IP per permettere l'erogazione di mappe e funzionalità di contatto necessarie.
+        <p class="font-bold">Zero Tracker Policy 🛡️</p>
+        <p class="text-sm text-[#9b604b]">
+          Questo sito rispetta la tua privacy: utilizziamo esclusivamente storage locali strettamente necessari al funzionamento tecnico. Nessun dato viene usato per la profilazione.
         </p>
       </div>
-
-      <!-- Pulsanti di Azione -->
       <div class="flex-shrink-0 flex items-center gap-3">
-        <button id="cookie-reject"
-                class="px-5 py-2 text-sm font-bold text-[#1c110d] bg-[#f3eae7] rounded-full hover:bg-gray-200 transition-colors"
-                data-translate="cookie_reject">
-          Rifiuta
-        </button>
-        <button id="cookie-accept"
-                class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity"
-                data-translate="cookie_accept">
-          Accetta
+        <button id="cookie-accept" class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity">
+          Ho capito
         </button>
       </div>
     </div>
@@ -192,10 +182,11 @@
             <ul class="space-y-3 pl-2 text-[#1c110d]/90 text-sm md:text-base leading-relaxed">
               <li class="flex items-start gap-2.5">
                 <span class="text-[#e63f11] font-bold mt-0.5">•</span>
-                <span data-translate="privacy_sec2_li1">Modulo Contatti (Nome, Email, Oggetto e Messaggio): utilizzati esclusivamente per rispondere alle tue richieste informative. Base giuridica: esecuzione di misure precontrattuali o riscontro alla richiesta dell'interessato (Art. 6.1.b GDPR) e legittimo interesse (Art. 6.1.f GDPR). Il servizio è supportato tecnicamente dal form handler Formspree.</span>
+                <span data-translate="privacy_sec2_li1">Modulo Contatti (Nome, Email, Oggetto e Messaggio): utilizzati esclusivamente per rispondere alle tue richieste informative. Base giuridica: esecuzione di misure precontrattuali o riscontro alla richiesta dell'interessato (Art. 6.1.b GDPR). Il servizio si appoggia all'infrastruttura di Formspree Inc. (USA), la quale aderisce formalmente al Data Privacy Framework stipulato tra Unione Europea e Stati Uniti, garantendo così un livello di protezione dei dati adeguato e lecito (Art. 45 GDPR) durante il trasferimento transfrontaliero.</span>
               </li>
-              <li class="flex items-start gap-2.5">
+                            <li class="flex items-start gap-2.5">
                 <span class="text-[#e63f11] font-bold mt-0.5">•</span>
+                <span data-translate="privacy_sec2_li_ip">Dati Tecnici di Sicurezza (Indirizzo IP): Per garantire la sicurezza dell'infrastruttura e prevenire frodi o attacchi informatici (es. brute-force nell'area amministrativa), il sistema elabora e conserva temporaneamente l'indirizzo IP dell'utente nella memoria volatile del server per il rate-limiting. La base giuridica è il legittimo interesse del Titolare (Art. 6, par. 1, lett. f GDPR). Tali dati vengono automaticamente cancellati entro 15 minuti e non sono mai incrociati con altre informazioni identificative.</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <span class="text-[#e63f11] font-bold mt-0.5">•</span>
@@ -277,6 +268,10 @@
               <li class="flex items-start gap-2.5">
                 <span class="text-[#e63f11] font-bold mt-0.5">•</span>
                 <span data-translate="privacy_sec5_li3">Hosting e Risorse Esterne: il sito è ospitato staticamente su GitHub Pages e include font Google Fonts, Tailwind CSS tramite CDN pubbliche e Google Maps per l'interazione con le mappe. Il caricamento di tali servizi terzi comporta necessariamente il trasferimento tecnico dell'indirizzo IP del visitatore ai loro server in modo automatico per l'erogazione del servizio.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-[#e63f11] font-bold mt-0.5">•</span>
+                <span data-translate="privacy_sec5_li4">Cookie di Amministrazione: Oltre al LocalStorage utilizzato per l'interfaccia pubblica, si fa presente che l'infrastruttura backend (server Node.js) genera un cookie di sessione temporaneo ed esclusivamente tecnico (denominato <code>rs_admin_session</code>) avente una durata di 15 minuti, <strong>unicamente per il personale autorizzato</strong> che accede all'Area di Amministrazione riservata. Tale cookie non viene mai generato per o assegnato ai normali visitatori del sito.</span>
               </li>
             </ul>
             <div class="mt-6 mb-2 p-4 bg-[#f8f4f2] rounded-xl border border-[#f3eae7] flex flex-col items-start gap-3">

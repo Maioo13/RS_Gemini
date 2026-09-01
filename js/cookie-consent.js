@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('cookie-accept');
-  const rejectBtn = document.getElementById('cookie-reject');
+  
 
   // Controllo solido del LocalStorage per ricordare la scelta ed evitare che il banner ricompaia
   const consentValue = localStorage.getItem('cookie_consent');
@@ -28,9 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (acceptBtn) {
     acceptBtn.addEventListener('click', () => handleConsent('accepted'));
   }
-  if (rejectBtn) {
-    rejectBtn.addEventListener('click', () => handleConsent('acknowledged'));
-  }
+  
 
   // --- Integrazione nella pagina Informativa Privacy ---
   const revokeBtn = document.getElementById('revoke-cookie-consent-btn');

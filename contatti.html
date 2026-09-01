@@ -10,32 +10,22 @@
   <script src="js/language-switcher.js" defer></script>
   <script src="js/cookie-consent.js" defer></script>
   <link rel="stylesheet" href="/fonts.css" />
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
   <!-- Cookie Consent Banner -->
-  <div id="cookie-banner"
-       class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-t-lg p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-sm shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-4 z-50 transform transition-transform duration-500 ease-in-out translate-y-full">
     <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[#1c110d]">
-      <!-- Testo Informativo -->
       <div class="text-center md:text-left">
-        <p class="font-bold" data-translate="cookie_title">Informativa sui Cookie</p>
-        <p class="text-sm text-[#9b604b]" data-translate="cookie_text">
-          Utilizziamo esclusivamente la memoria locale per preferenze tecniche (es. lingua). Non usiamo cookie di profilazione. Il sito si appoggia a servizi tecnici di terze parti (CDN Tailwind, Formspree, Google Maps) che potrebbero acquisire il tuo indirizzo IP per permettere l'erogazione di mappe e funzionalità di contatto necessarie.
+        <p class="font-bold">Zero Tracker Policy 🛡️</p>
+        <p class="text-sm text-[#9b604b]">
+          Questo sito rispetta la tua privacy: utilizziamo esclusivamente storage locali strettamente necessari al funzionamento tecnico. Nessun dato viene usato per la profilazione.
         </p>
       </div>
-
-      <!-- Pulsanti di Azione -->
       <div class="flex-shrink-0 flex items-center gap-3">
-        <button id="cookie-reject"
-                class="px-5 py-2 text-sm font-bold text-[#1c110d] bg-[#f3eae7] rounded-full hover:bg-gray-200 transition-colors"
-                data-translate="cookie_reject">
-          Rifiuta
-        </button>
-        <button id="cookie-accept"
-                class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity"
-                data-translate="cookie_accept">
-          Accetta
+        <button id="cookie-accept" class="px-5 py-2 text-sm font-bold text-white bg-[#e63f11] rounded-full hover:opacity-90 transition-opacity">
+          Ho capito
         </button>
       </div>
     </div>
