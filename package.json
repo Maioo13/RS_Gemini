@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "echo 'Static site ready'",
+    "build": "tailwindcss -i ./input.css -o ./css/style.css --minify",
     "lint": "echo 'No lint errors'"
   },
   "dependencies": {
