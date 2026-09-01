@@ -248,6 +248,25 @@
 
   document.addEventListener('DOMContentLoaded', () => {
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    
+    function sanitizeHref(url) {
+      if (!url) return '#';
+      const clean = String(url).trim();
+      if (/^(https?:\/\/|mailto:|\/)/i.test(clean)) {
+        return escapeHtml(clean);
+      }
+      return '#';
+    }
+
     // Gestione Menu
     const langBtn = document.getElementById("langMenuButton");
     const langMenu = document.getElementById("langMenu");
@@ -675,29 +694,30 @@
 
         container.innerHTML = upcomingItems.map(event => {
           const eventDate = new Date(event.year, event.month, event.day);
-          const dateString = eventDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
-          const title = typeof event.title === 'object' ? (event.title[currentLang] || event.title.it) : event.title;
-          const description = typeof event.description === 'object' ? (event.description[currentLang] || event.description.it) : event.description;
+          const dateString = escapeHtml(eventDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' }));
+          const title = escapeHtml(typeof event.title === 'object' ? (event.title[currentLang] || event.title.it) : event.title);
+          const description = escapeHtml(typeof event.description === 'object' ? (event.description[currentLang] || event.description.it) : event.description);
+          const time = escapeHtml(event.time);
 
           let locationName, mapButtonHtml;
           if (typeof event.location === 'string' && locations[event.location]) {
-            locationName = locations[event.location].name;
-            mapButtonHtml = `<button onclick="openMapModal('${event.location}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors" title="Mappa">${mapIconSvg}</button>`;
+            locationName = escapeHtml(locations[event.location].name);
+            mapButtonHtml = `<button onclick="openMapModal('${escapeHtml(event.location)}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors" title="Mappa">${mapIconSvg}</button>`;
           } else if (typeof event.location === 'object' && event.location.name && event.location.url) {
-            locationName = event.location.name;
-            mapButtonHtml = `<button onclick="openMapModal(null, '${event.location.url}', '${event.location.name}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors" title="Mappa">${mapIconSvg}</button>`;
+            locationName = escapeHtml(event.location.name);
+            mapButtonHtml = `<button onclick="openMapModal(null, '${sanitizeHref(event.location.url)}', '${escapeHtml(event.location.name).replace(/'/g, "\\'")}')" class="p-2 rounded-full text-[#9b604b] hover:bg-orange-100 hover:text-[#e63f11] transition-colors" title="Mappa">${mapIconSvg}</button>`;
           } else {
-            locationName = event.location || 'N/D';
+            locationName = escapeHtml(event.location || 'N/D');
             mapButtonHtml = '<div class="w-[44px] h-[44px] flex-shrink-0"></div>';
           }
 
           return `
-            <div id="${event.id}" class="flex flex-row items-center gap-4 border-b border-[#f3eae7] py-4 px-2 -mx-2">
+            <div id="${escapeHtml(event.id)}" class="flex flex-row items-center gap-4 border-b border-[#f3eae7] py-4 px-2 -mx-2">
               <div class="shrink-0 text-sm font-bold text-[#1c110d] text-right w-24 sm:w-40">${dateString}</div>
               <div class="flex-1">
                 <p class="text-[#1c110d] text-base font-bold leading-normal">${title}</p>
                 <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">${description}</p>
-                <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">🕒 ${event.time}</p>
+                <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">🕒 ${time}</p>
                 <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">📍 ${locationName}</p>
               </div>
               <div class="flex-shrink-0">${mapButtonHtml}</div>
@@ -719,28 +739,28 @@
 
         container.innerHTML = upcomingItems.map(race => {
           const raceDate = new Date(race.year, race.month, race.day);
-          const dateString = raceDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
-          const name = race.nome || race.name || 'Gara Podistica';
-          const disciplineBadge = getDisciplineBadge(race.disciplina || race.type);
-          const locationText = race.localita || race.location || 'Friuli-Venezia Giulia';
-          const priceText = race.prezzo || race.cost || 'N/D';
+          const dateString = escapeHtml(raceDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' }));
+          const name = escapeHtml(race.nome || race.name || 'Gara Podistica');
+          const disciplineBadge = getDisciplineBadge(escapeHtml(race.disciplina || race.type));
+          const locationText = escapeHtml(race.localita || race.location || 'Friuli-Venezia Giulia');
+          const priceText = escapeHtml(race.prezzo || race.cost || 'N/D');
 
           // Distanze
           let distancesChips = '';
           const rawDistances = race.distanze_km || race.distances || [];
           if (Array.isArray(rawDistances) && rawDistances.length > 0) {
             distancesChips = rawDistances.map(d => {
-              const formatted = typeof d === 'number' ? `${d} km` : `${d}`;
+              const formatted = typeof d === 'number' ? `${d} km` : `${escapeHtml(d)}`;
               return `<span class="bg-[#f3eae7] text-[#1c110d] text-xs font-bold px-2.5 py-0.5 rounded-full">${formatted}</span>`;
             }).join(' ');
           } else if (rawDistances) {
-            distancesChips = `<span class="bg-[#f3eae7] text-[#1c110d] text-xs font-bold px-2.5 py-0.5 rounded-full">${rawDistances}</span>`;
+            distancesChips = `<span class="bg-[#f3eae7] text-[#1c110d] text-xs font-bold px-2.5 py-0.5 rounded-full">${escapeHtml(rawDistances)}</span>`;
           }
 
           // Link esterno
           let linkHtml = '';
-          const link = race.link_info || race.website || race.url;
-          if (link && link !== 'N/D' && link.startsWith('http')) {
+          const link = sanitizeHref(race.link_info || race.website || race.url);
+          if (link && link !== '#' && link !== 'N/D' && link.startsWith('http')) {
             linkHtml = `
               <a
                 href="${link}"
@@ -755,13 +775,13 @@
           }
 
           return `
-            <div id="${race.id}" class="bg-white border border-[#f3eae7] rounded-2xl p-5 md:p-6 mb-4 shadow-xs hover:border-[#e63f11]/30 transition-all duration-300">
+            <div id="${escapeHtml(race.id)}" class="bg-white border border-[#f3eae7] rounded-2xl p-5 md:p-6 mb-4 shadow-xs hover:border-[#e63f11]/30 transition-all duration-300">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#f3eae7]">
                 <div class="flex items-center gap-2.5 flex-wrap">
                   <span class="text-xs sm:text-sm font-bold text-[#e63f11] bg-[#fdf3f0] px-3 py-1 rounded-full">
                     📅 ${dateString}
                   </span>
-                  ${getAreaBadge(race.area)}
+                  ${getAreaBadge(escapeHtml(race.area))}
                   ${disciplineBadge}
                 </div>
                 <div class="text-xs sm:text-sm font-medium text-[#9b604b]">

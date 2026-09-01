@@ -12,8 +12,17 @@ const HOST = '0.0.0.0';
 // CONFIGURAZIONE AMBIENTE & SICUREZZA
 // ==============================================================================
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'RunSociety2026!Admin';
-const ADMIN_SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'runsociety_trieste_admin_session_secret_key_2026_secure';
+let ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+let ADMIN_SESSION_SECRET = process.env.ADMIN_SESSION_SECRET;
+
+if (!ADMIN_PASSWORD) {
+  ADMIN_PASSWORD = crypto.randomBytes(16).toString('hex');
+  console.warn('\n[!] WARNING: ADMIN_PASSWORD not set in environment. A random password has been generated for this session:');
+  console.warn(`[!] -> ${ADMIN_PASSWORD}\n`);
+}
+if (!ADMIN_SESSION_SECRET) {
+  ADMIN_SESSION_SECRET = crypto.randomBytes(32).toString('hex');
+}
 
 const EVENTS_FILE = path.join(__dirname, 'data', 'events.json');
 const RACES_FILE = path.join(__dirname, 'data', 'races.json');
@@ -27,9 +36,23 @@ app.use(cookieParser());
 // Anti-clickjacking & Security Headers
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com;"
+  );
+  if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
   next();
 });
+
+app.set('trust proxy', 1);
+function getClientIp(req) {
+  return req.ip || req.socket.remoteAddress || '127.0.0.1';
+}
 
 // ==============================================================================
 // RATE LIMITING & PROTEZIONE BRUTE-FORCE
@@ -162,16 +185,41 @@ function saveJsonAtomic(filePath, data) {
   }
 }
 
+function sanitizeString(val, maxLength = 255) {
+  if (typeof val !== 'string') return '';
+  return val
+    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F]/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function sanitizeRecursive(input, maxLength = 1000) {
+  if (typeof input === 'string') {
+    return sanitizeString(input, maxLength);
+  }
+  if (typeof input === 'object' && input !== null && !Array.isArray(input)) {
+    const sanitizedObj = {};
+    for (const [key, value] of Object.entries(input)) {
+      if (typeof key === 'string' && key.length < 50) {
+        sanitizedObj[sanitizeString(key, 50)] = typeof value === 'string' 
+          ? sanitizeString(value, maxLength) 
+          : '';
+      }
+    }
+    return sanitizedObj;
+  }
+  return '';
+}
+
 function sanitizeInput(str) {
-  if (typeof str !== 'string') return '';
-  return str.replace(/[<>]/g, '').trim();
+  return sanitizeString(str, 1000);
 }
 
 // ==============================================================================
 // ROTTE AUTENTICAZIONE ADMIN
 // ==============================================================================
 app.post('/api/admin/login', (req, res) => {
-  const clientIp = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+  const clientIp = getClientIp(req);
   const rateStatus = checkRateLimit(clientIp);
 
   if (!rateStatus.allowed) {
@@ -251,7 +299,8 @@ app.get('/api/admin/events', requireAdminAuth, (req, res) => {
     const data = readEventsFile();
     return res.json({ success: true, events: data.events || [] });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
@@ -270,10 +319,10 @@ app.post('/api/admin/events', requireAdminAuth, (req, res) => {
 
     const newEvent = {
       date: sanitizeInput(date),
-      title: typeof title === 'object' ? title : sanitizeInput(title),
-      description: typeof description === 'object' ? description : sanitizeInput(description || ''),
+      title: typeof title === 'object' ? sanitizeRecursive(title) : sanitizeInput(title),
+      description: typeof description === 'object' ? sanitizeRecursive(description) : sanitizeInput(description || ''),
       time: sanitizeInput(time || 'Meeting: 18:45, Start: 19:00'),
-      location: typeof location === 'object' ? location : sanitizeInput(location || 'porto_vecchio'),
+      location: typeof location === 'object' ? sanitizeRecursive(location) : sanitizeInput(location || 'porto_vecchio'),
       city: cleanCity
     };
 
@@ -290,7 +339,8 @@ app.post('/api/admin/events', requireAdminAuth, (req, res) => {
       totalEvents: data.events.length
     });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
@@ -317,10 +367,10 @@ app.put('/api/admin/events/:index', requireAdminAuth, (req, res) => {
 
     const updatedEvent = {
       date: sanitizeInput(date),
-      title: typeof title === 'object' ? title : sanitizeInput(title),
-      description: typeof description === 'object' ? description : sanitizeInput(description || ''),
+      title: typeof title === 'object' ? sanitizeRecursive(title) : sanitizeInput(title),
+      description: typeof description === 'object' ? sanitizeRecursive(description) : sanitizeInput(description || ''),
       time: sanitizeInput(time || 'Meeting: 18:45, Start: 19:00'),
-      location: typeof location === 'object' ? location : sanitizeInput(location || 'porto_vecchio'),
+      location: typeof location === 'object' ? sanitizeRecursive(location) : sanitizeInput(location || 'porto_vecchio'),
       city: cleanCity
     };
 
@@ -335,7 +385,8 @@ app.put('/api/admin/events/:index', requireAdminAuth, (req, res) => {
       index
     });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
@@ -360,7 +411,8 @@ app.delete('/api/admin/events/:index', requireAdminAuth, (req, res) => {
       totalRemaining: list.length
     });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
@@ -383,7 +435,8 @@ app.get('/api/admin/races', requireAdminAuth, (req, res) => {
     const list = readRacesFile();
     return res.json({ success: true, races: list });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
@@ -439,7 +492,8 @@ app.post('/api/admin/races', requireAdminAuth, (req, res) => {
       totalRaces: list.length
     });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
@@ -494,7 +548,8 @@ app.put('/api/admin/races/:index', requireAdminAuth, (req, res) => {
       index
     });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
@@ -517,30 +572,71 @@ app.delete('/api/admin/races/:index', requireAdminAuth, (req, res) => {
       totalRemaining: list.length
     });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error(`[API Error]: ${err.message}`, err);
+    return res.status(500).json({ success: false, error: "Si è verificato un errore interno durante l'elaborazione della richiesta." });
   }
 });
 
 // ==============================================================================
 // FEEDBACK SUBMISSION
 // ==============================================================================
+// Rate limiter in memoria per la ricezione di feedback
+const feedbackRateLimit = new Map();
+const MAX_FEEDBACK_PER_IP = 10; // max 10 feedback per IP ogni ora
+const FEEDBACK_WINDOW_MS = 60 * 60 * 1000;
+
 app.post(['/api/feedback', '/api/submit-feedback'], async (req, res) => {
+  // Validazione Origin per proteggersi da CSRF
+  const origin = req.headers.origin || req.headers.referer;
+  if (origin && !origin.includes(req.hostname) && !origin.includes('localhost') && !origin.includes('127.0.0.1')) {
+    console.warn(`[Security] CSRF blocked from origin: ${origin}`);
+    return res.status(403).json({ success: false, error: 'Cross-Site Request Forgery bloccata.' });
+  }
+
+  const clientIp = getClientIp(req);
+  const now = Date.now();
+  
+  const ipRecord = feedbackRateLimit.get(clientIp) || { count: 0, resetAt: now + FEEDBACK_WINDOW_MS };
+  if (now > ipRecord.resetAt) {
+    ipRecord.count = 0;
+    ipRecord.resetAt = now + FEEDBACK_WINDOW_MS;
+  }
+  if (ipRecord.count >= MAX_FEEDBACK_PER_IP) {
+    return res.status(429).json({ success: false, error: 'Troppe richieste inviate. Riprova più tardi.' });
+  }
+  ipRecord.count += 1;
+  feedbackRateLimit.set(clientIp, ipRecord);
+
   try {
+    const rawBody = req.body || {};
     const feedbackData = {
-      ...req.body,
+      rating: typeof rawBody.rating === 'number' ? Math.min(5, Math.max(1, rawBody.rating)) : null,
+      category: sanitizeString(rawBody.category, 50),
+      message: sanitizeString(rawBody.message || rawBody.feedback || '', 2000),
+      email: sanitizeString(rawBody.email || '', 100),
       serverReceivedAt: new Date().toISOString(),
-      ip: req.ip || req.headers['x-forwarded-for'] || ''
+      ip: clientIp
     };
+
+    if (!feedbackData.message && !feedbackData.rating) {
+      return res.status(400).json({ success: false, error: 'Payload feedback non valido.' });
+    }
 
     let feedbacksList = [];
     try {
       if (fs.existsSync(FEEDBACKS_FILE)) {
         const content = fs.readFileSync(FEEDBACKS_FILE, 'utf8');
         feedbacksList = JSON.parse(content || '[]');
+        if (!Array.isArray(feedbacksList)) feedbacksList = [];
       }
     } catch (err) {
-      console.warn('Could not read existing feedbacks.json, starting fresh', err.message);
+      feedbacksList = [];
     }
+
+    if (feedbacksList.length >= 5000) {
+      feedbacksList.shift();
+    }
+
     feedbacksList.push(feedbackData);
     saveJsonAtomic(FEEDBACKS_FILE, feedbacksList);
 
@@ -594,8 +690,31 @@ app.get(['/laTuaVoce', '/la-tua-voce', '/your-voice', '/latuavoce'], (req, res) 
   res.sendFile(path.join(__dirname, 'laTuaVoce.html'));
 });
 
+// Protezione esplicita cartella dati riservati
+app.use('/data/feedbacks.json', (req, res) => {
+  res.status(403).json({ error: 'Access Denied' });
+});
+
 // Serve static assets
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, '.'), {
+  dotfiles: 'deny',
+  index: ['index.html'],
+  setHeaders: (res, filePath) => {
+    const normalized = path.normalize(filePath);
+    if (
+      normalized.endsWith('.env') ||
+      normalized.endsWith('.env.example') ||
+      normalized.endsWith('server.js') ||
+      normalized.endsWith('package.json') ||
+      normalized.endsWith('bun.lock') ||
+      normalized.includes(path.join('data', 'feedbacks.json')) ||
+      normalized.endsWith('.backup.json') ||
+      normalized.endsWith('.tmp')
+    ) {
+      res.status(403).end('Access Denied');
+    }
+  }
+}));
 
 // 404 fallback
 app.use((req, res) => {

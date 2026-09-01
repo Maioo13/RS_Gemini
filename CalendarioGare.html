@@ -166,6 +166,25 @@
   </div>
 
   <script>
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    
+    function sanitizeHref(url) {
+      if (!url) return '#';
+      const clean = String(url).trim();
+      if (/^(https?:\/\/|mailto:|\/)/i.test(clean)) {
+        return escapeHtml(clean);
+      }
+      return '#';
+    }
+
     let easyRunsData = [];
     let racesData = [];
     let currentTab = 'easy-runs';
@@ -350,15 +369,17 @@
           return;
         }
         container.innerHTML = easyRunsData.map(event => {
-          const title = typeof event.title === 'object' ? (event.title[currentLang] || event.title.it) : event.title;
-          const description = typeof event.description === 'object' ? (event.description[currentLang] || event.description.it) : event.description;
-          const loc = event.location || 'N/D';
+          const title = escapeHtml(typeof event.title === 'object' ? (event.title[currentLang] || event.title.it) : event.title);
+          const description = escapeHtml(typeof event.description === 'object' ? (event.description[currentLang] || event.description.it) : event.description);
+          const loc = escapeHtml(event.location || 'N/D');
+          const time = escapeHtml(event.time);
+          const dateStr = escapeHtml(event.jsDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' }));
           return `<div class="flex flex-col sm:flex-row gap-2 sm:gap-4 border-b border-[#f3eae7] py-4 px-2">
-            <div class="shrink-0 text-sm font-bold text-[#1c110d] sm:text-right w-24 sm:w-40">${event.jsDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+            <div class="shrink-0 text-sm font-bold text-[#1c110d] sm:text-right w-24 sm:w-40">${dateStr}</div>
             <div class="flex-1">
               <p class="text-[#1c110d] text-base font-bold leading-normal">${title}</p>
               <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">${description}</p>
-              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">🕒 ${event.time}</p>
+              <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">🕒 ${time}</p>
               <p class="text-[#9b604b] text-sm font-normal leading-normal mt-1">📍 ${loc}</p>
             </div>
           </div>`;
@@ -382,20 +403,26 @@
         }
 
         container.innerHTML = filtered.map(race => {
-          const raceTitle = typeof race.title === 'object' ? (race.title[currentLang] || race.title.it) : race.title;
+          const raceTitle = escapeHtml(typeof race.title === 'object' ? (race.title[currentLang] || race.title.it) : race.title);
+          const dateStr = escapeHtml(race.jsDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'short', year: 'numeric' }));
+          const loc = escapeHtml(race.location);
+          const type = escapeHtml(race.type);
+          const lenght = escapeHtml(race.lenght);
+          const cost = escapeHtml(race.cost);
+          const website = sanitizeHref(race.website);
           return `<div class="bg-white p-5 rounded-xl shadow-sm border border-[#f3eae7] flex flex-col gap-2 relative overflow-hidden group hover:shadow-md transition-shadow">
             <div class="absolute top-0 left-0 w-1 h-full bg-[#e63f11]"></div>
             <div class="flex justify-between items-start flex-wrap gap-2">
               <h3 class="text-[#1c110d] text-lg font-bold">${raceTitle}</h3>
-              <span class="bg-[#fdf0ec] text-[#e63f11] text-xs font-bold px-2 py-1 rounded-md">${race.jsDate.toLocaleDateString(dateLocale, { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+              <span class="bg-[#fdf0ec] text-[#e63f11] text-xs font-bold px-2 py-1 rounded-md">${dateStr}</span>
             </div>
-            <p class="text-[#9b604b] text-sm font-medium flex items-center gap-1">📍 ${race.location}</p>
+            <p class="text-[#9b604b] text-sm font-medium flex items-center gap-1">📍 ${loc}</p>
             <div class="flex flex-wrap gap-2 mt-2">
-              <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-md">🏃 ${race.type}</span>
-              <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-md">📏 ${race.lenght}</span>
-              <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-md">💶 ${race.cost}</span>
+              <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-md">🏃 ${type}</span>
+              <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-md">📏 ${lenght}</span>
+              <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-md">💶 ${cost}</span>
             </div>
-            ${race.website ? `<a href="${race.website}" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[#e63f11] hover:underline mt-2 inline-block">Sito Ufficiale &rarr;</a>` : ''}
+            ${website !== '#' ? `<a href="${website}" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[#e63f11] hover:underline mt-2 inline-block">Sito Ufficiale &rarr;</a>` : ''}
           </div>`;
         }).join('');
       }

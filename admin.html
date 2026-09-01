@@ -1400,9 +1400,15 @@
       empty.classList.add('hidden');
 
       container.innerHTML = filtered.map(({ run, originalIndex }) => {
-        const title = typeof run.title === 'object' ? (run.title.it || run.title.en) : run.title;
-        const desc = typeof run.description === 'object' ? (run.description.it || run.description.en) : (run.description || '');
-        const loc = typeof run.location === 'object' ? (run.location.name || 'Custom') : (run.location || 'N/D');
+        const rawTitle = typeof run.title === 'object' ? (run.title.it || run.title.en) : run.title;
+        const rawDesc = typeof run.description === 'object' ? (run.description.it || run.description.en) : (run.description || '');
+        const rawLoc = typeof run.location === 'object' ? (run.location.name || 'Custom') : (run.location || 'N/D');
+
+        const title = escapeHtml(rawTitle);
+        const desc = escapeHtml(rawDesc);
+        const loc = escapeHtml(rawLoc);
+        const date = escapeHtml(run.date);
+        const time = escapeHtml(run.time || 'N/D');
 
         let cityBadge = '';
         const cityLower = (run.city || '').toLowerCase();
@@ -1419,10 +1425,10 @@
             <div class="space-y-1.5 flex-1">
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="text-xs font-bold text-[#e63f11] bg-[#fdf3f0] px-2.5 py-0.5 rounded-md">
-                  📅 ${run.date}
+                  📅 ${date}
                 </span>
                 ${cityBadge}
-                <span class="text-xs text-[#9b604b] font-medium">🕒 ${run.time || 'N/D'}</span>
+                <span class="text-xs text-[#9b604b] font-medium">🕒 ${time}</span>
               </div>
 
               <h4 class="text-base font-bold text-[#1c110d]">${title}</h4>
@@ -1673,6 +1679,13 @@
       empty.classList.add('hidden');
 
       container.innerHTML = filtered.map(({ race, originalIndex }) => {
+        const nome = escapeHtml(race.nome);
+        const dataRace = escapeHtml(race.data_originale || race.data);
+        const loc = escapeHtml(race.localita || 'N/D');
+        const prezzo = escapeHtml(race.prezzo);
+        const disciplina = escapeHtml(race.disciplina || 'strada');
+        const link = sanitizeHref(race.link_info);
+
         let areaBadge = '';
         const areaLower = (race.area || '').toLowerCase();
         if (areaLower.includes('veneto')) {
@@ -1686,7 +1699,7 @@
         let distChips = '';
         const dists = race.distanze_km || [];
         if (Array.isArray(dists) && dists.length > 0) {
-          distChips = dists.map(d => `<span class="bg-[#f3eae7] text-[#1c110d] text-[10px] font-bold px-2 py-0.5 rounded-md">${d} km</span>`).join(' ');
+          distChips = dists.map(d => `<span class="bg-[#f3eae7] text-[#1c110d] text-[10px] font-bold px-2 py-0.5 rounded-md">${escapeHtml(d)} km</span>`).join(' ');
         }
 
         return `
@@ -1694,26 +1707,26 @@
             <div class="space-y-1.5 flex-1">
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="text-xs font-bold text-[#e63f11] bg-[#fdf3f0] px-2.5 py-0.5 rounded-md">
-                  📅 ${race.data_originale || race.data}
+                  📅 ${dataRace}
                 </span>
                 ${areaBadge}
-                <span class="text-xs text-[#9b604b] font-medium uppercase tracking-wider">🏃 ${race.disciplina || 'strada'}</span>
+                <span class="text-xs text-[#9b604b] font-medium uppercase tracking-wider">🏃 ${disciplina}</span>
               </div>
 
-              <h4 class="text-base font-bold text-[#1c110d]">${race.nome}</h4>
+              <h4 class="text-base font-bold text-[#1c110d]">${nome}</h4>
               
               <div class="flex flex-wrap items-center gap-2 text-xs text-[#9b604b] pt-0.5">
-                <span>📍 ${race.localita || 'N/D'}</span>
-                ${race.prezzo && race.prezzo !== 'N/D' ? `<span class="font-bold text-[#1c110d]">• ${race.prezzo}</span>` : ''}
+                <span>📍 ${loc}</span>
+                ${prezzo && prezzo !== 'N/D' ? `<span class="font-bold text-[#1c110d]">• ${prezzo}</span>` : ''}
               </div>
 
               ${distChips ? `<div class="flex flex-wrap gap-1 pt-1">${distChips}</div>` : ''}
             </div>
 
             <div class="flex items-center gap-2 flex-shrink-0 pt-2 md:pt-0">
-              ${race.link_info && race.link_info.startsWith('http') ? `
+              ${link && link !== '#' ? `
                 <a
-                  href="${race.link_info}"
+                  href="${link}"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="p-2 text-gray-400 hover:text-[#e63f11] transition-colors"
@@ -1731,7 +1744,7 @@
                 <span>Modifica</span>
               </button>
               <button
-                onclick="confirmDelete('race', ${originalIndex}, '${escapeHtml(race.nome)}', '${race.data}')"
+                onclick="confirmDelete('race', ${originalIndex}, '${escapeHtml(nome).replace(/'/g, "\\'")}', '${dataRace}')"
                 class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold rounded-xl transition-all flex items-center gap-1"
                 title="Elimina Gara"
               >
@@ -1950,6 +1963,15 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+    }
+
+    function sanitizeHref(url) {
+      if (!url) return '#';
+      const clean = String(url).trim();
+      if (/^(https?:\/\/|mailto:|\/)/i.test(clean)) {
+        return escapeHtml(clean);
+      }
+      return '#';
     }
   </script>
 </body>
