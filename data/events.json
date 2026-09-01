@@ -383,6 +383,14 @@
       "description": "Scarpe...prese, Garmin...carico, gellini...naaah, ci pensa l'aperitivo post corsa! Vieni per reintegrare in compagnia, ti aspettiamo!",
       "city": "trieste",
       "location": "porto_vecchio"
+    },
+    {
+      "date": "29/10/2026",
+      "time": "Meeting: 19:15, Start: 19:30",
+      "title": "Easy Run Easy Spritz",
+      "description": "L'unico 'muro' che vogliamo incontrare correndo è quello della vetrina dei cicchetti dixun bacaro! Unisciti a noi per una corsetta vista e un premio...rinfrescante alla fine!",
+      "city": "venezia",
+      "location": "forte_marghera"
     }
   ]
 }
