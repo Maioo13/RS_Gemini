@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+app.disable('x-powered-by');
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
@@ -40,7 +41,7 @@ app.use((req, res, next) => {
   res.setHeader('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com;"
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; frame-src https://www.google.com;"
   );
   if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
@@ -158,6 +159,11 @@ function requireAdminAuth(req, res, next) {
     });
   }
   req.adminUser = session.user;
+  
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  
   next();
 }
 
@@ -213,6 +219,22 @@ function sanitizeRecursive(input, maxLength = 1000) {
 function sanitizeInput(str) {
   return sanitizeString(str, 1000);
 }
+
+// ==============================================================================
+// VALIDAZIONE MIME TYPE (API)
+// ==============================================================================
+app.use('/api', (req, res, next) => {
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
+    const contentType = req.headers['content-type'] || '';
+    if (!contentType.includes('application/json')) {
+      return res.status(415).json({
+        success: false,
+        error: 'Unsupported Media Type. Security policy requires application/json.'
+      });
+    }
+  }
+  next();
+});
 
 // ==============================================================================
 // ROTTE AUTENTICAZIONE ADMIN
