@@ -311,6 +311,14 @@
       "description": "Se stai cercando la motivazione per iniziare a correre... l'hai trovata! Corsa rilassante e un ottimo spritz ghiacciato per ricaricare le batterie.",
       "city": "venezia",
       "location": "forte_marghera"
+    },
+    {
+      "date": "01/10/2026",
+      "time": "Meeting: 18:45, Start: 19:00",
+      "title": "Easy Run Easy Gelatino",
+      "description": "L'unico 'muro' che vogliamo incontrare correndo è quello della vetrina dei gusti in gelateria! Unisciti a noi per una corsetta vista mare e un premio dolcissimo alla fine.",
+      "city": "trieste",
+      "location": "porto_vecchio"
     }
   ]
 }
