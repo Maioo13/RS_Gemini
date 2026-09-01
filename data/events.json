@@ -343,6 +343,14 @@
       "description": "Birretta ghiacciata o Spritz Aperol? Vabbè, intanto vado a correre poi scelgo! Mentre corri, decidi e poi alla fine...ordini in compagnia!",
       "city": "trieste",
       "location": "porto_vecchio"
+    },
+    {
+      "date": "29/10/2026",
+      "time": "Meeting: 18:45, Start: 19:00",
+      "title": "Easy Run Easy Aperitivo",
+      "description": "Scarpe...prese, Garmin...carico, gellini...naaah, ci pensa l'aperitivo post corsa! Vieni per reintegrare in compagnia, ti aspettiamo!",
+      "city": "trieste",
+      "location": "porto_vecchio"
     }
   ]
 }
