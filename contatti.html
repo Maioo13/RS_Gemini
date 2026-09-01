@@ -3,19 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
-  />
-
   <title>Contattaci | Run Society Trieste</title>
   <link rel="icon" type="image/png" href="icons/logo.png?v=2" />
 
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="/css/styles.css" />
   <script src="js/language-switcher.js" defer></script>
   <script src="js/cookie-consent.js" defer></script>
+  <link rel="stylesheet" href="/fonts.css" />
 </head>
 
 <body style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
@@ -27,7 +21,7 @@
       <div class="text-center md:text-left">
         <p class="font-bold" data-translate="cookie_title">Informativa sui Cookie</p>
         <p class="text-sm text-[#9b604b]" data-translate="cookie_text">
-          Utilizziamo cookie essenziali per garantire il corretto funzionamento del sito. Non utilizziamo cookie di tracciamento o di profilazione.
+          Utilizziamo esclusivamente la memoria locale per preferenze tecniche (es. lingua). Non usiamo cookie di profilazione. Il sito si appoggia a servizi tecnici di terze parti (CDN Tailwind, Formspree, Google Maps) che potrebbero acquisire il tuo indirizzo IP per permettere l'erogazione di mappe e funzionalità di contatto necessarie.
         </p>
       </div>
 
@@ -69,7 +63,6 @@
           <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="calendario.html" data-translate="nav_events">Eventi</a>
           <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="https://runsocietytrieste.myportfolio.com/" data-translate="nav_gallery">Galleria</a>
           <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
-          <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="laTuaVoce.html" data-translate="nav_voice">La Tua Voce</a>
           <a class="text-[#1c110d] text-sm font-medium leading-normal hover:text-[#e63f11] transition-colors" href="contatti.html" data-translate="nav_contact">Contatti</a>
         </div>
         <div class="flex gap-2 items-center">
@@ -145,7 +138,6 @@
           <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="calendario.html" data-translate="nav_events">Eventi</a>
           <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="https://runsocietytrieste.myportfolio.com/" data-translate="nav_gallery">Galleria</a>
           <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="chiSiamo.html" data-translate="nav_about">Chi Siamo</a>
-          <a class="text-[#1c110d] text-lg font-medium py-2 border-b border-[#f3eae7]" href="laTuaVoce.html" data-translate="nav_voice">La Tua Voce</a>
           <a class="text-[#1c110d] text-lg font-medium py-2" href="contatti.html" data-translate="nav_contact">Contatti</a>
         </nav>
       </div>
@@ -207,6 +199,12 @@
         required
       ></textarea>
             </label>
+            <div class="mt-4 mb-4 flex items-start gap-2">
+              <input type="checkbox" id="privacyConsent" name="privacyConsent" required class="mt-1 h-4 w-4 rounded border-gray-300 text-[#e63f11] focus:ring-[#e63f11]">
+              <label for="privacyConsent" class="text-sm text-[#1c110d]" data-translate="contact_privacy_consent">
+                Ho letto l'<a href="/privacy.html" target="_blank" class="text-[#e63f11] underline">Informativa sulla Privacy</a> e acconsento al trattamento dei dati. Sono consapevole che questo modulo si appoggia al servizio esterno Formspree (USA) per il recapito sicuro dei messaggi.
+              </label>
+            </div>
             <button
               type="submit"
               class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 md:h-12 px-4 bg-[#e63f11] text-[#fcf9f8] text-sm md:text-base font-bold tracking-[0.015em] transition-opacity hover:opacity-90"
@@ -229,8 +227,8 @@
         <footer class="flex flex-col gap-4 md:gap-6 px-4 md:px-5 py-6 md:py-10 text-center @container">
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 @[480px]:justify-around">
             <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="contatti.html" data-translate="contact_us">Contatti</a>
-            <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="laTuaVoce.html" data-translate="nav_voice">La Tua Voce</a>
             <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="privacy.html" data-translate="privacy_policy">Informativa Privacy</a>
+            
             <a class="text-[#9b604b] text-sm md:text-base font-normal leading-normal min-w-28 hover:text-[#e63f11] transition-colors" href="esoneri.html" data-translate="terms_service">Liberatoria</a>
           </div>
           <div class="flex flex-wrap justify-center gap-4">

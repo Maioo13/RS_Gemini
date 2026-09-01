@@ -11,6 +11,14 @@
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "glob": "^13.0.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^3.4.19"
   }
 }

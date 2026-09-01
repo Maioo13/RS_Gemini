@@ -26,7 +26,6 @@ if (!ADMIN_SESSION_SECRET) {
 
 const EVENTS_FILE = path.join(__dirname, 'data', 'events.json');
 const RACES_FILE = path.join(__dirname, 'data', 'races.json');
-const FEEDBACKS_FILE = path.join(__dirname, 'data', 'feedbacks.json');
 
 // Middleware
 app.use(express.json({ limit: '1mb' }));
@@ -578,107 +577,6 @@ app.delete('/api/admin/races/:index', requireAdminAuth, (req, res) => {
 });
 
 // ==============================================================================
-// FEEDBACK SUBMISSION
-// ==============================================================================
-// Rate limiter in memoria per la ricezione di feedback
-const feedbackRateLimit = new Map();
-const MAX_FEEDBACK_PER_IP = 10; // max 10 feedback per IP ogni ora
-const FEEDBACK_WINDOW_MS = 60 * 60 * 1000;
-
-app.post(['/api/feedback', '/api/submit-feedback'], async (req, res) => {
-  // Validazione Origin per proteggersi da CSRF
-  const origin = req.headers.origin || req.headers.referer;
-  if (origin && !origin.includes(req.hostname) && !origin.includes('localhost') && !origin.includes('127.0.0.1')) {
-    console.warn(`[Security] CSRF blocked from origin: ${origin}`);
-    return res.status(403).json({ success: false, error: 'Cross-Site Request Forgery bloccata.' });
-  }
-
-  const clientIp = getClientIp(req);
-  const now = Date.now();
-  
-  const ipRecord = feedbackRateLimit.get(clientIp) || { count: 0, resetAt: now + FEEDBACK_WINDOW_MS };
-  if (now > ipRecord.resetAt) {
-    ipRecord.count = 0;
-    ipRecord.resetAt = now + FEEDBACK_WINDOW_MS;
-  }
-  if (ipRecord.count >= MAX_FEEDBACK_PER_IP) {
-    return res.status(429).json({ success: false, error: 'Troppe richieste inviate. Riprova più tardi.' });
-  }
-  ipRecord.count += 1;
-  feedbackRateLimit.set(clientIp, ipRecord);
-
-  try {
-    const rawBody = req.body || {};
-    const feedbackData = {
-      rating: typeof rawBody.rating === 'number' ? Math.min(5, Math.max(1, rawBody.rating)) : null,
-      category: sanitizeString(rawBody.category, 50),
-      message: sanitizeString(rawBody.message || rawBody.feedback || '', 2000),
-      email: sanitizeString(rawBody.email || '', 100),
-      serverReceivedAt: new Date().toISOString(),
-      ip: clientIp
-    };
-
-    if (!feedbackData.message && !feedbackData.rating) {
-      return res.status(400).json({ success: false, error: 'Payload feedback non valido.' });
-    }
-
-    let feedbacksList = [];
-    try {
-      if (fs.existsSync(FEEDBACKS_FILE)) {
-        const content = fs.readFileSync(FEEDBACKS_FILE, 'utf8');
-        feedbacksList = JSON.parse(content || '[]');
-        if (!Array.isArray(feedbacksList)) feedbacksList = [];
-      }
-    } catch (err) {
-      feedbacksList = [];
-    }
-
-    if (feedbacksList.length >= 5000) {
-      feedbacksList.shift();
-    }
-
-    feedbacksList.push(feedbackData);
-    saveJsonAtomic(FEEDBACKS_FILE, feedbacksList);
-
-    const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-    let googleSheetForwarded = false;
-    let googleSheetError = null;
-
-    if (webhookUrl && webhookUrl.startsWith('http')) {
-      try {
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(feedbackData)
-        });
-        if (response.ok) {
-          googleSheetForwarded = true;
-        } else {
-          googleSheetError = `HTTP ${response.status}`;
-        }
-      } catch (fErr) {
-        googleSheetError = fErr.message;
-        console.warn('Error forwarding to Google Sheets webhook:', fErr.message);
-      }
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: 'Feedback received successfully',
-      googleSheetForwarded,
-      googleSheetError,
-      timestamp: feedbackData.serverReceivedAt
-    });
-  } catch (error) {
-    console.error('Error processing feedback submission:', error);
-    return res.status(500).json({
-      success: false,
-      error: 'Internal server error while saving feedback'
-    });
-  }
-});
-
-// ==============================================================================
 // ROUTING PAGINE & STATIC ASSETS
 // ==============================================================================
 app.get(['/admin', '/admin.html'], (req, res) => {
@@ -686,14 +584,7 @@ app.get(['/admin', '/admin.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-app.get(['/laTuaVoce', '/la-tua-voce', '/your-voice', '/latuavoce'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'laTuaVoce.html'));
-});
 
-// Protezione esplicita cartella dati riservati
-app.use('/data/feedbacks.json', (req, res) => {
-  res.status(403).json({ error: 'Access Denied' });
-});
 
 // Serve static assets
 app.use(express.static(path.join(__dirname, '.'), {
@@ -707,7 +598,6 @@ app.use(express.static(path.join(__dirname, '.'), {
       normalized.endsWith('server.js') ||
       normalized.endsWith('package.json') ||
       normalized.endsWith('bun.lock') ||
-      normalized.includes(path.join('data', 'feedbacks.json')) ||
       normalized.endsWith('.backup.json') ||
       normalized.endsWith('.tmp')
     ) {

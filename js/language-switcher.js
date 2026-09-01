@@ -97,7 +97,7 @@ class LanguageSwitcher {
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
           element.placeholder = translations[key];
         } else {
-          element.textContent = translations[key];
+          element.innerHTML = translations[key];
         }
       }
     });
