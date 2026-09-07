@@ -1,18 +1,5 @@
 [
   {
-    "nome": "XXXV^ Giro Podistico Citta' di Cordenons",
-    "data": "2026-09-06",
-    "data_originale": "06/09/2026",
-    "distanze_km": [
-      10.0
-    ],
-    "disciplina": "strada",
-    "localita": "Cordenons (PN)",
-    "area": "Friuli Venezia Giulia",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XXXV^-Giro-Podistico-Citta-di-Cordenons/COD14710"
-  },
-  {
     "nome": "III^ La 10 di Montagnana 10km",
     "data": "2026-09-12",
     "data_originale": "12/09/2026",
@@ -232,6 +219,19 @@
     "link_info": "https://www.fidal.it/calendario/IV^-Run51/COD15073"
   },
   {
+    "nome": "III^ Overborders Half Marathon Lignano Sabbiadoro - Bibione",
+    "data": "2026-10-04",
+    "data_originale": "04/10/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Lignano Sabbiadoro (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/III^-Overborders-Half-Marathon-Lignano-Sabbiadoro-Bibione/COD15057"
+  },
+  {
     "nome": "Poreč Triathlon & Istria Run",
     "data": "2026-10-04",
     "data_originale": "04/10/2026",
@@ -244,6 +244,32 @@
     "area": "Estero (Slo/Cro/Aut)",
     "prezzo": "30€",
     "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "XII^ Strarzignano - Trofeo Autovega 10km",
+    "data": "2026-10-04",
+    "data_originale": "04/10/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Arzignano (VI)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XII^-Strarzignano-Trofeo-Autovega/COD14650"
+  },
+  {
+    "nome": "XVI^ Maratonella di Campalto",
+    "data": "2026-10-04",
+    "data_originale": "04/10/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "trail",
+    "localita": "Venezia (VE)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XVI^-Maratonella-di-Campalto/COD14621"
   },
   {
     "nome": "3-Länder-Marathon Sparkasse",
@@ -276,6 +302,19 @@
     "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
   },
   {
+    "nome": "II^ Verona Run Fast 10K 10km",
+    "data": "2026-10-11",
+    "data_originale": "11/10/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/II^-Verona-Run-Fast-10K/COD14943"
+  },
+  {
     "nome": "Mezza Maratona di Treviso",
     "data": "2026-10-11",
     "data_originale": "11/10/2026",
@@ -288,6 +327,32 @@
     "area": "Veneto",
     "prezzo": "28€",
     "link_info": "https://www.trevisomarathon.com"
+  },
+  {
+    "nome": "XII^ La Mezza di Treviso",
+    "data": "2026-10-11",
+    "data_originale": "11/10/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Treviso (TV)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XII^-La-Mezza-di-Treviso/COD14272"
+  },
+  {
+    "nome": "XVII^ GO&GO Half Marathon - Maratonina Transfrontaliera Citta' di Gorizia",
+    "data": "2026-10-11",
+    "data_originale": "11/10/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Gorizia (GO)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XVII^-GO&GO-Half-Marathon-Maratonina-Transfrontaliera-Citta-di-Gorizia/COD14950"
   },
   {
     "nome": "Zagreb Marathon",
@@ -348,6 +413,46 @@
     "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
   },
   {
+    "nome": "V^ SMOE Run 5K e 10K 2026 - San Marino 5km - 10km",
+    "data": "2026-10-18",
+    "data_originale": "18/10/2026",
+    "distanze_km": [
+      5.0,
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Falciano RSM",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/V^-SMOE-Run-5K-e-10K-2026-San-Marino/COD14654"
+  },
+  {
+    "nome": "XIII^ La 10 di Bardolino 10km",
+    "data": "2026-10-18",
+    "data_originale": "18/10/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Bardolino (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XIII^-La-10-di-Bardolino/COD14630"
+  },
+  {
+    "nome": "X^ Corsa dei Castelli 10km",
+    "data": "2026-10-18",
+    "data_originale": "18/10/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Trieste (TS)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/X^-Corsa-dei-Castelli/COD14633"
+  },
+  {
     "nome": "Rijeka Run - Torpedo Half",
     "data": "2026-10-24",
     "data_originale": "24/10/2026",
@@ -360,6 +465,19 @@
     "area": "Estero (Slo/Cro/Aut)",
     "prezzo": "25€",
     "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
+  },
+  {
+    "nome": "V^ Venice Half Marathon",
+    "data": "2026-10-25",
+    "data_originale": "25/10/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Venezia (VE)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/V^-Venice-Half-Marathon/COD14345"
   },
   {
     "nome": "Venicemarathon",
@@ -375,6 +493,19 @@
     "area": "Veneto",
     "prezzo": "45€",
     "link_info": "https://www.venicemarathon.it"
+  },
+  {
+    "nome": "XL^ Venicemarathon",
+    "data": "2026-10-25",
+    "data_originale": "25/10/2026",
+    "distanze_km": [
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Venezia (VE)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XL^-Venicemarathon/COD14344"
   },
   {
     "nome": "Trail del Gevero",
