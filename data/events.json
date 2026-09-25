@@ -1,14 +1,6 @@
 {
   "events": [
     {
-      "date": "23/07/2026",
-      "title": "Easy Run Easy Spritz",
-      "description": "Un'ora di corsa al parco e poi via a fare festa. La nostra Easy Run è il compromesso perfetto tra fitness e movida veneziana. Non mancare!",
-      "time": "Meeting: 19:15, Start: 19:30",
-      "location": "forte_marghera",
-      "city": "venezia"
-    },
-    {
       "date": "28/07/2026",
       "title": "Easy Run Easy Sunrise",
       "description": "Start your day off right: an easy run at sunrise and breakfast with friends.",
