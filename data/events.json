@@ -1,14 +1,6 @@
 {
   "events": [
     {
-      "date": "14/07/2026",
-      "title": "Easy Run Easy Sunrise",
-      "description": "Start your day off right: an easy run at sunrise and breakfast with friends.",
-      "time": "Meeting: 5:45, Start: 6:00",
-      "location": "porto_vecchio",
-      "city": "trieste"
-    },
-    {
       "date": "16/07/2026",
       "title": "Easy Run Easy Bagnetto",
       "description": "Niente batte una corsa leggera seguita da un bagno di gruppo a Barcola. Rigeneriamoci assieme con tanta buona energia!",
