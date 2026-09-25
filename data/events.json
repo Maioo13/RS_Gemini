@@ -1,14 +1,6 @@
 {
   "events": [
     {
-      "date": "11/07/2026",
-      "title": "Easy Lungo",
-      "description": "An easy 12km long run along the coastal avenues: light legs, a clear mind, and the city skyline in front of you. 🏃‍♂️🏙️",
-      "time": "Meeting: 7:15, Start: 7:30",
-      "location": "porto_vecchio",
-      "city": "trieste"
-    },
-    {
       "date": "14/07/2026",
       "title": "Easy Run Easy Sunrise",
       "description": "Start your day off right: an easy run at sunrise and breakfast with friends.",
