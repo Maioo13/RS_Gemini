@@ -612,12 +612,12 @@ app.get(['/admin', '/admin.html'], (req, res) => {
 // WHITELIST MODELLO (SICUREZZA FILE STATICI)
 // ==============================================================================
 // Solo questi file/cartelle possono essere letti pubblicamente. Tutto il resto (package.json, server.js, ecc.) è bloccato.
-const PUBLIC_DIRS = ['/css/', '/js/', '/icons/', '/fonts/', '/data/'];
+const PUBLIC_DIRS = ['/css/', '/js/', '/icons/', '/fonts/', '/data/', '/img/'];
 const PUBLIC_FILES = [
   '/404.html', '/admin.html', '/CalendarioGare.html', '/calendario.html',
   '/chiSiamo.html', '/contatti.html', '/esoneri.html', '/grazie.html',
   '/index.html', '/privacy.html', '/fonts.css', '/input.css',
-  '/robots.txt', '/site.webmanifest', '/'
+  '/robots.txt', '/site.webmanifest', '/favicon.ico', '/apple-touch-icon.png', '/'
 ];
 
 app.use((req, res, next) => {
