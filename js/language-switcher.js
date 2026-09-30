@@ -102,13 +102,19 @@ class LanguageSwitcher {
       }
     });
 
-    if (translations.site_title && document.title.includes('Run Society')) {
-      const currentTitle = document.title;
-      const parts = currentTitle.split('|');
-      if (parts.length > 1) {
-        document.title = parts[0].trim() + ' | ' + translations.site_title;
+    if (translations.site_title) {
+      const path = window.location.pathname;
+      const isHome = path === '/' || path === '' || path.endsWith('/index.html') || path.endsWith('/index') || document.title.toLowerCase().startsWith('home');
+      if (isHome) {
+        document.title = (translations.nav_home || 'Home') + ' | ' + translations.site_title;
       } else {
-        document.title = translations.site_title;
+        const parts = document.title.split('|');
+        if (parts.length > 1) {
+          const prefix = parts[0].trim();
+          document.title = (prefix === 'Run Society' ? (translations.nav_home || 'Home') : prefix) + ' | ' + translations.site_title;
+        } else {
+          document.title = translations.site_title;
+        }
       }
     }
   }

@@ -18,47 +18,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!panel) return;
 
-      // Optional: If you want accordion mode (only 1 open at a time), uncomment:
-      /*
-      faqButtons.forEach(otherBtn => {
-        if (otherBtn !== button && otherBtn.getAttribute('aria-expanded') === 'true') {
-          const otherPanel = document.getElementById(otherBtn.getAttribute('aria-controls'));
-          const otherIcon = otherBtn.querySelector('.faq-chevron');
-          const otherCard = otherBtn.closest('.faq-item');
-          otherBtn.setAttribute('aria-expanded', 'false');
-          if (otherPanel) {
-            otherPanel.classList.remove('grid-rows-[1fr]');
-            otherPanel.classList.add('grid-rows-[0fr]');
-          }
-          if (otherIcon) otherIcon.classList.remove('rotate-180', 'bg-[#e63f11]', 'text-white');
-          if (otherCard) otherCard.classList.remove('border-[#e63f11]/30', 'bg-[#fffcfb]');
-        }
-      });
-      */
-
       if (isExpanded) {
         button.setAttribute('aria-expanded', 'false');
-        panel.classList.remove('grid-rows-[1fr]');
-        panel.classList.add('grid-rows-[0fr]');
+        panel.classList.remove('is-open');
+        panel.style.maxHeight = null;
+        if (card) {
+          card.classList.remove('is-open', 'border-[#e63f11]/30', 'bg-[#fffcfb]', 'shadow-sm');
+          card.classList.add('border-[#f3eae7]', 'bg-white');
+        }
         if (icon) {
           icon.classList.remove('rotate-180', 'bg-[#e63f11]', 'text-white');
           icon.classList.add('bg-[#f8f4f2]', 'text-[#9b604b]');
         }
-        if (card) {
-          card.classList.remove('border-[#e63f11]/30', 'bg-[#fffcfb]', 'shadow-sm');
-          card.classList.add('border-[#f3eae7]', 'bg-white');
-        }
       } else {
         button.setAttribute('aria-expanded', 'true');
-        panel.classList.remove('grid-rows-[0fr]');
-        panel.classList.add('grid-rows-[1fr]');
+        panel.classList.add('is-open');
+        panel.style.maxHeight = (panel.scrollHeight + 32) + 'px';
+        if (card) {
+          card.classList.add('is-open', 'border-[#e63f11]/30', 'bg-[#fffcfb]', 'shadow-sm');
+          card.classList.remove('border-[#f3eae7]', 'bg-white');
+        }
         if (icon) {
           icon.classList.add('rotate-180', 'bg-[#e63f11]', 'text-white');
           icon.classList.remove('bg-[#f8f4f2]', 'text-[#9b604b]');
-        }
-        if (card) {
-          card.classList.add('border-[#e63f11]/30', 'bg-[#fffcfb]', 'shadow-sm');
-          card.classList.remove('border-[#f3eae7]', 'bg-white');
         }
       }
     });
@@ -83,6 +65,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (targetIndex !== null) {
         faqButtons[targetIndex].focus();
+      }
+    });
+  });
+
+  // Re-adjust max-height on window resize if any panel is open
+  window.addEventListener('resize', () => {
+    faqButtons.forEach(button => {
+      if (button.getAttribute('aria-expanded') === 'true') {
+        const targetId = button.getAttribute('aria-controls');
+        const panel = document.getElementById(targetId);
+        if (panel) {
+          panel.style.maxHeight = (panel.scrollHeight + 32) + 'px';
+        }
+      }
+    });
+  });
+
+  // Re-adjust max-height when language changes
+  window.addEventListener('languageChanged', () => {
+    faqButtons.forEach(button => {
+      if (button.getAttribute('aria-expanded') === 'true') {
+        const targetId = button.getAttribute('aria-controls');
+        const panel = document.getElementById(targetId);
+        if (panel) {
+          setTimeout(() => {
+            panel.style.maxHeight = (panel.scrollHeight + 32) + 'px';
+          }, 50);
+        }
       }
     });
   });
