@@ -1,58 +1,5 @@
 [
   {
-    "nome": "III^ Overborders Half Marathon Lignano Sabbiadoro - Bibione",
-    "data": "2026-10-04",
-    "data_originale": "04/10/2026",
-    "distanze_km": [
-      21.097
-    ],
-    "disciplina": "strada",
-    "localita": "Lignano Sabbiadoro (UD)",
-    "area": "Friuli Venezia Giulia",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/III^-Overborders-Half-Marathon-Lignano-Sabbiadoro-Bibione/COD15057"
-  },
-  {
-    "nome": "Poreč Triathlon & Istria Run",
-    "data": "2026-10-04",
-    "data_originale": "04/10/2026",
-    "distanze_km": [
-      10.0,
-      21.097
-    ],
-    "disciplina": "strada",
-    "localita": "Parenzo / Poreč (Croazia)",
-    "area": "Estero (Slo/Cro/Aut)",
-    "prezzo": "30€",
-    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
-  },
-  {
-    "nome": "XII^ Strarzignano - Trofeo Autovega 10km",
-    "data": "2026-10-04",
-    "data_originale": "04/10/2026",
-    "distanze_km": [
-      10.0
-    ],
-    "disciplina": "strada",
-    "localita": "Arzignano (VI)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XII^-Strarzignano-Trofeo-Autovega/COD14650"
-  },
-  {
-    "nome": "XVI^ Maratonella di Campalto",
-    "data": "2026-10-04",
-    "data_originale": "04/10/2026",
-    "distanze_km": [
-      5.0
-    ],
-    "disciplina": "trail",
-    "localita": "Venezia (VE)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XVI^-Maratonella-di-Campalto/COD14621"
-  },
-  {
     "nome": "3-Länder-Marathon Sparkasse",
     "data": "2026-10-11",
     "data_originale": "11/10/2026",
@@ -289,6 +236,45 @@
     "link_info": "https://www.fidal.it/calendario/XL^-Venicemarathon/COD14344"
   },
   {
+    "nome": "III^ Egnazia Half Marathon",
+    "data": "2026-11-01",
+    "data_originale": "01/11/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Savelletri Di Fasano BRINDISI",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/III^-Egnazia-Half-Marathon/COD15900"
+  },
+  {
+    "nome": "GIOCHI OLIMPICI GIOVANILI",
+    "data": "2026-11-08",
+    "data_originale": "08/11/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Dakar --",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/GIOCHI-OLIMPICI-GIOVANILI/COD14512"
+  },
+  {
+    "nome": "I^ StrAVicenza Fast 10km",
+    "data": "2026-11-08",
+    "data_originale": "08/11/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Vicenza (VI)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/I^-StrAVicenza-Fast/COD15259"
+  },
+  {
     "nome": "Trail del Gevero",
     "data": "2026-11-08",
     "data_originale": "08/11/2026",
@@ -318,6 +304,58 @@
     "link_info": "https://www.veronamarathon.it"
   },
   {
+    "nome": "XIII^ Verona Run Halfmarathon",
+    "data": "2026-11-15",
+    "data_originale": "15/11/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XIII^-Verona-Run-Halfmarathon/COD14321"
+  },
+  {
+    "nome": "XXV^ Verona Run Marathon",
+    "data": "2026-11-15",
+    "data_originale": "15/11/2026",
+    "distanze_km": [
+      42.195
+    ],
+    "disciplina": "strada",
+    "localita": "Verona (VR)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXV^-Verona-Run-Marathon/COD14320"
+  },
+  {
+    "nome": "VII^ Maratonina di San Biagio",
+    "data": "2026-11-22",
+    "data_originale": "22/11/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "San Biagio Di Callalta (TV)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/VII^-Maratonina-di-San-Biagio/COD14263"
+  },
+  {
+    "nome": "LI^ Carsolina Cross",
+    "data": "2026-11-29",
+    "data_originale": "29/11/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "campestre",
+    "localita": "Trieste (TS)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/LI^-Carsolina-Cross/COD14760"
+  },
+  {
     "nome": "Maratonina Città di Palmanova",
     "data": "2026-11-29",
     "data_originale": "29/11/2026",
@@ -329,6 +367,32 @@
     "area": "Friuli Venezia Giulia",
     "prezzo": "25€",
     "link_info": "https://www.espalmanova.it"
+  },
+  {
+    "nome": "V^ La 10 di Malo - 5° Trofeo Sacme 10km",
+    "data": "2026-11-29",
+    "data_originale": "29/11/2026",
+    "distanze_km": [
+      10.0
+    ],
+    "disciplina": "strada",
+    "localita": "Malo (VI)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/V^-La-10-di-Malo-5-Trofeo-Sacme/COD14640"
+  },
+  {
+    "nome": "XXIV^ Mezza Maratona \"Citta' di Palmanova\"",
+    "data": "2026-11-29",
+    "data_originale": "29/11/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Palmanova (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XXIV^-Mezza-Maratona-Citta-di-Palmanova-/COD14395"
   },
   {
     "nome": "Staffetta 24x1 ora Telethon",
