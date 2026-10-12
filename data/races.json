@@ -1,103 +1,5 @@
 [
   {
-    "nome": "3-Länder-Marathon Sparkasse",
-    "data": "2026-10-11",
-    "data_originale": "11/10/2026",
-    "distanze_km": [
-      10.0,
-      21.097,
-      42.195
-    ],
-    "disciplina": "strada",
-    "localita": "Bregenz / Bodensee (Austria)",
-    "area": "Estero (Slo/Cro/Aut)",
-    "prezzo": "50€",
-    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
-  },
-  {
-    "nome": "Graz Marathon",
-    "data": "2026-10-11",
-    "data_originale": "11/10/2026",
-    "distanze_km": [
-      10.0,
-      21.097,
-      42.195
-    ],
-    "disciplina": "strada",
-    "localita": "Graz (Austria)",
-    "area": "Estero (Slo/Cro/Aut)",
-    "prezzo": "42€",
-    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
-  },
-  {
-    "nome": "II^ Verona Run Fast 10K 10km",
-    "data": "2026-10-11",
-    "data_originale": "11/10/2026",
-    "distanze_km": [
-      10.0
-    ],
-    "disciplina": "strada",
-    "localita": "Verona (VR)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/II^-Verona-Run-Fast-10K/COD14943"
-  },
-  {
-    "nome": "Mezza Maratona di Treviso",
-    "data": "2026-10-11",
-    "data_originale": "11/10/2026",
-    "distanze_km": [
-      10.0,
-      21.097
-    ],
-    "disciplina": "strada",
-    "localita": "Treviso (TV)",
-    "area": "Veneto",
-    "prezzo": "28€",
-    "link_info": "https://www.trevisomarathon.com"
-  },
-  {
-    "nome": "XII^ La Mezza di Treviso",
-    "data": "2026-10-11",
-    "data_originale": "11/10/2026",
-    "distanze_km": [
-      21.097
-    ],
-    "disciplina": "strada",
-    "localita": "Treviso (TV)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XII^-La-Mezza-di-Treviso/COD14272"
-  },
-  {
-    "nome": "XVII^ GO&GO Half Marathon - Maratonina Transfrontaliera Citta' di Gorizia",
-    "data": "2026-10-11",
-    "data_originale": "11/10/2026",
-    "distanze_km": [
-      21.097
-    ],
-    "disciplina": "strada",
-    "localita": "Gorizia (GO)",
-    "area": "Friuli Venezia Giulia",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XVII^-GO&GO-Half-Marathon-Maratonina-Transfrontaliera-Citta-di-Gorizia/COD14950"
-  },
-  {
-    "nome": "Zagreb Marathon",
-    "data": "2026-10-11",
-    "data_originale": "11/10/2026",
-    "distanze_km": [
-      10.0,
-      21.097,
-      42.195
-    ],
-    "disciplina": "strada",
-    "localita": "Zagabria / Zagreb (Croazia)",
-    "area": "Estero (Slo/Cro/Aut)",
-    "prezzo": "35€",
-    "link_info": "https://www.ahotu.com/it/calendario?sports=running,trail-running&years=gare-future&countries=austria,croazia,slovenia"
-  },
-  {
     "nome": "Corsa dei Castelli - Trieste 10K",
     "data": "2026-10-18",
     "data_originale": "18/10/2026",
@@ -234,19 +136,6 @@
     "area": "Veneto",
     "prezzo": "N/D",
     "link_info": "https://www.fidal.it/calendario/XL^-Venicemarathon/COD14344"
-  },
-  {
-    "nome": "III^ Egnazia Half Marathon",
-    "data": "2026-11-01",
-    "data_originale": "01/11/2026",
-    "distanze_km": [
-      21.097
-    ],
-    "disciplina": "strada",
-    "localita": "Savelletri Di Fasano BRINDISI",
-    "area": "Friuli Venezia Giulia",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/III^-Egnazia-Half-Marathon/COD15900"
   },
   {
     "nome": "GIOCHI OLIMPICI GIOVANILI",
