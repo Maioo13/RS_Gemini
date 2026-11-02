@@ -159,6 +159,32 @@
     "link_info": "https://telethonudine.it"
   },
   {
+    "nome": "VIII^ Cross dell'8 Dicembre - Monte di Buja",
+    "data": "2026-12-08",
+    "data_originale": "08/12/2026",
+    "distanze_km": [
+      5.0
+    ],
+    "disciplina": "campestre",
+    "localita": "Buja (UD)",
+    "area": "Friuli Venezia Giulia",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/VIII^-Cross-dell-8-Dicembre-Monte-di-Buja/COD15207"
+  },
+  {
+    "nome": "XX^ Maratonina della Citta' Murata",
+    "data": "2026-12-20",
+    "data_originale": "20/12/2026",
+    "distanze_km": [
+      21.097
+    ],
+    "disciplina": "strada",
+    "localita": "Cittadella (PD)",
+    "area": "Veneto",
+    "prezzo": "N/D",
+    "link_info": "https://www.fidal.it/calendario/XX^-Maratonina-della-Citta-Murata/COD14267"
+  },
+  {
     "nome": "Split Marathon & Half",
     "data": "2027-02-14",
     "data_originale": "14/02/2027",
