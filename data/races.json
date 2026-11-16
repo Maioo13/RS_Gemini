@@ -1,46 +1,5 @@
 [
   {
-    "nome": "Verona Marathon & Cangrande Half",
-    "data": "2026-11-15",
-    "data_originale": "15/11/2026",
-    "distanze_km": [
-      10.0,
-      21.097,
-      42.195
-    ],
-    "disciplina": "strada",
-    "localita": "Verona (VR)",
-    "area": "Veneto",
-    "prezzo": "35€",
-    "link_info": "https://www.veronamarathon.it"
-  },
-  {
-    "nome": "XIII^ Verona Run Halfmarathon",
-    "data": "2026-11-15",
-    "data_originale": "15/11/2026",
-    "distanze_km": [
-      21.097
-    ],
-    "disciplina": "strada",
-    "localita": "Verona (VR)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XIII^-Verona-Run-Halfmarathon/COD14321"
-  },
-  {
-    "nome": "XXV^ Verona Run Marathon",
-    "data": "2026-11-15",
-    "data_originale": "15/11/2026",
-    "distanze_km": [
-      42.195
-    ],
-    "disciplina": "strada",
-    "localita": "Verona (VR)",
-    "area": "Veneto",
-    "prezzo": "N/D",
-    "link_info": "https://www.fidal.it/calendario/XXV^-Verona-Run-Marathon/COD14320"
-  },
-  {
     "nome": "VII^ Maratonina di San Biagio",
     "data": "2026-11-22",
     "data_originale": "22/11/2026",
